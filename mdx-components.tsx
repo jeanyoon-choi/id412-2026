@@ -1,6 +1,20 @@
 import type { MDXComponents } from "mdx/types";
+import type { AnchorHTMLAttributes } from "react";
 
-const components: MDXComponents = {};
+function Anchor({ href, ...props }: AnchorHTMLAttributes<HTMLAnchorElement>) {
+  const external = typeof href === "string" && /^https?:\/\//.test(href);
+  return (
+    <a
+      href={href}
+      {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+      {...props}
+    />
+  );
+}
+
+const components: MDXComponents = {
+  a: Anchor,
+};
 
 export function useMDXComponents(): MDXComponents {
   return components;

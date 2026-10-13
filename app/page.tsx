@@ -23,7 +23,7 @@ export default function Home() {
         ))}
       </ul>
       <p>
-        Code: <a href="https://github.com/ericggul/id412-2026">github.com/ericggul/id412-2026</a> (use as
+        Code: <a href="https://github.com/jeanyoon-choi/id412-2026" target="_blank" rel="noopener noreferrer">github.com/jeanyoon-choi/id412-2026</a> (use as
         template).
       </p>
     </>

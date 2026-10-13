@@ -6,6 +6,7 @@
   --code-bg: #f3f3f3;
   --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
   --font-mono: ui-monospace, "SFMono-Regular", Menlo, Consolas, "Liberation Mono", monospace;
+  --sidebar-width: 16rem;
   color-scheme: light;
 }
 
@@ -35,6 +36,7 @@ h1,
 h2,
 h3,
 h4 {
+  scroll-margin-top: 2rem;
   line-height: 1.25;
   font-weight: 600;
   margin: 2.2em 0 0.6em;
@@ -47,6 +49,8 @@ h1 {
 
 h2 {
   font-size: 1.2rem;
+  padding-top: 1.2rem;
+  border-top: 1px solid var(--rule);
 }
 
 h3 {

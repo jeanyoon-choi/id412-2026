@@ -7,6 +7,11 @@ const nextConfig: NextConfig = {
   turbopack: { root: __dirname },
 };
 
-const withMDX = createMDX({});
+const withMDX = createMDX({
+  options: {
+    remarkPlugins: ["remark-gfm"],
+    rehypePlugins: ["rehype-slug"],
+  },
+});
 
 export default withMDX(nextConfig);

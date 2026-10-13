@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import "./globals.css";
 import styles from "./layout.module.css";
+import { BackToTop } from "./back-to-top";
+import { Sidebar } from "./sidebar";
 
 export const metadata: Metadata = {
   title: "ID412 Web Workshop 2026",
@@ -12,14 +13,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en">
       <body>
-        <nav className={styles.header}>
-          <Link href="/">ID412</Link>
-          <Link href="/lecture/prelim">Prelim</Link>
-          <Link href="/lecture/w1">W1</Link>
-          <Link href="/lecture/w2">W2</Link>
-          <Link href="/lecture/w3">W3</Link>
-        </nav>
-        <main className={styles.main}>{children}</main>
+        <Sidebar />
+        <main className={styles.main}>
+          <div className={styles.content}>{children}</div>
+        </main>
+        <BackToTop />
       </body>
     </html>
   );
