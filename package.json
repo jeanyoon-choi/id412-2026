@@ -5,7 +5,7 @@
   "engines": {
     "node": ">=24"
   },
-  "packageManager": "pnpm@10.34.0",
+  "packageManager": "pnpm@12.11.2",
   "scripts": {
     "dev": "next dev",
     "dev:mobile": "concurrently -n next,socket \"next dev --experimental-https -H 0.0.0.0\" \"node socket-server.mjs\"",
@@ -29,11 +29,11 @@
   },
   "devDependencies": {
     "@types/mdx": "^2.0.14",
-    "@types/node": "^24.19.2",
+    "@types/node": "^26.6.5",
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",
     "@types/three": "^0.186.0",
     "concurrently": "^10.0.6",
-    "typescript": "^5.9.3"
+    "typescript": "^7.0.2"
   }
 }
