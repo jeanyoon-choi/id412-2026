@@ -6,7 +6,7 @@ Lecture notes: https://id412.xdlab.net
 
 ## Setup
 
-Requires Node 24+ and pnpm.
+Requires Node.js LTS (24 or newer) and pnpm.
 
 1. GitHub: **Use this template** → create your own repository
 2. `git clone <your repository>`
