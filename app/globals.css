@@ -9,17 +9,6 @@
   color-scheme: light;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --fg: #ffffff;
-    --bg: #000000;
-    --muted: #9a9a9a;
-    --rule: #333333;
-    --code-bg: #111111;
-    color-scheme: dark;
-  }
-}
-
 * {
   box-sizing: border-box;
 }
