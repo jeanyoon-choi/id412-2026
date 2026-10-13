@@ -5,6 +5,7 @@ import styles from "./back-to-top.module.css";
 
 export function BackToTop() {
   const [visible, setVisible] = useState(false);
+  ///
 
   useEffect(() => {
     const onScroll = () => setVisible(window.scrollY > 600);
