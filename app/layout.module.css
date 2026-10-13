@@ -1,0 +1,23 @@
+.header {
+  max-width: 44rem;
+  margin: 0 auto;
+  padding: 1.25rem 1rem 0;
+  display: flex;
+  gap: 1.25rem;
+  flex-wrap: wrap;
+  font-size: 0.875rem;
+}
+
+.header a {
+  text-decoration: none;
+}
+
+.header a:hover {
+  text-decoration: underline;
+}
+
+.main {
+  max-width: 44rem;
+  margin: 0 auto;
+  padding: 2.5rem 1rem 6rem;
+}
