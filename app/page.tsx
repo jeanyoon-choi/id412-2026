@@ -1,27 +1,28 @@
 import Link from "next/link";
-import { L } from "@/app/lecture/components/lang/lang-block";
+import { L } from "@/app/lecture-materials/components/lang/lang-block";
+import { LectureShell } from "@/app/lecture-materials/components/shell/shell";
 
 const weeks = [
   {
-    href: "/lecture/prelim",
+    href: "/lecture-materials/prelim",
     label: "Prelim",
     en: "Workshop overview, AI agents, installation, tutorial homework",
     ko: "워크숍 개요, AI 에이전트, 설치, 튜토리얼 과제",
   },
   {
-    href: "/lecture/w1",
+    href: "/lecture-materials/w1",
     label: "Web 1 · 10/26",
     en: "Creative Coding (Canvas, GLSL, Three.js)",
     ko: "크리에이티브 코딩 (Canvas, GLSL, Three.js)",
   },
   {
-    href: "/lecture/w2",
+    href: "/lecture-materials/w2",
     label: "Web 2 · 11/9",
     en: "Cross-Device Interaction (WebSocket)",
     ko: "크로스 디바이스 인터랙션 (WebSocket)",
   },
   {
-    href: "/lecture/w3",
+    href: "/lecture-materials/w3",
     label: "Web 3 · 11/16",
     en: "Integrating System (API, Sound, Unreal)",
     ko: "시스템 통합 (API, 사운드, Unreal)",
@@ -30,7 +31,7 @@ const weeks = [
 
 export default function Home() {
   return (
-    <>
+    <LectureShell>
       <h1>ID412 Interactive Space — Web Workshop</h1>
       <p>
         <L
@@ -46,12 +47,17 @@ export default function Home() {
         ))}
       </ul>
       <p>
+        <Link href="/experiments">Experiments</Link> — <L en="every experiment in this repo, by week" ko="이 레포의 모든 실험, 주차별" />
+        <br />
+        <Link href="/final">Final</Link> — <L en="your final project" ko="여러분의 기말 프로젝트" />
+      </p>
+      <p>
         <L en="Code: " ko="코드: " />
         <a href="https://github.com/jeanyoon-choi/id412-2026" target="_blank" rel="noopener noreferrer">
           github.com/jeanyoon-choi/id412-2026
         </a>{" "}
         <L en="(use as template)." ko="(템플릿으로 사용)." />
       </p>
-    </>
+    </LectureShell>
   );
 }

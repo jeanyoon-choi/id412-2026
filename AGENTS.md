@@ -6,7 +6,7 @@ Rules for coding agents in this repository. Read this first. The detailed guide 
 
 This is the KAIST ID412 Web Workshop template.
 
-1. **Lecture website** — `app/lecture/`, `public/lecture/`, `app/page.tsx`, `app/layout.tsx`, `app/globals.css`, `docs/`. Maintained by the instructor and TA, deployed at id412.xdlab.net. Guide: `docs/lecture/README.md`. Do not change it unless the user explicitly asks to change the lecture site.
+1. **Lecture website** — `app/lecture-materials/`, `public/lecture-materials/`, `app/page.tsx`, `app/layout.tsx`, `app/globals.css`, `docs/`. Maintained by the instructor and TA, deployed at id412.xdlab.net. Guide: `docs/lecture-materials/README.md`. Do not change it unless the user explicitly asks to change the lecture site.
 2. **Student workspace** — `app/experiments/`, `app/final/`, `app/api/`, `public/experiments/`, `public/final/`. Each student clones the template and builds here, week by week, with an agent. Guides: `docs/experiments/README.md` (folder layout, the per-experiment `README.md` you must write, conventions) and `docs/final/README.md`. This is where almost all of your work happens.
 
 Shared by both: `hooks/shared/useSocket.ts` + `socket-server.mjs` (the multi-device relay) and `package.json` scripts. Extend them by adding files; do not rewrite them unless asked.
@@ -20,7 +20,7 @@ Next.js 16 App Router, TypeScript, CSS Modules, MDX. pnpm, Node 24+. `three` via
 ```
 app/
   page.tsx  layout.tsx  globals.css      site shell (lecture site)
-  lecture/                               lecture site (docs/lecture/README.md)
+  lecture-materials/                         lecture site (docs/lecture-materials/README.md)
   experiments/                           student experiments (docs/experiments/README.md)
     w1/ w2/ w3/                          one folder per week, one folder per experiment inside
   final/                                 the final project (docs/final/README.md)
@@ -30,9 +30,9 @@ hooks/
   experiments/<week>/  final/            hooks shared by several experiments of a week, or by the final
 socket-server.mjs                        Socket.IO relay on :4000. join(room); message({type,data}) → the rest of the room
 public/
-  lecture/<page>/                        lecture images
+  lecture-materials/<page>/                        lecture images
   experiments/<week>/<name>/  final/     student assets, mirroring app/
-docs/                                    lecture/ experiments/ final/ (guides), sources/
+docs/                                    lecture-materials/ experiments/ final/ (guides), sources/
 ```
 
 Everything is organised by what it belongs to. An experiment's code, styles, helpers and README live in its own folder; its assets in the mirrored `public/` folder. This repo will grow to dozens of experiments across weeks; keep the tree flat and predictable so every one of them is found the same way.
@@ -48,6 +48,7 @@ Everything is organised by what it belongs to. An experiment's code, styles, hel
 - Never print or commit `.env*` or `certificates/`. Never `NEXT_PUBLIC_` a secret.
 - Next.js APIs may differ from your training data: read `node_modules/next/dist/docs/` before writing Next-specific code. App Router, not Pages Router.
 - Every new experiment gets a short `README.md` in its folder, in the shape given in `docs/experiments/README.md`. Update it when the experiment changes.
+- Git is the student's safety net and they may not know it. When an experiment works in the browser, commit it: `git add app/experiments/<week>/<name> public/experiments/<week>/<name>` then `git commit -m "<week>: <name>"`. One commit per working step, only the files of that experiment. Never `git push`, `git reset`, `git checkout -- .` or rewrite history unless the user asks; say "commit saved" and move on.
 
 <!-- BEGIN:nextjs-agent-rules -->
 

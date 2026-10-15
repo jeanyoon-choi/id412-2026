@@ -2,7 +2,7 @@
 
 Read by agents (via AGENTS.md) and by students. Applies to everything under `app/experiments/`.
 
-Where in-class code and homework live. One folder per week (`w1/`, `w2/`, `w3/`), one folder per experiment inside it. The route is the path: `app/experiments/w1/time-interval/page.tsx` → `/experiments/w1/time-interval`.
+Where in-class code and homework live. `/experiments` and `/experiments/<week>` list every experiment folder automatically (from its `README.md` first paragraph); the thin `page.tsx` in each week folder is that index, leave it. One folder per week (`w1/`, `w2/`, `w3/`), one folder per experiment inside it. The route is the path: `app/experiments/w1/time-interval/page.tsx` → `/experiments/w1/time-interval`.
 
 ## Creating an experiment
 
@@ -18,6 +18,10 @@ Where in-class code and homework live. One folder per week (`w1/`, `w2/`, `w3/`)
 5. Variants: a second take on the same idea is `<kebab-name>-2/` or a sibling with a telling name, not an edit of the original. Experiments are a record; leave finished ones alone.
 
 Nothing shared across experiments is created without asking. If two experiments need the same helper, copy it, or ask before making a shared folder.
+
+## Commit when it works
+
+The agent commits each working step (`git add` only that experiment's folder and its `public/` assets, `git commit -m "w1: <name>"`). Students then always have a point to come back to with `git restore` or `git log`. Pushing to GitHub stays a human action: `git push` when the student says so, or at the end of the session.
 
 ## README.md per experiment
 

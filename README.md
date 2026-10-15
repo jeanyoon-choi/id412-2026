@@ -30,13 +30,13 @@ The same `lecture / experiments / final` split runs through `app/`, `public/`, `
 
 ```
 app/
-  lecture/          the lecture website (instructor territory)    → docs/lecture/
+  lecture-materials/    the lecture website (instructor territory)    → docs/lecture-materials/
   experiments/      your experiments, w1/ w2/ w3/, one folder each → docs/experiments/
   final/            your final project                            → docs/final/
   api/              server endpoints (W3)
-public/   lecture/  experiments/<week>/<name>/  final/            assets, same split
+public/   lecture-materials/  experiments/<week>/<name>/  final/            assets, same split
 hooks/    shared/useSocket.ts  experiments/  final/               hooks, same split
-docs/     lecture/  experiments/  final/  sources/                guides, one per area
+docs/     lecture-materials/  experiments/  final/  sources/                guides, one per area
 socket-server.mjs                                                 Socket.IO relay (port 4000)
 AGENTS.md                                                         rules for coding agents; points to docs/
 ```

@@ -1,14 +1,14 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import styles from "./layout.module.css";
-import { BackToTop } from "@/app/lecture/components/back-to-top/back-to-top";
-import { Sidebar } from "@/app/lecture/components/sidebar/sidebar";
 
 export const metadata: Metadata = {
   title: "ID412 Web Workshop 2026",
   description: "KAIST ID412 Interactive Space — Creative Web Development Workshop",
 };
 
+// Root layout: document, global styles, and the saved theme/language applied
+// before first paint. The lecture pages add their own frame (LectureShell);
+// experiments and the final render full-bleed.
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" suppressHydrationWarning>
@@ -20,13 +20,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           }}
         />
       </head>
-      <body>
-        <Sidebar />
-        <main className={styles.main}>
-          <div className={styles.content}>{children}</div>
-        </main>
-        <BackToTop />
-      </body>
+      <body>{children}</body>
     </html>
   );
 }
