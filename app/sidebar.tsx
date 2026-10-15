@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import styles from "./sidebar.module.css";
+import { ThemeToggle } from "./theme-toggle";
 
 const pages = [
   { href: "/", label: "Index", meta: "" },
@@ -107,7 +108,10 @@ export function Sidebar() {
         </nav>
 
         <div className={styles.footer}>
-          <a href="https://github.com/jeanyoon-choi/id412-2026" target="_blank" rel="noopener noreferrer">github.com/jeanyoon-choi/id412-2026</a>
+          <ThemeToggle />
+          <a href="https://github.com/jeanyoon-choi/id412-2026" target="_blank" rel="noopener noreferrer">
+            github.com/jeanyoon-choi/id412-2026
+          </a>
         </div>
       </aside>
     </>
