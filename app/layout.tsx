@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import styles from "./layout.module.css";
-import { BackToTop } from "./back-to-top";
-import { Sidebar } from "./sidebar";
+import { BackToTop } from "@/app/lecture/components/back-to-top/back-to-top";
+import { Sidebar } from "@/app/lecture/components/sidebar/sidebar";
 
 export const metadata: Metadata = {
   title: "ID412 Web Workshop 2026",
@@ -16,7 +16,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <script
           dangerouslySetInnerHTML={{
             __html:
-              'try{var t=localStorage.getItem("theme");if(t==="light"||t==="dark")document.documentElement.setAttribute("data-theme",t)}catch(e){}',
+              'try{var t=localStorage.getItem("theme");if(t==="light"||t==="dark")document.documentElement.setAttribute("data-theme",t);var l=localStorage.getItem("lang");if(l==="ko")document.documentElement.setAttribute("data-lang","ko")}catch(e){}',
           }}
         />
       </head>

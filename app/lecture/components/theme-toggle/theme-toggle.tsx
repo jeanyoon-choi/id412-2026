@@ -3,37 +3,35 @@
 import { useEffect, useState } from "react";
 import styles from "./theme-toggle.module.css";
 
-type Theme = "system" | "light" | "dark";
-const order: Theme[] = ["system", "light", "dark"];
+type Theme = "light" | "dark";
 
-function apply(theme: Theme) {
-  const root = document.documentElement;
-  if (theme === "system") root.removeAttribute("data-theme");
-  else root.setAttribute("data-theme", theme);
+function systemTheme(): Theme {
+  return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
 }
 
 export function ThemeToggle() {
-  const [theme, setTheme] = useState<Theme>("system");
+  const [theme, setTheme] = useState<Theme | null>(null);
 
   useEffect(() => {
+    let saved: Theme | null = null;
     try {
-      const saved = localStorage.getItem("theme") as Theme | null;
-      if (saved && order.includes(saved)) setTheme(saved);
+      const value = localStorage.getItem("theme");
+      if (value === "light" || value === "dark") saved = value;
     } catch {}
+    setTheme(saved ?? systemTheme());
   }, []);
 
   const change = (next: Theme) => {
     setTheme(next);
-    apply(next);
+    document.documentElement.setAttribute("data-theme", next);
     try {
-      if (next === "system") localStorage.removeItem("theme");
-      else localStorage.setItem("theme", next);
+      localStorage.setItem("theme", next);
     } catch {}
   };
 
   return (
     <div className={styles.group} role="group" aria-label="Theme">
-      {order.map((option) => (
+      {(["light", "dark"] as Theme[]).map((option) => (
         <button
           key={option}
           type="button"

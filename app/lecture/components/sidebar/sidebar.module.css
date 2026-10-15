@@ -107,6 +107,12 @@
   border-left-color: var(--fg);
 }
 
+.toggles {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
 .footer {
   margin-top: auto;
   display: flex;

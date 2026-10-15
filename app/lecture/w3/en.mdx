@@ -1,17 +1,19 @@
+import { Term } from "@/app/lecture/components/term/term";
+
 # W3
 
 Week 3. Integrating System (API, Sound, Mobile, Unreal)
 
 ## 1. API: Introduction
 
-- What is API?
+- What is <Term id="api" />?
   - An application programming interface is a connection between computers or between computer programs. It is a type of software interface, offering a service to other pieces of software. - Wikipedia
 - Various types of APIs
   - OpenAI API, Anthropic API (Claude)
   - Replicate API
   - Microsoft Azure/AWS/Google Cloud
 - Integration with Next.js
-  - App Router: Route Handlers [LINK](https://nextjs.org/docs/app/building-your-application/routing/route-handlers)
+  - App Router: <Term id="routeHandler">Route Handlers</Term> [LINK](https://nextjs.org/docs/app/building-your-application/routing/route-handlers)
     - What is a Route Handler: Create Server-side logic directly in your Next.js without having to create a separate Backend Server
     - `app/api/<name>/route.ts` → `fetch("/api/<name>")` from your page
     - Runs on the server. Your API key never reaches the browser
@@ -23,7 +25,7 @@ Week 3. Integrating System (API, Sound, Mobile, Unreal)
   - OpenAI: https://platform.openai.com/api-keys
   - Anthropic: https://platform.claude.com/
   - Bring your own key. Usage is billed to your account
-- Step 2. Store your API Key in `.env.local`
+- Step 2. Store your API Key in <Term id="env">`.env.local`</Term>
   - What is `.env.local`? Environment variables, read only on the server
   - Do NOT prefix it with `NEXT_PUBLIC_`. Anything with that prefix is shipped to the browser, i.e. public
 - Step 3. Check `.gitignore`: `.env*` is already there. Your key must never be committed
@@ -49,8 +51,8 @@ Week 3. Integrating System (API, Sound, Mobile, Unreal)
 
 ## 3. Sound: Tone.js
 
-- Web Audio API: the browser's audio engine. Oscillators, samples, effects, analysis (volume, FFT)
-- Tone.js: Javascript library on top of Web Audio, musician-friendly (Synths, Transport, Effects) [LINK](https://tonejs.github.io/)
+- <Term id="webAudio" />: the browser's audio engine. Oscillators, samples, effects, analysis (volume, FFT)
+- <Term id="tonejs" />: Javascript library on top of Web Audio, musician-friendly (Synths, Transport, Effects) [LINK](https://tonejs.github.io/)
 - Already installed in the template: `tone`
 - Rules
   - Audio starts only after a user gesture (tap/click): `await Tone.start()` inside an event handler
@@ -63,16 +65,28 @@ Week 3. Integrating System (API, Sound, Mobile, Unreal)
 2. Parameter → sound (mobile → screen)
 3. Microphone → parameter
 
-## 4. Unreal
+## 4. <Term id="unreal" />
 
 - Separate repo: https://github.com/jeanyoon-choi/mobile-to-unreal-realtime-backbone
   - Phone → WebSocket → Node relay → UDP → UE 5.8 C++ receiver actor
   - Same idea as our socket relay, different last hop: Unreal listens to UDP, not Socket.io
-- Not covered in class step by step. Read the README if your final uses Unreal + Web
+- Not covered in class step by step. Read the README if your final combines Unreal and Web
 
 ## 5. What can you do with this?
 
 ## 6. System & Interaction
+
+## 7. Homework: Web Assignment 3
+
+**Build a Mobile-to-Laptop Interactive Experience.** Not graded. Essential. This is the rehearsal for your final.
+
+1. Two routes in this repo: `app/experiments/w3/<name>/mobile/page.tsx` and `.../screen/page.tsx`, joined by `useSocket`
+   - Phone = instrument. Laptop = output. At least one continuous input (touch move, tilt, microphone) and one discrete input (tap, button)
+   - Sound on the laptop side (Tone.js). The final requires sound, so start now
+2. Optional: one API in the loop (an LLM turning text into parameters), or Unreal as the output
+3. Deliver: a 30-second screen recording of a phone driving the laptop, plus the repo URL. The relay runs on your laptop, so there is no live URL for this one
+4. One paragraph: the flow (input → parameters → system rules → output), and what you would build for the Black Room
+5. Reminder for the final: you can keep building inside this template (`app/final/`) or start a fresh app from scratch (W1 §5) and bring over only what you need. Both are fine
 
 ## Appendix. Projection Mapping
 

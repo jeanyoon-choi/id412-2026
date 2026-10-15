@@ -3,7 +3,7 @@ node_modules
 out
 .env*
 certificates/
-/docs/
+/docs/handoff.md
 .DS_Store
 *.tsbuildinfo
 next-env.d.ts

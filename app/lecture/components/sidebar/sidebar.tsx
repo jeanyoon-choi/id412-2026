@@ -4,15 +4,17 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import styles from "./sidebar.module.css";
-import { ThemeToggle } from "./theme-toggle";
+import { ThemeToggle } from "../theme-toggle/theme-toggle";
+import { LangToggle } from "../lang/lang";
+import { L } from "../lang/lang-block";
 
 const pages = [
-  { href: "/", label: "Index", meta: "" },
-  { href: "/lecture/prelim", label: "Prelim", meta: "before 10/26" },
-  { href: "/lecture/w1", label: "Web 1", meta: "10/26" },
-  { href: "/lecture/w2", label: "Web 2", meta: "11/9" },
-  { href: "/lecture/w3", label: "Web 3", meta: "11/16" },
-  { href: "/final", label: "Final", meta: "" },
+  { href: "/", label: "Index", ko: "인덱스", meta: "" },
+  { href: "/lecture/prelim", label: "Prelim", ko: "사전 준비", meta: "before 10/26" },
+  { href: "/lecture/w1", label: "Web 1", ko: "Web 1", meta: "10/26" },
+  { href: "/lecture/w2", label: "Web 2", ko: "Web 2", meta: "11/9" },
+  { href: "/lecture/w3", label: "Web 3", ko: "Web 3", meta: "11/16" },
+  { href: "/final", label: "Final", ko: "기말", meta: "" },
 ];
 
 type Heading = { id: string; text: string };
@@ -23,9 +25,20 @@ export function Sidebar() {
   const [active, setActive] = useState("");
   const [open, setOpen] = useState(false);
 
+  const [langTick, setLangTick] = useState(0);
+
+  useEffect(() => {
+    const onLang = () => setLangTick((value) => value + 1);
+    window.addEventListener("langchange", onLang);
+    return () => window.removeEventListener("langchange", onLang);
+  }, []);
+
   useEffect(() => {
     setOpen(false);
-    const nodes = Array.from(document.querySelectorAll<HTMLHeadingElement>("main h2[id]"));
+    // Only the headings of the visible language.
+    const nodes = Array.from(document.querySelectorAll<HTMLHeadingElement>("main h2[id]")).filter(
+      (node) => node.offsetParent !== null,
+    );
     setHeadings(nodes.map((node) => ({ id: node.id, text: node.textContent ?? "" })));
     if (nodes.length === 0) {
       setActive("");
@@ -53,7 +66,7 @@ export function Sidebar() {
       window.removeEventListener("resize", onScroll);
       if (frame) cancelAnimationFrame(frame);
     };
-  }, [pathname]);
+  }, [pathname, langTick]);
 
   return (
     <>
@@ -84,7 +97,9 @@ export function Sidebar() {
               return (
                 <li key={page.href} className={isActive ? styles.pageActive : styles.page}>
                   <Link href={page.href}>
-                    <span>{page.label}</span>
+                    <span>
+                      <L en={page.label} ko={page.ko} />
+                    </span>
                     {page.meta ? <span className={styles.meta}>{page.meta}</span> : null}
                   </Link>
                   {isActive && headings.length > 0 ? (
@@ -108,7 +123,10 @@ export function Sidebar() {
         </nav>
 
         <div className={styles.footer}>
-          <ThemeToggle />
+          <div className={styles.toggles}>
+            <LangToggle />
+            <ThemeToggle />
+          </div>
           <a href="https://github.com/jeanyoon-choi/id412-2026" target="_blank" rel="noopener noreferrer">
             github.com/jeanyoon-choi/id412-2026
           </a>

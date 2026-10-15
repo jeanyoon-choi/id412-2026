@@ -238,3 +238,25 @@ video,
 iframe {
   max-width: 100%;
 }
+
+/* Language blocks: <html data-lang="ko"> shows Korean, otherwise English. */
+
+html:not([data-lang="ko"]) [data-lang-block="ko"],
+html[data-lang="ko"] [data-lang-block="en"] {
+  display: none;
+}
+
+.danger {
+  color: #d1242f;
+  font-weight: 700;
+}
+
+html[data-theme="dark"] .danger {
+  color: #ff6b6b;
+}
+
+@media (prefers-color-scheme: dark) {
+  html:not([data-theme="light"]) .danger {
+    color: #ff6b6b;
+  }
+}

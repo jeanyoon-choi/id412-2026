@@ -1,3 +1,5 @@
+import { Term } from "@/app/lecture/components/term/term";
+
 # W2
 
 Week 2. Cross-Device Interaction (WebSocket)
@@ -83,15 +85,15 @@ Week 2. Cross-Device Interaction (WebSocket)
   - Zoom, Pinch, Rotate
   - Voice Input, Camera Input
   - TTS/STT (Text-to-Speech, Speech-to-Text)
-  - LLM API (sending prompts to an AI)
+  - LLM <Term id="api" /> (sending prompts to an AI)
   - Decibel (sound level)
   - External Data (weather, traffic, stock prices)
 - **Which Outputs to Use? (Laptop)**
-  - Creative Coding (Canvas, GLSL)
+  - Creative Coding (<Term id="canvas" />, <Term id="glsl" />)
   - Text / Typography (changing font, size, layout)
   - Collage of Images / Videos
-  - 3D Graphics (e.g., using Three.js)
-  - Audio Elements (e.g., using Tone.js)
+  - 3D Graphics (e.g., using <Term id="threejs" />)
+  - Audio Elements (e.g., using <Term id="tonejs" />)
 
 ## 2. Multi-Device Interaction & Parametric Interface
 
@@ -102,8 +104,8 @@ Week 2. Cross-Device Interaction (WebSocket)
 
 ## 3. Socket.io
 
-- WebSocket: Bi-directional real-time communication btw client/server, enabling real-time inter-device interaction in web applications
-- Socket.io: Javascript library, high-level abstraction of WebSocket, beginner-friendly (Automatic reconnection, Default fallback option)
+- <Term id="websocket" />: Bi-directional real-time communication btw client/server, enabling real-time inter-device interaction in web applications
+- <Term id="socketio" />: Javascript library, high-level abstraction of WebSocket, beginner-friendly (Automatic reconnection, Default fallback option)
 - Strategy
   - Let's say we have Client A (Interaction Input) and Client B (Interaction Output)
   - Client A → Send Message to Relay Server → Relay Server Propagates Message to all other clients in the same room → Client B Receives a message
@@ -115,7 +117,7 @@ Week 2. Cross-Device Interaction (WebSocket)
   - `join(room)`: A device joins a room
   - `message({ type, data })`: Forwarded as-is to every other device in the same room
   - It is not part of Next.js. It is a separate Node process (that's why Vercel can't host it, see below)
-- `hooks/useSocket.ts` → The client-side hook
+- `hooks/shared/useSocket.ts` → The client-side hook
   - `const { send, connected } = useSocket(room, onMessage)`
   - `send(type, data)` → emits to the room
   - `onMessage(type, data)` → called for every message from the other devices
@@ -146,7 +148,7 @@ Week 2. Cross-Device Interaction (WebSocket)
 **Deployment**
 
 - `pnpm dev` (http://localhost:3000) is enough when the phone is NOT involved
-- Vercel hosts the Next.js app only. The relay is a long-running process, so a Vercel deployment has no socket
+- <Term id="vercel" /> hosts the Next.js app only. The relay is a long-running process, so a Vercel deployment has no socket
 - For WA3 and the final, the laptop runs the relay locally. Same in the Black Room: the installation laptop is the server
 - If you ever need the relay online, `socket-server.mjs` runs as-is on any Node host and the client follows `NEXT_PUBLIC_SOCKET_URL`
 
@@ -192,7 +194,7 @@ This is how you "Google it" to see console.log() messages, inspect the DOM, and 
 4. On your Mac's Safari, click the new "Develop" menu. You should see your iPhone's name.
 5. Hover over your iPhone's name to see a list of open tabs. Click the tab you wish to debug to open a Web Inspector window.
 
-### A3. HTTPS for Local Dev: `pnpm dev:mobile`
+### A3. <Term id="https">HTTPS</Term> for Local Dev: `pnpm dev:mobile`
 
 Modern browsers block sensitive APIs (like the camera, microphone, or accelerometer) on insecure http:// connections for security reasons. `localhost` is an exception (it counts as a secure context), which is why `pnpm dev` was enough in W1. The moment your phone connects via `192.168.x.x`, it is not localhost anymore, so you must serve your local site over https://.
 
@@ -215,3 +217,15 @@ This uses a **self-signed certificate**, which your phone does not trust by defa
 You only need to do this once per device (until the certificate changes). Your phone will then load the https:// version of your site, and your sensitive APIs (camera, accelerometer, etc.) will now work for testing.
 
 **B. Other Debugging Strategies**
+
+## 5. Homework: Web Assignment 2
+
+**Build a Creative Coding Experience.** Not graded. Essential. Due before Web 3 (11/16).
+
+1. One single-device experience, in this repo, deployed on Vercel
+   - `app/experiments/w2/<name>/page.tsx`. Canvas, GLSL, or Three.js, your choice. Or all three
+   - It must change over time or respond to input (mouse, keyboard, scroll, microphone, camera). A static image is not an experience
+2. Think in parameters (section 1 of these notes)
+   - Write down the 3 to 5 parameters your visual has. Hook at least two of them to an input
+   - What is the semantic input? What is the phenomenological one?
+3. Send me the URL and one paragraph: what the parameters are, what the inputs are, what surprised you
