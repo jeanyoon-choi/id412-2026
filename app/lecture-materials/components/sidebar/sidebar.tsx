@@ -12,7 +12,7 @@ const pages = [
   { href: "/", label: "Index", ko: "인덱스", meta: "" },
   { href: "/lecture-materials/prelim", label: "Prelim", ko: "사전 준비", meta: "before 10/26" },
   { href: "/lecture-materials/w1", label: "Web 1", ko: "Web 1", meta: "10/26" },
-  { href: "/lecture-materials/w2", label: "Web 2", ko: "Web 2", meta: "11/9" },
+  { href: "/lecture-materials/w2", label: "Web 2", ko: "Web 2", meta: "11/2" },
   { href: "/lecture-materials/w3", label: "Web 3", ko: "Web 3", meta: "11/16" },
   { href: "/experiments", label: "Experiments", ko: "실험", meta: "" },
   { href: "/final", label: "Final", ko: "기말", meta: "" },

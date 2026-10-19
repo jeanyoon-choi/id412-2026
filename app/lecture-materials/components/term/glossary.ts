@@ -73,11 +73,11 @@ export const terms = {
     name: "TypeScript",
     en: {
       what: "Javascript plus types. You write what kind of value a variable holds, and the editor catches mistakes before you run anything. It compiles down to plain Javascript.",
-      use: "All files are .ts / .tsx. You do not need to master the type system. Read the red squiggles, and let the agent fix them. `pnpm typecheck` is how the agent checks its own work.",
+      use: "All files are .ts / .tsx. You do not need to master the type system. `pnpm typecheck` is how the agent checks its own work.",
     },
     ko: {
       what: "Javascript에 타입을 더한 언어. 변수에 어떤 값이 들어가는지 적어두면 실행 전에 에디터가 실수를 잡아준다. 결국 평범한 Javascript로 변환된다.",
-      use: "모든 파일이 .ts / .tsx다. 타입 시스템을 마스터할 필요는 없다. 빨간 밑줄을 읽고, 에이전트에게 고치게 하면 된다. `pnpm typecheck`가 에이전트가 자기 작업을 검증하는 방법이다.",
+      use: "모든 파일이 .ts / .tsx다. 타입 시스템을 마스터할 필요는 없다. `pnpm typecheck`가 에이전트가 자기 작업을 검증하는 방법이다.",
     },
     official: { label: "typescriptlang.org", url: "https://www.typescriptlang.org/" },
     learn: [
@@ -155,11 +155,11 @@ export const terms = {
     name: "Git",
     en: {
       what: "Version control. It records snapshots (commits) of your project so you can see what changed and go back. Works offline, on your machine.",
-      use: "Git is your undo button for the agent. git diff shows what it changed, git restore throws it away, git commit saves a checkpoint you trust. Commit often.",
+      use: "git diff shows what it changed, git restore throws it away, git commit saves a checkpoint you trust. ",
     },
     ko: {
       what: "버전 관리 도구. 프로젝트의 스냅샷(커밋)을 기록해서 무엇이 바뀌었는지 보고 되돌릴 수 있다. 네 컴퓨터 안에서, 오프라인으로 돈다.",
-      use: "Git은 에이전트에 대한 실행취소 버튼이다. git diff로 뭘 바꿨는지 보고, git restore로 버리고, git commit으로 믿을 수 있는 체크포인트를 남긴다. 자주 커밋해라.",
+      use: "git diff로 뭘 바꿨는지 보고, git restore로 버리고, git commit으로 믿을 수 있는 체크포인트를 남긴다.",
     },
     official: { label: "git-scm.com", url: "https://git-scm.com/" },
     learn: [
@@ -261,11 +261,11 @@ export const terms = {
     name: "GLSL",
     en: {
       what: "OpenGL Shading Language. A small C-like language that runs on the GPU, once per pixel (fragment shader) or per vertex (vertex shader), all in parallel. Per-pixel fields, noise, flow, post-processing.",
-      use: "W1, through Three.js ShaderMaterial: a full-screen plane and a fragment shader that gets time and mouse as uniforms. Not for layout or UI. Let the agent write the boilerplate, you shape the math.",
+      use: "W1, through Three.js ShaderMaterial: a full-screen plane and a fragment shader that gets time and mouse as uniforms. Not for layout or UI.",
     },
     ko: {
       what: "GPU에서 도는 작은 C 계열 언어. 픽셀마다(프래그먼트 셰이더) 또는 정점마다(버텍스 셰이더) 전부 병렬로 실행된다. 픽셀 단위 필드, 노이즈, 흐름, 후처리.",
-      use: "W1에서 Three.js ShaderMaterial로: 화면 꽉 채운 평면 하나와 time·mouse를 uniform으로 받는 프래그먼트 셰이더. 레이아웃이나 UI용이 아니다. 보일러플레이트는 에이전트가, 수식은 네가.",
+      use: "W1에서 Three.js ShaderMaterial로: 화면 꽉 채운 평면 하나와 time·mouse를 uniform으로 받는 프래그먼트 셰이더. 레이아웃이나 UI용이 아니다.",
     },
     official: { label: "Three.js: ShaderMaterial", url: "https://threejs.org/docs/#api/en/materials/ShaderMaterial" },
     learn: [

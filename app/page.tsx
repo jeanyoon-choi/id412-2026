@@ -18,7 +18,7 @@ const weeks = [
   },
   {
     href: "/lecture-materials/w2",
-    label: "Web 2 · 11/9",
+    label: "Web 2 · 11/2",
     en: "Cross-Device Interaction (WebSocket)",
     ko: "크로스 디바이스 인터랙션 (WebSocket)",
   },
