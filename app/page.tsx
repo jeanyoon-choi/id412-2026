@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { L } from "@/app/lecture-materials/components/lang/lang-block";
 import { LectureShell } from "@/app/lecture-materials/components/shell/shell";
+import styles from "./page.module.css";
 
 const weeks = [
   {
@@ -33,11 +34,26 @@ export default function Home() {
   return (
     <LectureShell>
       <h1>ID412 Interactive Space — Web Workshop</h1>
-      <p>
-        <L
-          en="KAIST Dept. of Industrial Design, Fall 2026. Prof. Yiyun Kang, TA Jeanyoon Choi (XD Lab). Three creative frontend web development sessions. A sub-module of the Interactive Space (ID412) class."
-          ko="KAIST 산업디자인학과, 2026년 가을. Yiyun Kang 교수, 조교 최정윤 (XD Lab). 크리에이티브 프론트엔드 웹 개발 세션 세 번. Interactive Space (ID412) 수업 안의 서브 모듈이다."
-        />
+      <p className={styles.lead}>
+        <L en="Web Workshop of the " ko="" />
+        <a href="https://id.kaist.ac.kr/" target="_blank" rel="noopener noreferrer">Interactive Space (ID412)</a>
+        <L en=" class" ko=" 수업의 웹 워크숍" />
+        <br />
+        <a href="https://www.kaist.ac.kr/en/" target="_blank" rel="noopener noreferrer">KAIST</a>{" "}
+        <a href="https://id.kaist.ac.kr/" target="_blank" rel="noopener noreferrer">
+          <L en="Dept. of Industrial Design" ko="산업디자인학과" />
+        </a>
+        <L en=", Fall 2026" ko=", 2026년 가을" />
+        <br />
+        <L en="Prof. " ko="" />
+        <a href="https://yiyunkang.com/" target="_blank" rel="noopener noreferrer">Yiyun Kang</a>
+        <L en=" · TA " ko=" 교수 · 조교 " />
+        <a href="https://jeanyoon.ch/oi" target="_blank" rel="noopener noreferrer">
+          <L en="Jeanyoon Choi" ko="최정윤" />
+        </a>{" "}
+        (<a href="https://www.xdlab.net/" target="_blank" rel="noopener noreferrer">XD Lab</a>)
+        <br />
+        <L en="Three creative frontend web development sessions" ko="크리에이티브 프론트엔드 웹 개발 세션 세 번" />
       </p>
       <ul>
         {weeks.map((week) => (
