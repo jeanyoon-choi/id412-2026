@@ -168,7 +168,7 @@ export const terms = {
     ],
     related: [
       { href: "/lecture-materials/w1#1-vs-code--claude-code-setup", en: "W1: Git as your checkpoint", ko: "W1: 체크포인트로서의 Git" },
-      { href: "/lecture-materials/w1#11-deployment", en: "W1: Deployment", ko: "W1: 배포" },
+      { href: "/lecture-materials/w1#12-deployment", en: "W1: Deployment", ko: "W1: 배포" },
     ],
   },
   github: {
@@ -201,7 +201,7 @@ export const terms = {
     official: { label: "vercel.com", url: "https://vercel.com/" },
     learn: [{ label: "Vercel: Deploying Next.js", url: "https://nextjs.org/docs/app/getting-started/deploying" }],
     related: [
-      { href: "/lecture-materials/w1#11-deployment", en: "W1: Deployment", ko: "W1: 배포" },
+      { href: "/lecture-materials/w1#12-deployment", en: "W1: Deployment", ko: "W1: 배포" },
       { href: "/lecture-materials/w2#3-socketio", en: "W2: Socket.io (deployment)", ko: "W2: Socket.io (배포)" },
     ],
   },
@@ -218,6 +218,20 @@ export const terms = {
     official: { label: "code.visualstudio.com", url: "https://code.visualstudio.com/" },
     learn: [{ label: "VS Code: Getting started", url: "https://code.visualstudio.com/docs/getstarted/getting-started" }],
     related: [{ href: "/lecture-materials/prelim#5-how-to-use-ai-agents", en: "Prelim: How to use AI Agents", ko: "Prelim: AI 에이전트 사용법" }],
+  },
+  cli: {
+    name: "CLI",
+    en: {
+      what: "Command Line Interface. A program you use by typing commands in a terminal, instead of clicking in a window. You type a command, press Enter, it prints text back.",
+      use: "Claude Code is a CLI: you type claude in the VS Code terminal and talk to it there. pnpm, git and node are CLIs too. Every command in these notes is typed into the terminal.",
+    },
+    ko: {
+      what: "Command Line Interface. 창에서 클릭하는 대신 터미널에 명령어를 쳐서 쓰는 프로그램. 명령어를 치고 Enter를 누르면 글자로 답이 돌아온다.",
+      use: "Claude Code가 CLI다. VS Code 터미널에 claude를 치고 거기서 대화한다. pnpm, git, node도 CLI다. 이 노트의 모든 명령어는 터미널에 치는 것이다.",
+    },
+    official: { label: "VS Code: Terminal basics", url: "https://code.visualstudio.com/docs/terminal/basics" },
+    learn: [],
+    related: [{ href: "/lecture-materials/w1#1-vs-code--claude-code-setup", en: "W1: VS Code + Claude Code setup", ko: "W1: VS Code + Claude Code 셋업" }],
   },
   claudeCode: {
     name: "Claude Code",
@@ -255,7 +269,7 @@ export const terms = {
       { label: "MDN: Canvas tutorial", url: "https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial" },
       { label: "The Coding Train", url: "https://thecodingtrain.com/" },
     ],
-    related: [{ href: "/lecture-materials/w1#8-lets-start-coding", en: "W1: Let's Start Coding", ko: "W1: 코딩 시작" }],
+    related: [{ href: "/lecture-materials/w1#9-canvas", en: "W1: Canvas", ko: "W1: Canvas" }],
   },
   glsl: {
     name: "GLSL",
@@ -272,7 +286,7 @@ export const terms = {
       { label: "The Book of Shaders", url: "https://thebookofshaders.com/" },
       { label: "Shadertoy", url: "https://www.shadertoy.com/" },
     ],
-    related: [{ href: "/lecture-materials/w1#9-glsl", en: "W1: GLSL", ko: "W1: GLSL" }],
+    related: [{ href: "/lecture-materials/w1#10-glsl", en: "W1: GLSL", ko: "W1: GLSL" }],
   },
   threejs: {
     name: "Three.js",
@@ -290,7 +304,7 @@ export const terms = {
       { label: "Wawa Sensei (YouTube)", url: "https://www.youtube.com/watch?v=pXpckHDDNYo&list=PLpepLKamtPjiUF6PvVUbIFhx9HaS0qJs_" },
       { label: "Three.js Journey (paid)", url: "https://threejs-journey.com/" },
     ],
-    related: [{ href: "/lecture-materials/w1#10-threejs", en: "W1: Three.js", ko: "W1: Three.js" }],
+    related: [{ href: "/lecture-materials/w1#11-threejs", en: "W1: Three.js", ko: "W1: Three.js" }],
   },
   socketio: {
     name: "Socket.io",
@@ -383,6 +397,20 @@ export const terms = {
     learn: [],
     related: [{ href: "/lecture-materials/w2#4-debugging--qa", en: "W2: Debugging & QA (A1, A3)", ko: "W2: 디버깅 (A1, A3)" }],
   },
+  harness: {
+    name: "harness",
+    en: {
+      what: "Everything around the model that makes an agent reliable on one project: the rules it reads first (AGENTS.md), the guides it is sent to, the files it must write (a README per experiment), the checks it must pass (typecheck, build, open the page) and the checkpoints it saves (git). The model is rented; the harness is yours.",
+      use: "This template is a harness. AGENTS.md at the root, docs/<area>/README.md per area, README.md per experiment, typecheck before 'done', commit when it works. When the agent repeats a mistake, add a rule here instead of re-prompting.",
+    },
+    ko: {
+      what: "한 프로젝트에서 에이전트를 믿을 수 있게 만드는, 모델 주변의 모든 것: 처음 읽는 규칙(AGENTS.md), 안내받는 가이드, 써야 하는 파일(실험마다 README), 통과해야 하는 검사(타입체크, 빌드, 페이지 열기), 저장하는 체크포인트(git). 모델은 빌려 쓰는 것, 하네스는 네 것.",
+      use: "이 템플릿이 하네스다. 루트의 AGENTS.md, 영역별 docs/<area>/README.md, 실험별 README.md, '다 됐다' 전에 타입체크, 되면 커밋. 에이전트가 같은 실수를 반복하면 다시 프롬프트하지 말고 여기에 규칙을 추가해라.",
+    },
+    official: { label: "agents.md", url: "https://agents.md/" },
+    learn: [{ label: "Claude Code: Memory (CLAUDE.md / AGENTS.md)", url: "https://code.claude.com/docs/en/memory" }],
+    related: [{ href: "/lecture-materials/w1#1-vs-code--claude-code-setup", en: "W1: Harness Engineering", ko: "W1: 하네스 엔지니어링" }],
+  },
   agentsMd: {
     name: "AGENTS.md",
     en: {
@@ -412,7 +440,7 @@ export const terms = {
       { label: "R3F: Examples", url: "https://r3f.docs.pmnd.rs/getting-started/examples" },
       { label: "Drei (GitHub)", url: "https://github.com/pmndrs/drei" },
     ],
-    related: [{ href: "/lecture-materials/w1#10-threejs", en: "W1: Three.js", ko: "W1: Three.js" }],
+    related: [{ href: "/lecture-materials/w1#11-threejs", en: "W1: Three.js", ko: "W1: Three.js" }],
   },
   websocket: {
     name: "WebSocket",
@@ -569,7 +597,7 @@ export const terms = {
     },
     official: { label: "drei (GitHub)", url: "https://github.com/pmndrs/drei" },
     learn: [{ label: "drei docs", url: "https://drei.docs.pmnd.rs/" }],
-    related: [{ href: "/lecture-materials/w1#10-threejs", en: "W1: Three.js", ko: "W1: Three.js" }],
+    related: [{ href: "/lecture-materials/w1#11-threejs", en: "W1: Three.js", ko: "W1: Three.js" }],
   },
   postprocessing: {
     name: "React-Three Postprocessing",
@@ -583,7 +611,7 @@ export const terms = {
     },
     official: { label: "react-postprocessing (GitHub)", url: "https://github.com/pmndrs/react-postprocessing" },
     learn: [{ label: "postprocessing docs", url: "https://react-postprocessing.docs.pmnd.rs/" }],
-    related: [{ href: "/lecture-materials/w1#10-threejs", en: "W1: Three.js", ko: "W1: Three.js" }],
+    related: [{ href: "/lecture-materials/w1#11-threejs", en: "W1: Three.js", ko: "W1: Three.js" }],
   },
   rapier: {
     name: "React-Three Rapier",
@@ -597,7 +625,7 @@ export const terms = {
     },
     official: { label: "react-three-rapier (GitHub)", url: "https://github.com/pmndrs/react-three-rapier" },
     learn: [{ label: "Rapier docs", url: "https://rapier.rs/" }],
-    related: [{ href: "/lecture-materials/w1#10-threejs", en: "W1: Three.js", ko: "W1: Three.js" }],
+    related: [{ href: "/lecture-materials/w1#11-threejs", en: "W1: Three.js", ko: "W1: Three.js" }],
   },
   reactSpring: {
     name: "React Spring",
@@ -611,7 +639,7 @@ export const terms = {
     },
     official: { label: "react-spring.dev", url: "https://www.react-spring.dev/" },
     learn: [{ label: "React Spring: Getting started", url: "https://www.react-spring.dev/docs/getting-started" }],
-    related: [{ href: "/lecture-materials/w1#10-threejs", en: "W1: Three.js", ko: "W1: Three.js" }],
+    related: [{ href: "/lecture-materials/w1#11-threejs", en: "W1: Three.js", ko: "W1: Three.js" }],
   },
   shaderMaterial: {
     name: "ShaderMaterial",
@@ -625,7 +653,7 @@ export const terms = {
     },
     official: { label: "Three.js: ShaderMaterial", url: "https://threejs.org/docs/#api/en/materials/ShaderMaterial" },
     learn: [{ label: "The Book of Shaders", url: "https://thebookofshaders.com/" }],
-    related: [{ href: "/lecture-materials/w1#9-glsl", en: "W1: GLSL", ko: "W1: GLSL" }],
+    related: [{ href: "/lecture-materials/w1#10-glsl", en: "W1: GLSL", ko: "W1: GLSL" }],
   },
   uniforms: {
     name: "uniforms",
@@ -639,7 +667,216 @@ export const terms = {
     },
     official: { label: "Three.js: Uniform", url: "https://threejs.org/docs/#api/en/core/Uniform" },
     learn: [{ label: "The Book of Shaders: Uniforms", url: "https://thebookofshaders.com/03/" }],
-    related: [{ href: "/lecture-materials/w1#9-glsl", en: "W1: GLSL", ko: "W1: GLSL" }],
+    related: [{ href: "/lecture-materials/w1#10-glsl", en: "W1: GLSL", ko: "W1: GLSL" }],
+  },
+  nodejs: {
+    name: "Node.js",
+    en: {
+      what: "Javascript running outside the browser, on your computer. Node reads files, opens network ports and runs the tools of the web stack. Without it there is no dev server, no package manager, no build.",
+      use: "pnpm dev, the build, the socket relay (socket-server.mjs) and Claude Code all run on Node. Install the LTS version once (Prelim Tutorial HW).",
+    },
+    ko: {
+      what: "브라우저 밖, 네 컴퓨터에서 도는 Javascript. 파일을 읽고, 네트워크 포트를 열고, 웹 스택의 도구들을 돌린다. 이게 없으면 개발 서버도, 패키지 매니저도, 빌드도 없다.",
+      use: "pnpm dev, 빌드, 소켓 relay(socket-server.mjs), Claude Code 전부 Node 위에서 돈다. LTS 버전을 한 번 설치하면 된다 (Prelim 튜토리얼 과제).",
+    },
+    official: { label: "nodejs.org", url: "https://nodejs.org/" },
+    learn: [],
+    related: [{ href: "/lecture-materials/w1#4-package-manager", en: "W1: Package Manager", ko: "W1: 패키지 매니저" }],
+  },
+  npmRegistry: {
+    name: "npm registry",
+    en: {
+      what: "The public store of Javascript packages. react, next, three, socket.io: every library you install comes from here. npm, pnpm and yarn are different clients for the same registry.",
+      use: "pnpm add <package> downloads from the registry into node_modules and records the version in package.json.",
+    },
+    ko: {
+      what: "Javascript 패키지의 공개 저장소. react, next, three, socket.io 등 네가 설치하는 모든 라이브러리가 여기서 온다. npm, pnpm, yarn은 같은 레지스트리를 쓰는 다른 클라이언트다.",
+      use: "pnpm add <패키지>가 레지스트리에서 node_modules로 받고, 버전을 package.json에 적는다.",
+    },
+    official: { label: "npmjs.com", url: "https://www.npmjs.com/" },
+    learn: [],
+  },
+  vue: {
+    name: "Vue",
+    en: {
+      what: "A UI framework, same job as React: components, state → view. Templates look closer to HTML than JSX does.",
+      use: "Not used here. If a tutorial says Vue or Nuxt, it is the other family; the ideas transfer, the code does not.",
+    },
+    ko: {
+      what: "React와 같은 일을 하는 UI 프레임워크: 컴포넌트, 상태 → 화면. 템플릿이 JSX보다 HTML에 가깝게 생겼다.",
+      use: "여기서는 안 쓴다. 튜토리얼이 Vue나 Nuxt를 말하면 다른 계열이다. 개념은 옮겨오되 코드는 못 옮긴다.",
+    },
+    official: { label: "vuejs.org", url: "https://vuejs.org/" },
+    learn: [],
+  },
+  svelte: {
+    name: "Svelte",
+    en: {
+      what: "A UI framework that compiles components to plain Javascript at build time, so there is no framework running in the browser.",
+      use: "Not used here. Its meta-framework is SvelteKit.",
+    },
+    ko: {
+      what: "컴포넌트를 빌드 시점에 평범한 Javascript로 컴파일하는 UI 프레임워크. 브라우저에서 프레임워크가 따로 돌지 않는다.",
+      use: "여기서는 안 쓴다. 메타 프레임워크는 SvelteKit.",
+    },
+    official: { label: "svelte.dev", url: "https://svelte.dev/" },
+    learn: [],
+  },
+  angular: {
+    name: "Angular",
+    en: {
+      what: "Google's UI framework. Opinionated and all-in-one: routing, forms, HTTP included. Common in large companies.",
+      use: "Not used here.",
+    },
+    ko: {
+      what: "Google의 UI 프레임워크. 라우팅, 폼, HTTP까지 다 들어 있는 올인원. 대기업에서 많이 쓴다.",
+      use: "여기서는 안 쓴다.",
+    },
+    official: { label: "angular.dev", url: "https://angular.dev/" },
+    learn: [],
+  },
+  reactRouter: {
+    name: "React Router / Remix",
+    en: {
+      what: "The other meta-framework on React. Remix merged into React Router in 2024. Routing and server loading, like Next.js, with different conventions.",
+      use: "Not used here. Next.js does the same job for us.",
+    },
+    ko: {
+      what: "React 위의 또 다른 메타 프레임워크. Remix는 2024년에 React Router로 합쳐졌다. Next.js처럼 라우팅과 서버 로딩을 하지만 규칙이 다르다.",
+      use: "여기서는 안 쓴다. 우리는 Next.js가 그 일을 한다.",
+    },
+    official: { label: "reactrouter.com", url: "https://reactrouter.com/" },
+    learn: [],
+  },
+  astro: {
+    name: "Astro",
+    en: {
+      what: "A meta-framework for content sites. Ships zero Javascript by default and lets you mix React, Vue or Svelte components in one page.",
+      use: "Not used here.",
+    },
+    ko: {
+      what: "콘텐츠 사이트용 메타 프레임워크. 기본으로 Javascript를 거의 안 보내고, 한 페이지에 React, Vue, Svelte 컴포넌트를 섞을 수 있다.",
+      use: "여기서는 안 쓴다.",
+    },
+    official: { label: "astro.build", url: "https://astro.build/" },
+    learn: [],
+  },
+  nuxt: {
+    name: "Nuxt",
+    en: {
+      what: "The meta-framework for Vue. What Next.js is to React.",
+      use: "Not used here.",
+    },
+    ko: {
+      what: "Vue의 메타 프레임워크. React에 Next.js가 있듯이.",
+      use: "여기서는 안 쓴다.",
+    },
+    official: { label: "nuxt.com", url: "https://nuxt.com/" },
+    learn: [],
+  },
+  sveltekit: {
+    name: "SvelteKit",
+    en: {
+      what: "The meta-framework for Svelte. What Next.js is to React.",
+      use: "Not used here.",
+    },
+    ko: {
+      what: "Svelte의 메타 프레임워크. React에 Next.js가 있듯이.",
+      use: "여기서는 안 쓴다.",
+    },
+    official: { label: "svelte.dev/docs/kit", url: "https://svelte.dev/docs/kit" },
+    learn: [],
+  },
+  tailwind: {
+    name: "Tailwind",
+    en: {
+      what: "Styling with utility classes written directly in the markup: className=\"flex gap-4 text-sm\". No separate CSS file.",
+      use: "Not used here. We write plain CSS in CSS Modules so you learn the CSS itself. Agents like to suggest Tailwind; say no.",
+    },
+    ko: {
+      what: "마크업에 바로 유틸리티 클래스를 적는 스타일링: className=\"flex gap-4 text-sm\". CSS 파일이 따로 없다.",
+      use: "여기서는 안 쓴다. CSS 자체를 배우라고 CSS Modules에 평범한 CSS를 쓴다. 에이전트가 Tailwind를 권하면 거절해라.",
+    },
+    official: { label: "tailwindcss.com", url: "https://tailwindcss.com/" },
+    learn: [],
+  },
+  styledComponents: {
+    name: "styled-components",
+    en: {
+      what: "CSS-in-JS: styles written inside Javascript, attached to a component. const Box = styled.div`padding: 1rem`.",
+      use: "Not used here. CSS Modules give the same per-component scoping with plain CSS files.",
+    },
+    ko: {
+      what: "CSS-in-JS: Javascript 안에 스타일을 쓰고 컴포넌트에 붙인다. const Box = styled.div`padding: 1rem`.",
+      use: "여기서는 안 쓴다. CSS Modules가 평범한 CSS 파일로 같은 컴포넌트 단위 스코프를 준다.",
+    },
+    official: { label: "styled-components.com", url: "https://styled-components.com/" },
+    learn: [],
+  },
+  sass: {
+    name: "Sass",
+    en: {
+      what: "CSS with extras (variables, nesting, mixins) that compiles to CSS. Older than CSS Modules; much of what it added is now in CSS itself.",
+      use: "Not used here.",
+    },
+    ko: {
+      what: "변수, 중첩, 믹스인이 추가된 CSS. CSS로 컴파일된다. CSS Modules보다 오래됐고, 추가했던 기능 상당수가 이제 CSS 자체에 들어갔다.",
+      use: "여기서는 안 쓴다.",
+    },
+    official: { label: "sass-lang.com", url: "https://sass-lang.com/" },
+    learn: [],
+  },
+  svg: {
+    name: "SVG",
+    en: {
+      what: "Scalable Vector Graphics. Shapes described as XML in the page: circles, paths, text. Sharp at any size, styled with CSS, animated with CSS or Javascript.",
+      use: "The capability chart in Prelim is an SVG. Use it for 2D that stays crisp and needs to be part of the DOM; use Canvas for thousands of moving things.",
+    },
+    ko: {
+      what: "Scalable Vector Graphics. 페이지 안에 XML로 적는 도형: 원, 경로, 글자. 어떤 크기에서도 선명하고, CSS로 꾸미고, CSS나 Javascript로 움직인다.",
+      use: "Prelim의 성능 차트가 SVG다. 선명해야 하고 DOM의 일부여야 하는 2D에 쓰고, 움직이는 것이 수천 개면 Canvas를 써라.",
+    },
+    official: { label: "MDN: SVG", url: "https://developer.mozilla.org/en-US/docs/Web/SVG" },
+    learn: [],
+  },
+  p5js: {
+    name: "p5.js",
+    en: {
+      what: "A creative-coding library wrapping Canvas: setup(), draw(), and functions like ellipse() and fill(). Processing for the browser. Where most art students meet code.",
+      use: "Not used here. We draw on Canvas directly inside React, so the same ideas work without the wrapper. A p5 sketch translates almost line by line.",
+    },
+    ko: {
+      what: "Canvas를 감싼 크리에이티브 코딩 라이브러리: setup(), draw(), ellipse(), fill(). 브라우저용 Processing. 미대생 대부분이 코드를 처음 만나는 곳.",
+      use: "여기서는 안 쓴다. React 안에서 Canvas에 직접 그리니까 래퍼 없이도 같은 아이디어가 된다. p5 스케치는 거의 한 줄씩 옮겨진다.",
+    },
+    official: { label: "p5js.org", url: "https://p5js.org/" },
+    learn: [],
+  },
+  webgl: {
+    name: "WebGL",
+    en: {
+      what: "The browser API that talks to the GPU. Very low level: buffers, shaders, draw calls. Three.js exists so you do not write it by hand.",
+      use: "Everything in W1 GLSL and Three.js runs on WebGL underneath. You write GLSL; Three.js handles the rest.",
+    },
+    ko: {
+      what: "브라우저가 GPU와 대화하는 API. 매우 저수준: 버퍼, 셰이더, 드로우 콜. 이걸 손으로 안 쓰려고 Three.js가 있다.",
+      use: "W1의 GLSL과 Three.js 전부 밑에서는 WebGL로 돈다. 너는 GLSL을 쓰고 나머지는 Three.js가 한다.",
+    },
+    official: { label: "MDN: WebGL", url: "https://developer.mozilla.org/en-US/docs/Web/API/WebGL_API" },
+    learn: [],
+  },
+  webgpu: {
+    name: "WebGPU",
+    en: {
+      what: "The successor to WebGL: a newer GPU API with compute shaders and a different shader language (WGSL). Three.js has a WebGPU renderer.",
+      use: "Not used here. GLSL on WebGL is what we teach; the concepts carry over.",
+    },
+    ko: {
+      what: "WebGL의 후속: 컴퓨트 셰이더가 있고 셰이더 언어가 다른(WGSL) 새 GPU API. Three.js에 WebGPU 렌더러가 있다.",
+      use: "여기서는 안 쓴다. WebGL 위의 GLSL을 가르치고, 개념은 그대로 옮겨간다.",
+    },
+    official: { label: "MDN: WebGPU", url: "https://developer.mozilla.org/en-US/docs/Web/API/WebGPU_API" },
+    learn: [],
   },
 } satisfies Record<string, TermEntry>;
 

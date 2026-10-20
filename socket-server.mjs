@@ -1,7 +1,8 @@
 // Socket.IO relay. Devices join a room; every message is forwarded to the
-// other devices in the same room. Runs over https when the certificates that
-// `next dev --experimental-https` generates exist, otherwise over http
-// (e.g. on a Node host that terminates TLS for you).
+// other devices in the same room. Runs over http by default (`pnpm dev`, pages
+// on http://localhost:3000). With `--https` (`pnpm dev:mobile`) it reuses the
+// certificates that `next dev --experimental-https` generates, because an
+// https page can only talk to an https relay.
 
 import { existsSync, readFileSync } from "node:fs";
 import { createServer as createHttpServer } from "node:http";
@@ -28,7 +29,7 @@ const handler = (req, res) => {
   res.end("socket relay ok\n");
 };
 
-const secure = await waitForCertificates();
+const secure = process.argv.includes("--https") && (await waitForCertificates());
 const server = secure
   ? createHttpsServer({ key: readFileSync(keyPath), cert: readFileSync(certPath) }, handler)
   : createHttpServer(handler);

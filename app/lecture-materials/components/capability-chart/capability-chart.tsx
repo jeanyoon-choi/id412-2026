@@ -67,10 +67,6 @@ export function CapabilityChart() {
 
   return (
     <figure className={styles.figure}>
-      <figcaption className={styles.caption}>
-        <strong>How long a software task can an AI finish on its own?</strong> METR 50% time horizon, in
-        human-expert time. Log scale.
-      </figcaption>
       <svg viewBox={`0 0 ${width} ${height}`} className={styles.svg} role="img" aria-label="Line chart">
         {yTicks.map((t) => (
           <g key={t.minutes}>
@@ -121,8 +117,7 @@ export function CapabilityChart() {
         <a href="https://metr.org/time-horizons/" target="_blank" rel="noopener noreferrer">
           METR, Time Horizon 1.1
         </a>
-        . Doubling time was about 7 months (2019–2024) and about 4 months since 2023. METR states measurements above
-        16 hr are unreliable with its current task suite, so the last point is a lower bound.
+
       </p>
     </figure>
   );

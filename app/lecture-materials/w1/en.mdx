@@ -6,7 +6,7 @@ import { StackDiagram } from "@/app/lecture-materials/components/stack-diagram/s
 
 Week 1. Introduction to Creative Web Dev.
 
-## 1. VS Code + Claude Code setup
+## 1. AI Agents: VS Code + Claude Code [#1-vs-code--claude-code-setup]
 
 <ImageRow
   logos
@@ -18,21 +18,56 @@ Week 1. Introduction to Creative Web Dev.
 
 1. <Term id="vscode" /> (Visual Studio Code) = Your Editor (Where you code)
 2. <Term id="claudeCode" /> = Your Coding Agent (Who codes with you)
-   1. After the introduction of LLMs (ChatGPT, Claude AI), many developers started to integrate LLMs within their programming
-   2. AI-integrated editors ([Cursor AI](https://cursor.com/), [GitHub Copilot](https://github.com/features/copilot)) came first. Now the agent runs as a CLI (Command Line Interface) inside your editor's terminal, reads and edits your files, runs your commands
-   3. Alternatives: [OpenAI Codex](https://chatgpt.com/codex), [Gemini CLI](https://github.com/google-gemini/gemini-cli), [Cursor AI](https://cursor.com/)
-   4. Relatively new, the next 'Game Changer' might change within a couple of months
-3. Install: Claude Code CLI + the Claude Code extension in VS Code (step by step in [Prelim §5](/lecture-materials/prelim#5-how-to-use-ai-agents))
+   - Alternatives: [OpenAI Codex](https://chatgpt.com/codex), [Gemini CLI](https://github.com/google-gemini/gemini-cli), [Cursor AI](https://cursor.com/), [GitHub Copilot](https://github.com/features/copilot)
+3. Install: Claude Code <Term id="cli">CLI</Term> + the Claude Code extension in VS Code (step by step in [Prelim §5](/lecture-materials/prelim#5-how-to-use-ai-agents))
 4. Open your project folder in VS Code, open the terminal, type `claude`
 5. Models (platform.claude.com pricing, per 1M tokens)
    1. Claude Fable 5.1: input $10 / output $50
    2. Claude Opus 5.5: input $4 / output $20
    3. We'll use Opus 5.5 in class due to cost. Type `/model` inside Claude Code to switch
-6. Harness: <Term id="agentsMd" />
-7. <Term id="git" /> as your checkpoint
+6. <Term id="harness">Harness</Term>: <Term id="agentsMd" /> + `docs/` + a README per experiment + typecheck + commit. Below
+7. Browser: `/chrome` on, so the agent opens localhost:3000 and checks its own work. Below
+8. <Term id="git" /> as your checkpoint
    1. `git diff`: What did the agent change?
    2. `git restore .`: Throw away what the agent changed
    3. `git add .` + `git commit -m "..."`: Save a checkpoint you can come back to
+
+**What a coding agent is**
+
+- A chatbot answers. A coding agent **acts**: it reads your files, edits them, runs commands, reads the errors, opens the browser, and tries again until it works. You describe, it builds, you review
+- Agent = model + tools + a loop. The model decides the next step, a tool does it (read file, edit file, run `pnpm dev`, take a screenshot), the result goes back to the model, repeat. Every step is shown to you and can be stopped
+- Its memory is the context window of the conversation. Everything it knows about your project comes from what it read this session, plus `AGENTS.md` (below)
+- Permissions: it asks before running a command or touching a file outside the project. Read the command. If it makes sense, approve. "Allow all" is for later
+
+**How to work with an agent**
+
+- Describe what you want, specifically. Say "App Router", say which file, paste the error
+- Read what it changed before you trust it: `git diff`. Throw it away with `git restore .`, keep it with `git commit`
+- One task at a time. Small steps, each one checked in the browser
+- `AGENTS.md` in the repo tells the agent the rules of this project. Next block
+
+**<Term id="harness">Harness</Term> Engineering**
+
+- The model is the same for everyone. What makes an agent good *on your project* is everything around the model: the **harness**
+- The harness is: the rules it reads first (<Term id="agentsMd" />), the guides it is pointed to (`docs/`), the memory it leaves behind (one `README.md` per experiment), the checks it must pass (`pnpm typecheck`, `pnpm build`, open the route in the browser), and the checkpoints it saves (`git commit` when something works)
+- Without a harness the agent guesses: wrong folder, Tailwind you didn't ask for, Pages Router from 2023, "it works" without ever opening the page. With one, it does the same thing the same way every time
+- State of the art, Oct 2026: `AGENTS.md` is the cross-vendor standard (Codex, Claude Code, Cursor, Gemini all read it; [agents.md](https://agents.md/)). Next.js writes its own block into it. On top of that: hooks (run typecheck after every edit), skills (reusable procedures), MCP (tools like the browser). The harness is now a bigger lever than the prompt
+- This template ships with a harness. Read `AGENTS.md` and `docs/` once; the agent reads them every session. When it keeps making the same mistake, fix the harness, not the prompt
+
+**Browser Tool: Claude in Chrome**
+
+- The agent writes code; it cannot see your page unless it has a browser. With the extension (setup below) it opens Chrome itself: navigates to http://localhost:3000, takes screenshots, reads console errors, clicks, types, scrolls
+- This closes the loop: edit → open the route → look → read the console → fix → look again. Without it the agent says "it should work". With it, it checks
+- Ask like this: "Open localhost:3000/experiments/w1/time-interval, check the console for errors, and tell me what you see". Or after a change: "Open the page and confirm the circle follows the mouse"
+- It runs in a visible Chrome window; you watch every click. Logged-in sites are visible to it too, so keep a separate Chrome profile for class if that bothers you
+- In the VS Code chat panel, type `@browser` to hand it the browser. In the terminal, `/chrome` shows status and reconnects when it drops
+- Docs: [Claude Code with Chrome](https://code.claude.com/docs/en/chrome)
+
+**Setup: Claude in Chrome (we do this together)**
+
+1. Install the [Claude in Chrome](https://chromewebstore.google.com/detail/claude/fcoeoabgfenejglbffodgkkbkcdhcgfn) extension in Chrome (also works in Brave, Edge, Arc). Sign in with the same account as Claude Code
+2. In the Claude Code terminal type `/chrome` and switch on **Enabled by default**. The status should read "Extension: Installed"
+3. Say: "Open localhost:3000 and tell me what you see". Chrome opens a tab by itself
 
 ## 2. The Frontend Landscape
 
@@ -44,19 +79,19 @@ Where the tools we use sit, so that tutorials, job posts and agents' suggestions
 - Language on top: <Term id="typescript" />. Javascript with types. What the industry writes now
 - UI frameworks (component model, state → view)
   - <Term id="react" /> (Meta) — the standard. What we use
-  - [Vue](https://vuejs.org/), [Svelte](https://svelte.dev/), [Angular](https://angular.dev/) — same job, different syntax and philosophy
+  - <Term id="vue" />, <Term id="svelte" />, <Term id="angular" /> — same job, different syntax and philosophy
 - Meta-frameworks (routing, server, build on top of a UI framework)
   - <Term id="nextjs" /> (Vercel, on React) — what we use
-  - [React Router / Remix](https://reactrouter.com/), [Astro](https://astro.build/), [Nuxt](https://nuxt.com/) (Vue), [SvelteKit](https://svelte.dev/docs/kit) (Svelte)
+  - <Term id="reactRouter" />, <Term id="astro" />, <Term id="nuxt" /> (Vue), <Term id="sveltekit" /> (Svelte)
 - Styling
   - <Term id="cssModules" /> — what we use. Plain CSS, scoped per file
-  - [Tailwind](https://tailwindcss.com/) (utility classes), [styled-components](https://styled-components.com/) (CSS-in-JS), [Sass](https://sass-lang.com/)
+  - <Term id="tailwind" /> (utility classes), <Term id="styledComponents" /> (CSS-in-JS), <Term id="sass" />
 - Runtime and packages (our pipeline)
-  - [Node.js](https://nodejs.org/) runs Javascript outside the browser. It is what `pnpm dev` and the socket relay run on
-  - Packages come from the [npm registry](https://www.npmjs.com/); <Term id="npm" />, <Term id="yarn" /> and <Term id="pnpm" /> are three tools that install from it. We use pnpm
+  - <Term id="nodejs" /> runs Javascript outside the browser. It is what `pnpm dev` and the socket relay run on
+  - Packages come from the <Term id="npmRegistry" />; <Term id="npm" />, <Term id="yarn" /> and <Term id="pnpm" /> are three tools that install from it. We use pnpm
 - Creative layers on top of all this
-  - <Term id="canvas" /> and [SVG](https://developer.mozilla.org/en-US/docs/Web/SVG) for 2D, [p5.js](https://p5js.org/) as the art-school wrapper
-  - [WebGL](https://developer.mozilla.org/en-US/docs/Web/API/WebGL_API) and [WebGPU](https://developer.mozilla.org/en-US/docs/Web/API/WebGPU_API) for the GPU, <Term id="threejs" /> on top, <Term id="glsl" /> inside
+  - <Term id="canvas" /> and <Term id="svg" /> for 2D, <Term id="p5js" /> as the art-school wrapper
+  - <Term id="webgl" /> and <Term id="webgpu" /> for the GPU, <Term id="threejs" /> on top, <Term id="glsl" /> inside
   - <Term id="webAudio" /> for sound, <Term id="websocket" /> for real-time
 
 ## 3. What is Next.js?
@@ -133,22 +168,16 @@ Two steps today, in this order: first a bare app from scratch, then my template.
 
 ```
 ✔ What is your project named? … scratch
-✔ Would you like to use TypeScript? … Yes
-✔ Would you like to use ESLint? … Yes
-✔ Would you like to use Tailwind CSS? … No
-✔ Would you like your code inside a `src/` directory? … No
-✔ Would you like to use App Router? (recommended) … Yes
-✔ Would you like to use Turbopack? … Yes
-✔ Would you like to customize the import alias (`@/*` by default)? … No
+✔ Would you like to use the recommended Next.js defaults? › Yes, use recommended defaults
 ```
 
-   - Name: `scratch` (anything). TypeScript **Yes**. Tailwind **No** (we use CSS Modules). `src/` No. App Router **Yes**. Turbopack Yes. Alias No
+   - Name: `scratch` (anything). Then **Yes, use recommended defaults**: TypeScript, ESLint, App Router, Tailwind, AGENTS.md. Done
 3. It prints `Success! Created scratch at …`. A new folder `scratch/` appeared in the file panel on the left, with the packages already installed
 4. Docs: [create-next-app](https://nextjs.org/docs/app/api-reference/cli/create-next-app)
 
 **Step 3. Start it**
 
-1. `cd scratch` → "change directory": the terminal now points inside the new folder. (Or: File → Open Folder → scratch, and open a new terminal)
+1. Open the new folder in a new window: **File → New Window**, then in that window **File → Open Folder… → `scratch`**. Then **Terminal → New Terminal**. One window = one project = one terminal pointed at it. Always do it this way; never `cd` around inside one terminal
 2. `pnpm dev` → "run the script called dev from package.json". That script is `next dev`: it starts a development server, which builds your pages on the fly and reloads the browser whenever you save a file. You see:
 
 ```
@@ -235,7 +264,7 @@ There are two ways to get it onto your computer. **Way A** is by hand, so you se
 
 **Way A · Step 2. Clone it to your computer**
 
-1. In VS Code, open the terminal in your projects folder (the same `Documents/code` as before, not inside `scratch`). Check with `pwd` (Mac) / `cd` (Windows): the terminal prints where it is
+1. **File → New Window**, then **File → Open Folder… → `Documents/code`** (your projects folder, not `scratch`). **Terminal → New Terminal**
 2. On your GitHub page, green **Code** button → copy the HTTPS URL. Then:
 
 ```
@@ -243,14 +272,14 @@ git clone https://github.com/YOURNAME/id412-yourname.git
 ```
 
    - `git clone` → "download this repository, with its history, into a new folder named like the repo"
-3. File → Open Folder… → `id412-yourname`. Open a new terminal (it now points inside the repo)
+3. **File → New Window**, then **File → Open Folder… → `id412-yourname`**. **Terminal → New Terminal**. This window is the one you will work in from now on
 4. `pnpm install` → reads `package.json`, downloads every package it lists into `node_modules/`. Takes a minute the first time. You run this once after cloning, and again only if `package.json` changes
 5. `pnpm dev` → http://localhost:3000. You see these notes, served from your own computer
 6. `git remote -v` → prints your GitHub URL. The clone is already connected to your repository; `git push` later goes there
 
 **Way B · With the agent**
 
-Step 1 (the GitHub copy) is still yours to click. Steps 2.1 to 2.5 can be Claude Code's. Open the terminal in your projects folder, type `claude`, and say:
+Step 1 (the GitHub copy) is still yours to click. Steps 2.2 to 2.5 can be Claude Code's. In the window opened on your projects folder, type `claude` in the terminal and say:
 
 > Clone https://github.com/YOURNAME/id412-yourname.git into this folder, install its dependencies with pnpm, and tell me the command to start it.
 
@@ -346,7 +375,26 @@ Now let's start coding! Most of these draw on a <Term id="canvas" /> or plain HT
 1. Simple Word Puzzle
 2. Experimental Typography
 
-## 9. GLSL
+## 9. Canvas
+
+<ImageRow
+  items={[
+    { src: "/lecture-materials/w1/canvas-sota-backend.jpg", alt: "SoTA, the Backend: monochrome lines depicting LLM token cross-similarities", caption: "SoTA (2024), the Backend: when the audience leaves, the screens flip to monochrome lines of LLM token cross-similarities. Drawn in the browser (this one is SVG; Canvas does the same job in pixels)", href: "https://www.xdlab.net/projects/sota" },
+  ]}
+  wide
+/>
+
+- What is <Term id="canvas" />?
+  - An HTML element that is a bitmap. You draw on it from Javascript: `getContext("2d")`, then `fillRect`, `arc`, `lineTo`, `drawImage`
+  - Nothing is remembered. Every frame you clear and draw again. The loop is `requestAnimationFrame`
+  - Canvas vs <Term id="svg" />: SVG is shapes in the DOM, sharp and styleable, fine up to hundreds of elements. Canvas is pixels: thousands of things, every frame
+- In React: `useRef` for the element, `useEffect` to start the loop and cancel it in cleanup, size it with `innerWidth/innerHeight` × `devicePixelRatio`
+- Parameters: time and the mouse, same as GLSL next. The difference: Canvas draws one shape at a time on the CPU; GLSL computes every pixel at once on the GPU
+- References
+  - MDN Canvas tutorial [LINK](https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial)
+  - The Nature of Code (Daniel Shiffman) [LINK](https://natureofcode.com/)
+
+## 10. GLSL
 
 <ImageRow
   items={[
@@ -381,7 +429,7 @@ Now let's start coding! Most of these draw on a <Term id="canvas" /> or plain HT
 3. Noise field
 4. Feedback
 
-## 10. Three.js
+## 11. Three.js
 
 <ImageRow
   logos
@@ -389,6 +437,13 @@ Now let's start coding! Most of these draw on a <Term id="canvas" /> or plain HT
     { src: "/lecture-materials/w1/logo-threejs.svg", alt: "Three.js", caption: "Three.js", href: "https://threejs.org/" },
     { src: "/lecture-materials/w1/logo-react.svg", alt: "React Three Fiber", caption: "+ React Three Fiber", href: "https://r3f.docs.pmnd.rs/" },
   ]}
+/>
+
+<ImageRow
+  items={[
+    { src: "/lecture-materials/w1/threejs-banpo-xism.jpg", alt: "Banpo-Xism, the 3D apartment field manifold on the media wall", caption: "Banpo-Xism (2026), the media wall: 3D apartment field manifold, Three.js", href: "https://banpo-xism.vercel.app/" },
+  ]}
+  wide
 />
 
 - What is <Term id="threejs" />?
@@ -416,13 +471,6 @@ Now let's start coding! Most of these draw on a <Term id="canvas" /> or plain HT
     - Easy-to-access Demo (No Installation)
     - 'Wow' Effect
     - Future of Web / WebXR
-- Why learn 3D Web Development?
-  - Simply better visual & aesthetic
-  - Potentially future of the web
-    - Future of Web UI
-    - Future of Immersive Web
-    - You can lead the scene!
-  - Steep Learning Curve… Start small & lean
 - Good Three.js Examples/References
   - Three.js Reference [LINK](https://threejs.org/examples/)
   - React-Three Fiber References [LINK](https://r3f.docs.pmnd.rs/getting-started/examples)
@@ -459,7 +507,7 @@ Now let's start coding! Most of these draw on a <Term id="canvas" /> or plain HT
    1. Gltf-2-jsx [LINK](https://gltf.pmnd.rs/)
 9. Environment Map
 
-## 11. Deployment
+## 12. Deployment
 
 <ImageRow
   logos
@@ -481,22 +529,12 @@ Now let's start coding! Most of these draw on a <Term id="canvas" /> or plain HT
 8. Tada!
 9. From now on, every `git push` redeploys
 
-## 12. Homework: Web Assignment 1
+## 13. Homework: Web Assignment 1
 
-**Environment Setup & Clone code your favourite website.** Not graded. Essential. Due before Web 2 (11/2).
+**Build a Creative Coding Experience.** Not graded. Essential. Due to Web 2 (11/2).
 
-1. Environment setup, done
-   - `pnpm dev` runs. Claude Code runs. Your template repository is on GitHub and deployed on Vercel
-   - Send me the Vercel URL
-2. Clone code your favourite website
-   - Pick one website whose look or interaction you love. A landing page, a portfolio, a tool. One page is enough
-   - Rebuild it in this repo as `app/experiments/w1/clone/page.tsx` (+ `page.module.css`). Not pixel-perfect. The feel: layout, type, colour, motion
-   - Deploy it. Send me the URL
-3. Tips for cloning with an agent
-   - Screenshot the page and give the screenshot to Claude Code. "Build this page in Next.js App Router with CSS Modules"
-   - Open DevTools (`Cmd+Option+I` / `F12`) → Elements. Hover over things. Read the fonts, the colours, the spacing. Paste what you find into your prompt
-   - Use the font (Google Fonts), the colour codes, the copy. Not their images. Use placeholders
-   - Build in layers: layout first, then typography, then colour, then motion. Commit after each layer
-   - When the agent gets it wrong, point at the exact element: "the header is 64px tall, yours is 100px"
-   - Interaction counts: scroll effects, hover states, a menu that opens. Pick one and get it right
-   - Write down what was easy and what was hard
+1. One single-device experience, in this repo, deployed on Vercel
+   - `app/experiments/w1/<name>/page.tsx`. Canvas, GLSL, or Three.js, your choice. Or all three
+   - It must change over time or respond to input (mouse, keyboard, scroll, microphone, camera)
+2. Think in parameters
+   - Write down the 3 to 5 parameters your visual has. Hook at least two of them to an input

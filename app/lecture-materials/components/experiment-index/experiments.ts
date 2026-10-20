@@ -2,7 +2,8 @@ import { readdirSync, readFileSync, statSync, existsSync } from "node:fs";
 import { join } from "node:path";
 
 // Scans app/experiments/<week>/<name>/ at build time. An experiment is any
-// folder with a page.tsx, or with mobile/ and screen/ pages. The description
+// folder with a page.tsx, or with mobile/ and screen/ pages. A folder with
+// neither (w1/glsl/) groups experiments one level down. The description
 // is the first paragraph after the title of its README.md.
 
 export type Experiment = {
@@ -46,27 +47,40 @@ export function listWeeks(): string[] {
     .sort();
 }
 
+function experimentAt(week: string, name: string, folder: string): Experiment | null {
+  const single = existsSync(join(folder, "page.tsx"));
+  const multi = existsSync(join(folder, "mobile", "page.tsx")) && existsSync(join(folder, "screen", "page.tsx"));
+  if (!single && !multi) return null;
+  return {
+    week,
+    name,
+    href: `/experiments/${week}/${name}${multi && !single ? "/screen" : ""}`,
+    description: describe(folder),
+    multiDevice: multi,
+    updated: new Date(newest(folder)).toISOString().slice(0, 10),
+  };
+}
+
 export function listExperiments(week: string): Experiment[] {
   const dir = join(ROOT, week);
   if (!existsSync(dir)) return [];
-  return readdirSync(dir, { withFileTypes: true })
-    .filter((entry) => entry.isDirectory())
-    .map((entry) => {
-      const folder = join(dir, entry.name);
-      const single = existsSync(join(folder, "page.tsx"));
-      const multi = existsSync(join(folder, "mobile", "page.tsx")) && existsSync(join(folder, "screen", "page.tsx"));
-      if (!single && !multi) return null;
-      return {
-        week,
-        name: entry.name,
-        href: `/experiments/${week}/${entry.name}${multi && !single ? "/screen" : ""}`,
-        description: describe(folder),
-        multiDevice: multi,
-        updated: new Date(newest(folder)).toISOString().slice(0, 10),
-      };
-    })
-    .filter((item): item is Experiment => item !== null)
-    .sort((a, b) => a.name.localeCompare(b.name));
+  const found: Experiment[] = [];
+  for (const entry of readdirSync(dir, { withFileTypes: true })) {
+    if (!entry.isDirectory()) continue;
+    const folder = join(dir, entry.name);
+    const direct = experimentAt(week, entry.name, folder);
+    if (direct) {
+      found.push(direct);
+      continue;
+    }
+    // A folder without a page of its own groups experiments: w1/glsl/default, w1/glsl/face-voronoi
+    for (const child of readdirSync(folder, { withFileTypes: true })) {
+      if (!child.isDirectory()) continue;
+      const nested = experimentAt(week, `${entry.name}/${child.name}`, join(folder, child.name));
+      if (nested) found.push(nested);
+    }
+  }
+  return found.sort((a, b) => a.name.localeCompare(b.name));
 }
 
 const labels: Record<string, string> = {

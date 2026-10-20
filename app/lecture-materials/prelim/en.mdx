@@ -31,17 +31,14 @@ You will
 **State of Software Engineering**
 
 - Model capability is not growing linearly. It is doubling.
-  - METR measures how long a software task (in human-expert time) a model can finish on its own
-  - 2023: minutes. 2025: hours. 2026: a full working day, and the benchmark can no longer keep up
-  - Doubling time: ~7 months (2019–2024), ~4 months since 2023
 
 <CapabilityChart />
 
-- What this means for Software Engineering
+- What this means for Creative Software Practice
   - Writing code is no longer the bottleneck. Knowing what you want is
   - **Imagination is the biggest bottleneck.**
   - 'Software' used to be expensive: a team, months, a budget. Now it is a prompt, an afternoon, and a laptop
-  - The value of 'software' itself is collapsing. Anyone can make software. Everyone will
+  - Anyone can make software. Everyone will
 
 <ImageRow
   items={[
@@ -63,7 +60,7 @@ You will
 - This is the Photography moment
   - Walter Benjamin, [*The Work of Art in the Age of Mechanical Reproduction*](https://en.wikipedia.org/wiki/The_Work_of_Art_in_the_Age_of_Mechanical_Reproduction) (1935)
   - Before photography, making an image required years of training. Painting was a craft, and the craft was the gate
-  - Photography made the image infinitely reproducible. The 'aura' of the hand-made image collapsed
+  - Photography made the image rapidly reproducible. The 'aura' of the hand-made image collapsed
   - Art did not die. Painting was freed from the obligation to depict. Impressionism, Abstraction, Dada, Conceptual Art… Modern Art exploded *precisely because* the image became cheap
   - I actually created an artwork about this: [SoTA (State-of-the-Art)](https://www.xdlab.net/projects/sota)
 
@@ -85,8 +82,8 @@ You will
     />
 
 - 2020s: the same thing is happening to software
-  - AI made software infinitely reproducible. The craft of 'building' is no longer the gate
-  - This frees not only software engineering, but artistic expression that uses software. The constraint 'you must be able to build it first' is gone
+  - AI made software rapidly reproducible. The craft of 'building' is no longer the gate
+  - This frees artistic expression that uses software. The constraint 'you must be able to build it first' is gone
   - Making software is now easier than painting. Arguably much easier
   - Paradoxically, this is why artistic experiments with software will explode. Cheap medium → wild experimentation. Just like Photography → Modern Art
 - A very important, and very interesting time
@@ -134,36 +131,35 @@ Click a keyword to see what it is, how this workshop uses it, and where to learn
 
 Advanced Techniques
 
-- Creative Coding (<Term id="canvas" />), <Term id="glsl" />, <Term id="threejs" /> (W1)
-- <Term id="socketio" />, Multi-Device Interaction (W2)
-- <Term id="api">APIs</Term>, Sound (<Term id="tonejs" />), <Term id="unreal" /> (W3)
+- W1 — Introduction to Creative Coding: <Term id="canvas" />, <Term id="glsl" />, <Term id="threejs" />
+- W2 — Multi-Device Setup & Cross-Device Interaction: <Term id="socketio" />
+- W3 — Building Systems: <Term id="api">APIs</Term>, Sound (<Term id="tonejs" />), <Term id="unreal" />
 
 These topics are super useful to produce creative outputs using Web.
-
-**Speculating the future of Coding within the Post-LLM**
-
-- Language-based tools with Strong & Large Community will Dominate
-  - React/Next based Frontend Coding
-  - Visual-based/Node-based programming might lose attraction
-- Lots of traditional Web Developers (might) lose their jobs
-- BUT Professionals with Domain Knowledge can now integrate Programming very flexibly: It's an opportunity for you, as designers, to leverage this chance as much as you can
-- In a near future, programming will become more and more easier
-  - This lecture is already easier than what it should be a year ago, and will be easier next year
-- Please update yourself on the latest trends and do not hesitate to integrate coding/programming extensively within your design practice/research
 
 **XD Lab References: Web-based Creative Output**
 
 - Passage of Water (2023): Three.js (W1) + Data Vis + Video (W1)
+  - Climate change, seen through Earth's water
+  - Scroll → NASA satellite data turns into a 3D story
   - https://www.xdlab.net/projects/passage-of-water
   - http://goo.gle/passageofwater
 - SoTA (2024): Multi-Device Web Artwork (Socket.io, W2) + GPT API (W3) + Three.js (W1)
+  - Bigger AI, for whom?
+  - Phone → explore 118 neural networks in 3D. Leave → screens collapse into noise
   - https://www.xdlab.net/projects/sota
 - Uncharted Territory (2024): Mix of Video (W1) + Three.js (W1)
+  - Earth, if we do nothing
+  - Turn the Earth → drought, wildfire, extinction
   - https://www.xdlab.net/projects/uncharted-territory
 - Ω (2025): Multi-Device Web Artwork (Socket.io, W2) + GPT API (W3)
+  - You are not your MBTI
+  - Phone → GPT quiz → your type on the big screen. Shake → it glitches, your camera overwrites it
   - https://www.xdlab.net/projects/omega
 - Banpo-Xism (2026): Multi-Device Web Artwork (Socket.io, W2) + Three.js (W1)
-  - https://www.xdlab.net/projects/banpo-xism
+  - Korean apartments as a myth of status
+  - Phone → scroll the feed, climb the ranks. Enter a higher dimension → the plane folds on the big screen
+  - https://www.xdlab.net/projects/banpo-xism · live: https://banpo-xism.vercel.app/
 
 <ImageRow
   items={[
@@ -171,7 +167,7 @@ These topics are super useful to produce creative outputs using Web.
     { src: "/lecture-materials/prelim/xd-sota.webp", alt: "SoTA", caption: "SoTA (2024)", href: "https://www.xdlab.net/projects/sota" },
     { src: "/lecture-materials/prelim/xd-uncharted-territory.webp", alt: "Uncharted Territory", caption: "Uncharted Territory (2024)", href: "https://www.xdlab.net/projects/uncharted-territory" },
     { src: "/lecture-materials/prelim/xd-omega.webp", alt: "Omega", caption: "Ω (2025)", href: "https://www.xdlab.net/projects/omega" },
-    { src: "/lecture-materials/prelim/xd-banpo-xism.webp", alt: "Banpo-Xism", caption: "Banpo-Xism (2026)", href: "https://www.xdlab.net/projects/banpo-xism" },
+    { src: "/lecture-materials/prelim/xd-banpo-xism.webp", alt: "Banpo-Xism", caption: "Banpo-Xism (2026)", href: "https://banpo-xism.vercel.app/" },
   ]}
 />
 
@@ -195,7 +191,10 @@ These topics are super useful to produce creative outputs using Web.
 **Coding Agents**
 
 - A coding agent = a model + tools. It reads your files, edits them, runs commands, reads the errors, and tries again. You describe, it builds, you review
-- [Codex](https://chatgpt.com/codex) (OpenAI): CLI, VS Code extension, cloud. Included in ChatGPT plans. Runs GPT-6 Astra / GPT-6.1 Sol
+- Agent = model + tools + a loop. The model decides the next step, a tool does it (read file, edit file, run `pnpm dev`, take a screenshot), the result goes back to the model, repeat. Every step is shown to you and can be stopped
+- Its memory is the context window of the conversation. Everything it knows about your project comes from what it read this session, plus `AGENTS.md` (below)
+- Permissions: it asks before running a command or touching a file outside the project. Read the command. If it makes sense, approve. "Allow all" is for later
+- [Codex](https://chatgpt.com/codex) (OpenAI): <Term id="cli">CLI</Term>, VS Code extension, cloud. Included in ChatGPT plans. Runs GPT-6 Astra / GPT-6.1 Sol
 - <Term id="claudeCode" /> (Anthropic): terminal, VS Code extension, desktop app, web. Needs a Claude subscription. Runs Claude Opus 5.5 / Fable 5.1
 - [Cursor AI](https://cursor.com/), [GitHub Copilot](https://github.com/features/copilot), [Gemini CLI](https://github.com/google-gemini/gemini-cli): AI-integrated editors and other CLIs. Same idea, different vendors
 - **We use VS Code + Claude Code**, with Claude Opus 5.5
@@ -203,7 +202,7 @@ These topics are super useful to produce creative outputs using Web.
 **Basic setup: VS Code + Claude Code**
 
 1. Install <Term id="vscode" />: https://code.visualstudio.com/Download
-2. Install Claude Code (the CLI). Open a terminal and run
+2. Install Claude Code (the <Term id="cli">CLI</Term>). Open a terminal and run
    - macOS: `curl -fsSL https://claude.ai/install.sh | bash`
    - Windows PowerShell: `irm https://claude.ai/install.ps1 | iex`
    - Open a new terminal, type `claude --version`. A version number means it worked
@@ -211,9 +210,11 @@ These topics are super useful to produce creative outputs using Web.
    - Open the Extensions view: `Cmd+Shift+X` (Mac) / `Ctrl+Shift+X` (Windows)
    - Search "Claude Code" (publisher: Anthropic) → Install
    - Open the Command Palette (`Cmd+Shift+P` / `Ctrl+Shift+P`), type "Claude Code", select **Open in New Tab**
-4. Open your project folder in VS Code, open the terminal (`` Ctrl+` ``), type `claude`
-5. Log in with the class account (below)
-6. Type `/model` and select **Claude Opus 5.5**
+4. Install the [Claude in Chrome](https://chromewebstore.google.com/detail/claude/fcoeoabgfenejglbffodgkkbkcdhcgfn) extension in Chrome (also works in Brave, Edge, Arc). Sign in with the same account as Claude Code
+5. Open your project folder in VS Code, open the terminal (`` Ctrl+` ``), type `claude`
+6. Log in with the class account (below)
+7. Type `/model` and select **Claude Opus 5.5**
+8. Type `/chrome` and switch on **Enabled by default**. The status should read "Extension: Installed"
 
 **Class account (shared)**
 
@@ -234,29 +235,47 @@ These topics are super useful to produce creative outputs using Web.
 - One task at a time. Small steps, each one checked in the browser
 - `AGENTS.md` in the repo tells the agent the rules of this project. More in W1
 
+**<Term id="harness">Harness</Term> Engineering**
+
+- The model is the same for everyone. What makes an agent good *on your project* is everything around the model: the **harness**
+- The harness is: the rules it reads first (<Term id="agentsMd" />), the guides it is pointed to (`docs/`), the memory it leaves behind (one `README.md` per experiment), the checks it must pass (`pnpm typecheck`, `pnpm build`, open the route in the browser), and the checkpoints it saves (`git commit` when something works)
+- Without a harness the agent guesses: wrong folder, Tailwind you didn't ask for, Pages Router from 2023, "it works" without ever opening the page. With one, it does the same thing the same way every time
+- State of the art, Oct 2026: `AGENTS.md` is the cross-vendor standard (Codex, Claude Code, Cursor, Gemini all read it; [agents.md](https://agents.md/)). Next.js writes its own block into it. On top of that: hooks (run typecheck after every edit), skills (reusable procedures), MCP (tools like the browser). The harness is now a bigger lever than the prompt
+- This template ships with a harness. Read `AGENTS.md` and `docs/` once; the agent reads them every session. When it keeps making the same mistake, fix the harness, not the prompt
+
+**Browser Tool: Claude in Chrome**
+
+- The agent writes code; it cannot see your page unless it has a browser. With the extension (setup step 4 and 8) it opens Chrome itself: navigates to http://localhost:3000, takes screenshots, reads console errors, clicks, types, scrolls
+- This closes the loop: edit → open the route → look → read the console → fix → look again. Without it the agent says "it should work". With it, it checks
+- Ask like this: "Open localhost:3000/experiments/w1/time-interval, check the console for errors, and tell me what you see". Or after a change: "Open the page and confirm the circle follows the mouse"
+- It runs in a visible Chrome window; you watch every click. Logged-in sites are visible to it too, so keep a separate Chrome profile for class if that bothers you
+- In the VS Code chat panel, type `@browser` to hand it the browser. In the terminal, `/chrome` shows status and reconnects when it drops
+- Docs: [Claude Code with Chrome](https://code.claude.com/docs/en/chrome)
+
+We do the Chrome setup together in W1 §1.
+
 ## 6. Schedule & Assignments
 
 | Week   | Date  | Agenda                                                     | Assignment                                                                     |
 | ------ | ----- | ---------------------------------------------------------- | ------------------------------------------------------------------------------ |
-| Web 1  | 10/26 | Creative Coding (Canvas, GLSL, Three.js)                   | Web Assignment 1: Environment Setup & Clone code your favourite website        |
-| Web 2  | 11/2  | Cross-Device Interaction (WebSocket)                       | Web Assignment 2: Build Creative Coding Experience                             |
-| Web 3  | 11/16 | Integrating System (API, Sound, Mobile, Unreal)            | Web Assignment 3: Build Mobile-to-Laptop Interactive Experience                |
+| Web 1  | 10/26 | Creative Coding (Canvas, GLSL, Three.js)                   | Web Assignment 1: Build Creative Coding Experience                             |
+| Web 2  | 11/2  | Cross-Device Interaction (WebSocket)                       | Web Assignment 2: Build Mobile-to-Laptop Interactive Experience                |
+| Web 3  | 11/16 | Integrating System (API, Sound, Mobile, Unreal)            | —                                                                              |
 
 Final Term: COACTIVITY — Interactive audio-visual installation (Sound mandatory), Unreal or Web, 1st-floor Black Room.
 
 **Homework**
 
-- Every week ends with a homework. It is **not graded**, but it is essential for your learning. Do it
+- Web 1 and Web 2 end with a homework. It is **not graded**, but it is essential for your learning. Do it
 - Before Web 1: the Tutorial HW below (HTML/CSS/JS + React, installation, self quiz)
-- After Web 1: Web Assignment 1 (see the end of W1)
-- After Web 2: Web Assignment 2 (see the end of W2)
-- After Web 3: Web Assignment 3 (see the end of W3)
+- Web Assignment 1: due to Web 2 (see the end of W1)
+- Web Assignment 2: due to Web 3 (see the end of W2)
 
 ## 7. Class Tools
 
 - VS Code + Claude Code (Your Code Editor + Your Coding Agent)
 - localhost:3000 (Your Live localhost)
-- Lecture Notes (This website)
+- Lecture Notes (this website: https://id412.xdlab.net)
 - Real-time Code Sharing
 
 ## 8. Notes
@@ -283,7 +302,7 @@ And will need to install
 - Node.js (LTS) + pnpm
 - Git
 - Visual Studio Code
-- Claude Code (CLI + VS Code extension)
+- Claude Code (<Term id="cli">CLI</Term> + VS Code extension)
 - Create your GitHub account
 
 Detailed Instruction:

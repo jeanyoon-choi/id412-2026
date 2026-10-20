@@ -45,6 +45,19 @@
   color: var(--muted);
 }
 
+/* A glossary panel opened inside a cell takes the full row and normal text colour */
+.ours > div,
+.other > div {
+  flex: 1 1 100%;
+  font-weight: 400;
+  color: var(--fg);
+}
+
+.ours,
+.other {
+  display: contents;
+}
+
 .side {
   padding: 0.6rem 0.75rem;
   border: 1px solid var(--rule);

@@ -6,7 +6,7 @@ Where in-class code and homework live. `/experiments` and `/experiments/<week>` 
 
 ## Creating an experiment
 
-1. Folder: `app/experiments/<week>/<kebab-name>/`. Name it after what it does (`mouse-trail`, `tilt-particles`), not after the week or a number.
+1. Folder: `app/experiments/<week>/<kebab-name>/`. Name it after what it does (`mouse-trail`, `tilt-particles`), not after the week or a number. Look in the week folder first: if a group folder for the same tech exists (`w1/glsl/`), put it inside: `app/experiments/w1/glsl/<kebab-name>/`.
 2. Files inside, and only inside:
    - `page.tsx` — the route. `"use client"` on line 1 if it uses state, effects, refs, events or browser APIs.
    - `page.module.css` — its styles, if any.
@@ -53,6 +53,6 @@ No code dumps, no installation guides, no restating the lecture notes. If it is 
 
 - Canvas: `useRef` for the element, `useEffect` to start a `requestAnimationFrame` loop, cancel it in cleanup, size with `innerWidth/innerHeight` × `devicePixelRatio`.
 - Three.js: `<Canvas>` + `useFrame` from `@react-three/fiber`, helpers from `@react-three/drei`. Sane particle counts and shader cost for a laptop GPU.
-- GLSL: shader source as a template string in a `.ts` file next to `page.tsx`, passed to `ShaderMaterial`; uniforms for time, mouse, resolution.
+- GLSL: shader source as a template string in `shader.ts` next to `page.tsx`; uniforms for time, mouse, resolution. Raw WebGL2 as in `app/experiments/w1/glsl/hello-fragment-shader` (copy its `renderer.ts`), or `ShaderMaterial` inside a Three.js scene.
 - Sound: `await Tone.start()` inside a user gesture handler before anything plays.
 - Full-screen experiments: `position: fixed; inset: 0` on the root, no scroll, nothing from the lecture site's layout is assumed.

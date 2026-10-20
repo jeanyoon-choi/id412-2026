@@ -6,7 +6,7 @@ import { StackDiagram } from "@/app/lecture-materials/components/stack-diagram/s
 
 1주차. 크리에이티브 웹 개발 입문.
 
-## 1. VS Code + Claude Code 셋업 [#1-vs-code--claude-code-setup]
+## 1. AI 에이전트: VS Code + Claude Code [#1-vs-code--claude-code-setup]
 
 <ImageRow
   logos
@@ -18,21 +18,56 @@ import { StackDiagram } from "@/app/lecture-materials/components/stack-diagram/s
 
 1. <Term id="vscode" /> (Visual Studio Code) = 네 에디터 (코드를 쓰는 곳)
 2. <Term id="claudeCode" /> = 네 코딩 에이전트 (같이 코드를 쓰는 존재)
-   1. LLM(ChatGPT, Claude AI)이 등장한 뒤 많은 개발자가 프로그래밍에 LLM을 끌어들이기 시작했다
-   2. AI 통합 에디터([Cursor AI](https://cursor.com/), [GitHub Copilot](https://github.com/features/copilot))가 먼저 왔다. 지금은 에이전트가 에디터 터미널 안에서 CLI(Command Line Interface)로 돌면서 파일을 읽고 고치고 명령을 실행한다
-   3. 대안: [OpenAI Codex](https://chatgpt.com/codex), [Gemini CLI](https://github.com/google-gemini/gemini-cli), [Cursor AI](https://cursor.com/)
-   4. 아직 새롭다. 다음 '게임 체인저'는 몇 달 안에 바뀔 수 있다
-3. 설치: Claude Code CLI + VS Code의 Claude Code 확장 (단계별 설명은 [Prelim 5절](/lecture-materials/prelim#5-how-to-use-ai-agents))
+   - 대안: [OpenAI Codex](https://chatgpt.com/codex), [Gemini CLI](https://github.com/google-gemini/gemini-cli), [Cursor AI](https://cursor.com/), [GitHub Copilot](https://github.com/features/copilot)
+3. 설치: Claude Code <Term id="cli">CLI</Term> + VS Code의 Claude Code 확장 (단계별 설명은 [Prelim 5절](/lecture-materials/prelim#5-how-to-use-ai-agents))
 4. VS Code에서 프로젝트 폴더를 열고, 터미널을 열고, `claude` 입력
 5. 모델 (platform.claude.com 가격, 100만 토큰당)
    1. Claude Fable 5.1: 입력 $10 / 출력 $50
    2. Claude Opus 5.5: 입력 $4 / 출력 $20
    3. 수업에서는 비용 때문에 Opus 5.5를 쓴다. Claude Code 안에서 `/model`로 바꾼다
-6. 하네스: <Term id="agentsMd" />
-7. 체크포인트로서의 <Term id="git" />
+6. <Term id="harness">하네스</Term>: <Term id="agentsMd" /> + `docs/` + 실험별 README + 타입체크 + 커밋. 아래
+7. 브라우저: `/chrome` 켜기. 에이전트가 localhost:3000을 직접 열어 자기 작업을 확인한다. 아래
+8. 체크포인트로서의 <Term id="git" />
    1. `git diff`: 에이전트가 뭘 바꿨지?
    2. `git restore .`: 에이전트가 바꾼 걸 버린다
    3. `git add .` + `git commit -m "..."`: 돌아올 수 있는 체크포인트를 남긴다
+
+**코딩 에이전트란**
+
+- 챗봇은 대답한다. 코딩 에이전트는 **행동한다**: 네 파일을 읽고, 고치고, 명령을 실행하고, 에러를 읽고, 브라우저를 열고, 될 때까지 다시 시도한다. 네가 설명하면 만들고, 네가 검토한다
+- 에이전트 = 모델 + 도구 + 루프. 모델이 다음 단계를 정하고, 도구가 실행하고(파일 읽기, 파일 고치기, `pnpm dev` 실행, 스크린샷), 결과가 모델로 돌아가고, 반복. 모든 단계가 네게 보이고 멈출 수 있다
+- 기억은 이 대화의 컨텍스트 윈도우다. 네 프로젝트에 대해 아는 건 이번 세션에 읽은 것, 그리고 `AGENTS.md`(아래)가 전부다
+- 권한: 명령을 실행하거나 프로젝트 밖 파일을 건드리기 전에 물어본다. 명령을 읽어라. 말이 되면 승인. "Allow all"은 나중에
+
+**에이전트와 일하는 법**
+
+- 원하는 걸 구체적으로 말해라. "App Router"라고 말하고, 어느 파일인지 말하고, 에러를 붙여넣어라
+- 믿기 전에 뭘 바꿨는지 읽어라: `git diff`. 버리려면 `git restore .`, 남기려면 `git commit`
+- 한 번에 한 가지. 작은 단계로, 매번 브라우저에서 확인
+- 레포의 `AGENTS.md`가 에이전트에게 이 프로젝트의 규칙을 알려준다. 다음 블록
+
+**<Term id="harness">하네스</Term> 엔지니어링**
+
+- 모델은 모두에게 같다. *네 프로젝트에서* 에이전트를 잘 돌게 하는 건 모델 주변의 모든 것, **하네스**다
+- 하네스란: 처음에 읽는 규칙(<Term id="agentsMd" />), 안내받는 가이드(`docs/`), 남기고 가는 기억(실험마다 `README.md` 하나), 통과해야 하는 검사(`pnpm typecheck`, `pnpm build`, 브라우저에서 라우트 열기), 저장하는 체크포인트(되면 `git commit`)
+- 하네스가 없으면 에이전트는 추측한다: 엉뚱한 폴더, 시키지도 않은 Tailwind, 2023년의 Pages Router, 페이지를 열어보지도 않고 "됩니다". 있으면 매번 같은 일을 같은 방식으로 한다
+- 2026년 10월 현재: `AGENTS.md`가 회사를 가로지르는 표준이다 (Codex, Claude Code, Cursor, Gemini 전부 읽는다; [agents.md](https://agents.md/)). Next.js는 자기 블록을 거기에 써넣는다. 그 위에: 훅(수정할 때마다 타입체크), 스킬(재사용 절차), MCP(브라우저 같은 도구). 이제 프롬프트보다 하네스가 더 큰 레버다
+- 이 템플릿에는 하네스가 들어 있다. `AGENTS.md`와 `docs/`를 한 번 읽어라. 에이전트는 매 세션 읽는다. 같은 실수를 반복하면 프롬프트가 아니라 하네스를 고쳐라
+
+**브라우저 도구: Claude in Chrome**
+
+- 에이전트는 코드를 쓴다. 브라우저가 없으면 네 페이지를 볼 수 없다. 확장(아래 셋업)이 있으면 직접 Chrome을 연다: http://localhost:3000 로 가고, 스크린샷을 찍고, 콘솔 에러를 읽고, 클릭하고, 입력하고, 스크롤한다
+- 이게 루프를 닫는다: 고치기 → 라우트 열기 → 보기 → 콘솔 읽기 → 고치기 → 다시 보기. 없으면 에이전트는 "될 겁니다"라고 한다. 있으면 확인한다
+- 이렇게 시켜라: "localhost:3000/experiments/w1/time-interval 열고, 콘솔 에러 확인하고, 뭐가 보이는지 말해줘". 고친 다음엔: "페이지 열어서 원이 마우스를 따라오는지 확인해"
+- 눈에 보이는 Chrome 창에서 돈다. 클릭 하나하나 네가 본다. 로그인된 사이트도 보이니까, 신경 쓰이면 수업용 Chrome 프로필을 따로 만들어라
+- VS Code 채팅 패널에서는 `@browser`를 치면 브라우저를 넘긴다. 터미널에서는 `/chrome`이 상태를 보여주고, 끊기면 다시 연결한다
+- 문서: [Claude Code with Chrome](https://code.claude.com/docs/en/chrome)
+
+**셋업: Claude in Chrome (같이 한다)**
+
+1. Chrome에 [Claude in Chrome](https://chromewebstore.google.com/detail/claude/fcoeoabgfenejglbffodgkkbkcdhcgfn) 확장 설치 (Brave, Edge, Arc도 됨). Claude Code와 같은 계정으로 로그인
+2. Claude Code 터미널에 `/chrome` 입력 후 **Enabled by default** 켜기. 상태에 "Extension: Installed"가 보여야 한다
+3. 말해라: "localhost:3000 열고 뭐가 보이는지 말해줘". Chrome이 알아서 탭을 연다
 
 ## 2. 프론트엔드 지형 [#2-the-frontend-landscape]
 
@@ -44,19 +79,19 @@ import { StackDiagram } from "@/app/lecture-materials/components/stack-diagram/s
 - 그 위의 언어: <Term id="typescript" />. 타입이 있는 Javascript. 지금 업계가 쓰는 것
 - UI 프레임워크 (컴포넌트 모델, 상태 → 화면)
   - <Term id="react" /> (Meta) — 표준. 우리가 쓰는 것
-  - [Vue](https://vuejs.org/), [Svelte](https://svelte.dev/), [Angular](https://angular.dev/) — 같은 일, 다른 문법과 철학
+  - <Term id="vue" />, <Term id="svelte" />, <Term id="angular" /> — 같은 일, 다른 문법과 철학
 - 메타 프레임워크 (UI 프레임워크 위에 라우팅, 서버, 빌드)
   - <Term id="nextjs" /> (Vercel, React 위) — 우리가 쓰는 것
-  - [React Router / Remix](https://reactrouter.com/), [Astro](https://astro.build/), [Nuxt](https://nuxt.com/) (Vue), [SvelteKit](https://svelte.dev/docs/kit) (Svelte)
+  - <Term id="reactRouter" />, <Term id="astro" />, <Term id="nuxt" /> (Vue), <Term id="sveltekit" /> (Svelte)
 - 스타일링
   - <Term id="cssModules" /> — 우리가 쓰는 것. 평범한 CSS, 파일 단위 스코프
-  - [Tailwind](https://tailwindcss.com/) (유틸리티 클래스), [styled-components](https://styled-components.com/) (CSS-in-JS), [Sass](https://sass-lang.com/)
+  - <Term id="tailwind" /> (유틸리티 클래스), <Term id="styledComponents" /> (CSS-in-JS), <Term id="sass" />
 - 런타임과 패키지 (우리의 파이프라인)
-  - [Node.js](https://nodejs.org/)가 브라우저 밖에서 Javascript를 돌린다. `pnpm dev`와 소켓 relay가 그 위에서 돈다
-  - 패키지는 [npm 레지스트리](https://www.npmjs.com/)에서 온다. <Term id="npm" />, <Term id="yarn" />, <Term id="pnpm" />은 거기서 설치하는 세 가지 도구. 우리는 pnpm
+  - <Term id="nodejs" />가 브라우저 밖에서 Javascript를 돌린다. `pnpm dev`와 소켓 relay가 그 위에서 돈다
+  - 패키지는 <Term id="npmRegistry">npm 레지스트리</Term>에서 온다. <Term id="npm" />, <Term id="yarn" />, <Term id="pnpm" />은 거기서 설치하는 세 가지 도구. 우리는 pnpm
 - 이 모든 것 위의 크리에이티브 레이어
-  - 2D는 <Term id="canvas" />와 [SVG](https://developer.mozilla.org/en-US/docs/Web/SVG), 미대용 래퍼로 [p5.js](https://p5js.org/)
-  - GPU는 [WebGL](https://developer.mozilla.org/en-US/docs/Web/API/WebGL_API)과 [WebGPU](https://developer.mozilla.org/en-US/docs/Web/API/WebGPU_API), 그 위에 <Term id="threejs" />, 그 안에 <Term id="glsl" />
+  - 2D는 <Term id="canvas" />와 <Term id="svg" />, 미대용 래퍼로 <Term id="p5js" />
+  - GPU는 <Term id="webgl" />과 <Term id="webgpu" />, 그 위에 <Term id="threejs" />, 그 안에 <Term id="glsl" />
   - 소리는 <Term id="webAudio" />, 실시간은 <Term id="websocket" />
 
 ## 3. Next.js란? [#3-what-is-nextjs]
@@ -133,22 +168,16 @@ Node와 pnpm은 [Prelim](/lecture-materials/prelim#tutorial-hw)에서 이미 설
 
 ```
 ✔ What is your project named? … scratch
-✔ Would you like to use TypeScript? … Yes
-✔ Would you like to use ESLint? … Yes
-✔ Would you like to use Tailwind CSS? … No
-✔ Would you like your code inside a `src/` directory? … No
-✔ Would you like to use App Router? (recommended) … Yes
-✔ Would you like to use Turbopack? … Yes
-✔ Would you like to customize the import alias (`@/*` by default)? … No
+✔ Would you like to use the recommended Next.js defaults? › Yes, use recommended defaults
 ```
 
-   - 이름: `scratch` (아무거나). TypeScript **Yes**. Tailwind **No** (우리는 CSS Modules). `src/` No. App Router **Yes**. Turbopack Yes. Alias No
+   - 이름: `scratch` (아무거나). 그다음 **Yes, use recommended defaults**: TypeScript, ESLint, App Router, Tailwind, AGENTS.md. 끝
 3. `Success! Created scratch at …`가 찍힌다. 왼쪽 파일 패널에 `scratch/` 폴더가 생겼고, 패키지도 이미 설치돼 있다
 4. 문서: [create-next-app](https://nextjs.org/docs/app/api-reference/cli/create-next-app)
 
 **3단계. 켜기**
 
-1. `cd scratch` → "change directory": 터미널이 이제 새 폴더 안을 가리킨다. (또는 File → Open Folder → scratch, 그리고 새 터미널)
+1. 새 폴더를 새 창에서 연다: **File → New Window**, 그 창에서 **File → Open Folder… → `scratch`**. 그다음 **Terminal → New Terminal**. 창 하나 = 프로젝트 하나 = 그 폴더를 가리키는 터미널 하나. 항상 이렇게 해라. 터미널 하나에서 `cd`로 돌아다니지 마라
 2. `pnpm dev` → "package.json의 dev라는 스크립트를 실행해라". 그 스크립트가 `next dev`다. 개발 서버를 켜서, 페이지를 즉석에서 만들고, 파일을 저장할 때마다 브라우저를 새로고침한다. 이렇게 보인다:
 
 ```
@@ -235,7 +264,7 @@ export default function Hello() {
 
 **방법 A · 2단계. 내 컴퓨터로 클론하기**
 
-1. VS Code에서 프로젝트 폴더(아까의 `Documents/code`, `scratch` 안이 아니라)에서 터미널을 연다. `pwd` (Mac) / `cd` (Windows)로 확인: 터미널이 지금 어디인지 찍어준다
+1. **File → New Window**, 그다음 **File → Open Folder… → `Documents/code`** (프로젝트 폴더, `scratch`가 아니라). **Terminal → New Terminal**
 2. 네 GitHub 페이지에서 초록 **Code** 버튼 → HTTPS URL 복사. 그리고:
 
 ```
@@ -243,14 +272,14 @@ git clone https://github.com/YOURNAME/id412-yourname.git
 ```
 
    - `git clone` → "이 레포를 히스토리까지 통째로, 레포 이름의 새 폴더에 내려받아라"
-3. File → Open Folder… → `id412-yourname`. 새 터미널을 연다 (이제 레포 안을 가리킨다)
+3. **File → New Window**, 그다음 **File → Open Folder… → `id412-yourname`**. **Terminal → New Terminal**. 앞으로는 이 창에서 작업한다
 4. `pnpm install` → `package.json`을 읽고, 적힌 패키지를 전부 `node_modules/`에 내려받는다. 처음엔 1분쯤 걸린다. 클론 직후 한 번, 그리고 `package.json`이 바뀔 때만 다시 한다
 5. `pnpm dev` → http://localhost:3000. 이 노트가 네 컴퓨터에서 뜬다
 6. `git remote -v` → 네 GitHub URL이 찍힌다. 클론은 이미 네 레포에 연결돼 있다. 나중에 `git push`하면 거기로 간다
 
 **방법 B · 에이전트에게 시키기**
 
-1단계(GitHub 사본)는 여전히 네가 클릭한다. 2단계의 1~5는 Claude Code가 해도 된다. 프로젝트 폴더에서 터미널을 열고 `claude`를 치고, 이렇게 말한다:
+1단계(GitHub 사본)는 여전히 네가 클릭한다. 2단계의 2~5는 Claude Code가 해도 된다. 프로젝트 폴더를 연 창의 터미널에 `claude`를 치고, 이렇게 말한다:
 
 > https://github.com/YOURNAME/id412-yourname.git 을 이 폴더에 클론하고, pnpm으로 의존성을 설치하고, 실행하는 명령을 알려줘.
 
@@ -346,7 +375,26 @@ git clone https://github.com/YOURNAME/id412-yourname.git
 1. 단순 워드 퍼즐
 2. 실험적 타이포그래피
 
-## 9. GLSL [#9-glsl]
+## 9. Canvas [#9-canvas]
+
+<ImageRow
+  items={[
+    { src: "/lecture-materials/w1/canvas-sota-backend.jpg", alt: "SoTA 백엔드: LLM 토큰 상호유사도를 그린 흑백 선", caption: "SoTA (2024), 백엔드: 관객이 떠나면 화면이 LLM 토큰 상호유사도의 흑백 선으로 바뀐다. 브라우저에서 그렸다 (이건 SVG. Canvas는 같은 일을 픽셀로 한다)", href: "https://www.xdlab.net/projects/sota" },
+  ]}
+  wide
+/>
+
+- <Term id="canvas" />란?
+  - 비트맵인 HTML 요소. Javascript에서 그린다: `getContext("2d")`, 그다음 `fillRect`, `arc`, `lineTo`, `drawImage`
+  - 아무것도 기억하지 않는다. 매 프레임 지우고 다시 그린다. 루프는 `requestAnimationFrame`
+  - Canvas vs <Term id="svg" />: SVG는 DOM 안의 도형, 선명하고 CSS로 꾸밀 수 있고, 수백 개까지는 괜찮다. Canvas는 픽셀: 수천 개를, 매 프레임
+- React에서: `useRef`로 요소를 잡고, `useEffect`에서 루프를 시작하고 cleanup에서 취소, 크기는 `innerWidth/innerHeight` × `devicePixelRatio`
+- 파라미터: 시간과 마우스. 다음의 GLSL과 같다. 차이: Canvas는 CPU에서 도형을 하나씩 그리고, GLSL은 GPU에서 모든 픽셀을 한 번에 계산한다
+- 레퍼런스
+  - MDN Canvas 튜토리얼 [LINK](https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial)
+  - The Nature of Code (Daniel Shiffman) [LINK](https://natureofcode.com/)
+
+## 10. GLSL [#10-glsl]
 
 <ImageRow
   items={[
@@ -381,7 +429,7 @@ git clone https://github.com/YOURNAME/id412-yourname.git
 3. 노이즈 필드
 4. 피드백
 
-## 10. Three.js [#10-threejs]
+## 11. Three.js [#11-threejs]
 
 <ImageRow
   logos
@@ -389,6 +437,13 @@ git clone https://github.com/YOURNAME/id412-yourname.git
     { src: "/lecture-materials/w1/logo-threejs.svg", alt: "Three.js", caption: "Three.js", href: "https://threejs.org/" },
     { src: "/lecture-materials/w1/logo-react.svg", alt: "React Three Fiber", caption: "+ React Three Fiber", href: "https://r3f.docs.pmnd.rs/" },
   ]}
+/>
+
+<ImageRow
+  items={[
+    { src: "/lecture-materials/w1/threejs-banpo-xism.jpg", alt: "반포자이즘, 미디어 월의 3D 아파트 필드 매니폴드", caption: "Banpo-Xism 반포자이즘 (2026), 미디어 월: 3D 아파트 필드 매니폴드, Three.js", href: "https://banpo-xism.vercel.app/" },
+  ]}
+  wide
 />
 
 - <Term id="threejs" />란?
@@ -416,13 +471,6 @@ git clone https://github.com/YOURNAME/id412-yourname.git
     - 접근 쉬운 데모 (설치 없음)
     - '와우' 효과
     - 웹의 미래 / WebXR
-- 왜 3D 웹 개발을 배우나?
-  - 단순히 더 나은 비주얼과 미감
-  - 웹의 미래일 수 있다
-    - 웹 UI의 미래
-    - 몰입형 웹의 미래
-    - 네가 판을 이끌 수 있다!
-  - 가파른 학습 곡선… 작게, 가볍게 시작
 - 좋은 Three.js 예제/레퍼런스
   - Three.js 레퍼런스 [LINK](https://threejs.org/examples/)
   - React-Three Fiber 레퍼런스 [LINK](https://r3f.docs.pmnd.rs/getting-started/examples)
@@ -459,7 +507,7 @@ git clone https://github.com/YOURNAME/id412-yourname.git
    1. Gltf-2-jsx [LINK](https://gltf.pmnd.rs/)
 9. 환경 맵
 
-## 11. 배포 [#11-deployment]
+## 12. 배포 [#12-deployment]
 
 <ImageRow
   logos
@@ -481,22 +529,12 @@ git clone https://github.com/YOURNAME/id412-yourname.git
 8. 짠!
 9. 이제부터 `git push`할 때마다 다시 배포된다
 
-## 12. 과제: 웹 과제 1 [#12-homework-web-assignment-1]
+## 13. 과제: 웹 과제 1 [#13-homework-web-assignment-1]
 
-**환경 셋업 & 좋아하는 웹사이트 클론 코딩.** 성적에 안 들어간다. 꼭 필요하다. Web 2 (11/2) 전까지.
+**크리에이티브 코딩 경험 만들기.** 성적에 안 들어간다. 꼭 필요하다. Web 2 (11/2)까지.
 
-1. 환경 셋업 완료
-   - `pnpm dev`가 돈다. Claude Code가 돈다. 템플릿 레포가 GitHub에 있고 Vercel에 배포돼 있다
-   - Vercel URL을 보내라
-2. 좋아하는 웹사이트 클론 코딩
-   - 룩이나 인터랙션이 마음에 드는 사이트 하나를 골라라. 랜딩 페이지, 포트폴리오, 툴. 한 페이지면 충분
-   - 이 레포에 `app/experiments/w1/clone/page.tsx` (+ `page.module.css`)로 다시 만들어라. 픽셀 단위로 똑같을 필요 없다. 느낌: 레이아웃, 타이포, 색, 움직임
-   - 배포해라. URL을 보내라
-3. 에이전트로 클론할 때 팁
-   - 페이지를 스크린샷 찍어서 Claude Code에게 줘라. "Next.js App Router와 CSS Modules로 이 페이지를 만들어줘"
-   - DevTools (`Cmd+Option+I` / `F12`) → Elements. 요소 위에 마우스를 올려봐라. 폰트, 색, 간격을 읽어라. 찾은 걸 프롬프트에 붙여라
-   - 폰트(Google Fonts), 색 코드, 문구를 쓴다. 남의 이미지는 안 된다. 플레이스홀더를 써라
-   - 층층이 쌓아라: 레이아웃 먼저, 타이포, 색, 그다음 움직임. 층마다 커밋
-   - 에이전트가 틀리면 정확한 요소를 짚어라: "헤더는 64px인데 네 건 100px이야"
-   - 인터랙션도 중요하다: 스크롤 효과, hover 상태, 열리는 메뉴. 하나를 골라 제대로 해라
-   - 뭐가 쉬웠고 뭐가 어려웠는지 적어둬라
+1. 단일 디바이스 경험 하나, 이 레포에, Vercel에 배포
+   - `app/experiments/w1/<name>/page.tsx`. Canvas, GLSL, Three.js 중 선택. 셋 다여도 됨
+   - 시간에 따라 변하거나 입력(마우스, 키보드, 스크롤, 마이크, 카메라)에 반응해야 한다
+2. 파라미터로 생각하기
+   - 네 비주얼이 가진 파라미터 3~5개를 적어라. 그중 최소 둘을 입력에 연결해라

@@ -7,8 +7,8 @@
   },
   "packageManager": "pnpm@12.11.2",
   "scripts": {
-    "dev": "next dev",
-    "dev:mobile": "concurrently -n next,socket \"next dev --experimental-https -H 0.0.0.0\" \"node socket-server.mjs\"",
+    "dev": "concurrently -n next,socket \"next dev\" \"node socket-server.mjs\"",
+    "dev:mobile": "concurrently -n next,socket \"next dev --experimental-https -H 0.0.0.0\" \"node socket-server.mjs --https\"",
     "build": "next build",
     "start": "next start",
     "typecheck": "tsc --noEmit"

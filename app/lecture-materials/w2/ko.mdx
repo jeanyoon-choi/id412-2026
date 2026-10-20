@@ -1,10 +1,11 @@
 import { Term } from "@/app/lecture-materials/components/term/term";
+import { ImageRow } from "@/app/lecture-materials/components/image-row/image-row";
 
 # W2
 
 2주차. 크로스 디바이스 인터랙션 (WebSocket)
 
-## 1. 모바일 모달리티 & 웹의 파라메트릭 인터페이스 [#1-mobile-modality--parametric-interfaces-for-web]
+## 1. 모바일 모달리티 & 파라메트릭 인터페이스 [#1-mobile-modality--parametric-interface]
 
 **모바일 모달리티: 악기로서의 폰**
 
@@ -26,11 +27,6 @@ import { Term } from "@/app/lecture-materials/components/term/term";
   - **무엇**: 연속적, 흐르는.
   - **예**: 몸을 움직이기, 손가락 드래그, 스크롤.
   - **쓰이는 곳**: 인터랙티브 아트, 게임.
-- **둘을 합치기**
-  - "둘 중 하나"가 아니다. 둘 다 쓸 수 있고, 써야 한다.
-  - **어떻게?** _불연속적인 UI의 합_(버튼, 토글)으로 _연속적인 제어의 느낌_을 만든다.
-    - 예: http://internetinental.herokuapp.com/term6/delta/mobile/1 (모바일로 접속)
-
 **파라메트릭 웹 인터페이스**
 
 - **무엇인가?** 모바일 인터랙션(입력)으로 _파라미터_(변수)를 바꾸는 인터페이스.
@@ -64,6 +60,17 @@ import { Term } from "@/app/lecture-materials/components/term/term";
   - 카메라 트래킹 (시선 추적, 사물 인식)
   - 물체 회전 & 줌
 
+## 2. 멀티 디바이스 인터랙션 [#2-multi-device-interaction]
+
+<ImageRow
+  items={[
+    { src: "/lecture-materials/w2/multi-device-banpo-xism.jpg", alt: "반포자이즘: 관객이 미디어 월 앞에서 폰을 들고 있다", caption: "Banpo-Xism 반포자이즘 (2026): 폰 = 입력, 미디어 월 = 출력", href: "https://banpo-xism.vercel.app/" },
+  ]}
+/>
+
+- 멀티 디바이스 인터랙션: 두 개 이상의 기기를 쓰는 것
+  - 예: 모바일: 입력, 스크린/노트북: 출력
+
 **단일 디바이스 vs. 멀티 디바이스**
 
 - **단일 디바이스 (예: 노트북만)**
@@ -94,13 +101,6 @@ import { Term } from "@/app/lecture-materials/components/term/term";
   - 이미지 / 비디오 콜라주
   - 3D 그래픽 (예: <Term id="threejs" />)
   - 오디오 요소 (예: <Term id="tonejs" />)
-
-## 2. 멀티 디바이스 인터랙션 & 파라메트릭 인터페이스 [#2-multi-device-interaction--parametric-interface]
-
-- 멀티 디바이스 인터랙션: 두 개 이상의 기기를 쓰는 것
-  - 예: 모바일: 입력, 스크린/노트북: 출력
-- 파라메트릭 인터페이스: 출력 비주얼/인터페이스를 파라미터 단위로 설계하는 것
-- 웹 모달리티를 이해하고 멀티 디바이스 인터랙션을 설계하는 게 핵심이다! (1절 참고)
 
 ## 3. Socket.io [#3-socketio]
 
@@ -145,12 +145,21 @@ import { Term } from "@/app/lecture-materials/components/term/term";
 2. 연속: 모바일 터치 이동 / 기울임, 스크린 파라미터
 3. 모바일 여러 대, 스크린 하나
 
-**배포**
+**배포: relay는 어디서 도나?**
 
-- 폰이 관여하지 않으면 `pnpm dev` (http://localhost:3000)로 충분
-- <Term id="vercel" />은 Next.js 앱만 호스팅한다. relay는 계속 도는 프로세스라 Vercel 배포에는 소켓이 없다
-- 웹 과제 3과 기말은 노트북이 relay를 로컬로 돌린다. Black Room에서도 같다: 설치 노트북이 서버다
-- relay를 온라인에 올려야 하면 `socket-server.mjs`는 어떤 Node 호스트에서든 그대로 돌고, 클라이언트는 `NEXT_PUBLIC_SOCKET_URL`을 따라간다
+- <Term id="vercel" />은 Next.js 앱만 호스팅한다. 계속 도는 프로세스가 없으니 소켓 relay도 없다. 단일 디바이스 페이지(W1)는 Vercel에 올리면 끝. 크로스 디바이스 작업은 relay가 다른 어딘가에 있어야 한다. 옵션 넷
+- **A · 노트북이 서버** (웹 과제 2, 기말, Black Room에서 우리가 하는 방식)
+  - `pnpm dev:mobile`. 폰과 노트북이 같은 Wi-Fi. relay는 노트북에서 돌고, 폰은 `https://<노트북 IP>:3000`을 연다
+  - 배포할 게 없고, 인터넷 없이도 된다. 닿는 범위: 그 네트워크 하나
+- **B · 앱은 Vercel + relay는 Node 호스트** (공개 URL이 필요할 때)
+  - `socket-server.mjs`는 어떤 Node 호스트에서든 그대로 돈다. Vercel에 `NEXT_PUBLIC_SOCKET_URL`을 relay 주소로 설정한다. 호스트가 HTTPS를 주니까 소켓은 `wss://`
+  - 호스트, 2026년 10월 기준: [Render](https://render.com/docs/free) 무료 웹 서비스 (15분 놀면 잠들고, 다음 접속에 1분쯤 걸려 깬다: 포트폴리오엔 괜찮고 전시엔 안 됨) · [Railway](https://docs.railway.com/reference/pricing/plans) (일회성 $5 크레딧, 그다음 Hobby $5/월) · [Fly.io](https://fly.io/docs/about/pricing/) (무료 없음, 월 몇 달러) · AWS EC2 + Nginx + PM2 (반포자이즘과 XD Lab relay가 도는 곳. 손이 제일 많이 가고, 제일 많이 통제된다)
+  - 예전 이 워크숍이 쓰던 Heroku는 2022년부터 무료가 없다
+- **C · 노트북을 터널로 열기** (다른 곳에서 한 시간짜리 데모)
+  - relay는 노트북에 두고, 터널이 공개 주소를 준다: [ngrok](https://ngrok.com/docs/pricing-limits/free-plan-limits) (`ngrok http 4000`; 무료: dev 도메인 1개, 엔드포인트 3개, 월 1 GB) 또는 [cloudflared](https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/) (`cloudflared tunnel --url http://localhost:4000`)
+  - 노트북이 켜져 있고 온라인이어야 한다. 데모용이지 설치용이 아니다
+- **D · 우리 relay 대신 호스팅형 실시간 서비스**: [Ably](https://ably.com/), [Pusher](https://pusher.com/), [Supabase Realtime](https://supabase.com/realtime), [PartyKit](https://www.partykit.io/). 무료 구간 있음, 돌릴 서버 없음, `useSocket`과 다른 API. 왜 필요한지 이미 아는 경우에만
+- 이 워크숍에서는 A. 포트폴리오용으로 온라인에 올리고 싶으면 Render로 B. B는 W3에서 한 번 보여준다
 
 ## 4. 디버깅 & QA [#4-debugging--qa]
 
@@ -220,12 +229,11 @@ import { Term } from "@/app/lecture-materials/components/term/term";
 
 ## 5. 과제: 웹 과제 2 [#5-homework-web-assignment-2]
 
-**크리에이티브 코딩 경험 만들기.** 성적에 안 들어간다. 꼭 필요하다. Web 3 (11/16) 전까지.
+**모바일-노트북 인터랙티브 경험 만들기.** 성적에 안 들어간다. 꼭 필요하다. Web 3 (11/16)까지.
 
-1. 단일 디바이스 경험 하나, 이 레포에, Vercel에 배포
-   - `app/experiments/w2/<name>/page.tsx`. Canvas, GLSL, Three.js 중 선택. 셋 다여도 됨
-   - 시간에 따라 변하거나 입력(마우스, 키보드, 스크롤, 마이크, 카메라)에 반응해야 한다
+1. 이 레포에 라우트 둘: `app/experiments/w2/<name>/mobile/page.tsx`와 `.../screen/page.tsx`, `useSocket`으로 연결
+   - 폰 = 악기. 노트북 = 출력. 연속 입력(터치 이동, 기울임, 마이크) 최소 하나와 불연속 입력(탭, 버튼) 최소 하나
 2. 파라미터로 생각하기 (이 노트 1절)
-   - 네 비주얼이 가진 파라미터 3~5개를 적어라. 그중 최소 둘을 입력에 연결해라
    - 의미적 입력은 무엇이고, 현상학적 입력은 무엇인가?
-3. URL과 한 문단을 보내라: 파라미터가 뭔지, 입력이 뭔지
+3. 제출: 폰이 노트북을 조종하는 30초 화면 녹화와 레포 URL. relay가 네 노트북에서 돌기 때문에 이건 라이브 URL이 없다
+4. 한 문단: 흐름 (입력 → 파라미터 → 시스템 규칙 → 출력), 그리고 Black Room에서라면 뭘 만들지

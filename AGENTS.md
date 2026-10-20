@@ -23,6 +23,7 @@ app/
   lecture-materials/                         lecture site (docs/lecture-materials/README.md)
   experiments/                           student experiments (docs/experiments/README.md)
     w1/ w2/ w3/                          one folder per week, one folder per experiment inside
+      w1/glsl/<name>/                    or inside a group folder for one tech (see docs/experiments/README.md)
   final/                                 the final project (docs/final/README.md)
   api/<name>/route.ts                    server endpoints (W3), secrets from .env.local
 hooks/
