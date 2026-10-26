@@ -13,6 +13,7 @@ const nextConfig: NextConfig = {
   devIndicators: false,
   allowedDevOrigins: [...lanHosts, "*.local", "192.168.*.*", "10.**", "172.*.*.*"],
   turbopack: { root: __dirname },
+  experimental: { agentUpgrade: "security" },
 };
 
 const withMDX = createMDX({
