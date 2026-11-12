@@ -1,0 +1,88 @@
+/* iOS 26 grouped lists, dark */
+.container {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 0 16px;
+}
+
+.header {
+  margin: 0 0 7px;
+  padding: 0 16px;
+  font-size: 13px;
+  line-height: 18px;
+  letter-spacing: -0.08px;
+  color: rgba(235, 235, 245, 0.6);
+}
+
+.layers,
+.more {
+  display: grid;
+  grid-auto-rows: 1fr;
+  border-radius: 26px;
+  background: #1c1c1e;
+}
+
+.layers {
+  flex: 6; /* 4 rows, each 1.5 × as high as a row of "More" */
+  margin-bottom: 22px;
+}
+
+.more {
+  flex: 4;
+}
+
+.row {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0 16px;
+}
+
+.row + .row::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 16px;
+  right: 16px;
+  height: 0.5px;
+  background: rgba(84, 84, 88, 0.65);
+}
+
+/* The iOS checkmark of the selected row */
+.check {
+  flex: none;
+  width: 16px;
+  height: 16px;
+  fill: none;
+  stroke: #0a84ff;
+  stroke-width: 2.2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition: opacity 0.15s;
+}
+
+.name {
+  flex: 1;
+}
+
+.name span {
+  display: block;
+  font-size: 13px;
+  line-height: 18px;
+  letter-spacing: -0.08px;
+  color: rgba(235, 235, 245, 0.6);
+}
+
+.figure {
+  font-size: 22px;
+  font-weight: 600;
+  letter-spacing: -0.26px;
+  font-variant-numeric: tabular-nums;
+}
+
+.value {
+  color: rgba(235, 235, 245, 0.6);
+  font-variant-numeric: tabular-nums;
+}

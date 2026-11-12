@@ -1,0 +1,143 @@
+.container {
+  position: fixed;
+  inset: 0;
+  background: #05060a;
+}
+
+.status {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  z-index: 10;
+  margin: 0;
+  font: 14px ui-monospace, Menlo, monospace;
+  color: #888;
+  mix-blend-mode: difference; /* readable on the night sky and on the day sky */
+}
+
+.link {
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  color: white;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+/* The figures, in Statistics mode */
+.hud {
+  position: absolute;
+  left: 16px;
+  bottom: 20px;
+  z-index: 10;
+  width: 300px;
+  color: white;
+  font: 12px/1.5 ui-monospace, Menlo, monospace;
+  pointer-events: none;
+}
+
+.hud p {
+  margin: 0;
+}
+
+.layer {
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #8b93a1;
+}
+
+.figure {
+  font: 300 64px/1.05 "Helvetica Neue", Helvetica, Arial, sans-serif;
+  letter-spacing: -0.03em;
+  font-variant-numeric: tabular-nums;
+}
+
+.unit,
+.axis,
+.legend {
+  color: #8b93a1;
+}
+
+.curve {
+  display: block;
+  width: 240px;
+  height: 48px;
+  margin-top: 18px;
+  overflow: visible;
+}
+
+.curve polyline {
+  fill: none;
+  stroke: white;
+  stroke-width: 1;
+}
+
+.curve line {
+  stroke: #ff453a;
+  stroke-width: 1;
+}
+
+.axis {
+  display: flex;
+  justify-content: space-between;
+}
+
+.axis span:nth-child(2) {
+  color: #ff453a;
+}
+
+.legend {
+  margin-top: 14px !important;
+}
+
+.legend i {
+  display: inline-block;
+  width: 96px;
+  height: 6px;
+  margin: 0 4px;
+}
+
+.legend b {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  margin-right: 4px;
+  border-radius: 50%;
+}
+
+.others {
+  margin-top: 14px;
+  color: #8b93a1;
+  white-space: nowrap;
+}
+
+/* name · figure · unit */
+.others p {
+  display: grid;
+  grid-template-columns: 76px 52px auto;
+  gap: 10px;
+}
+
+.others b {
+  font-weight: 400;
+  color: white;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+/* A text that follows a building or a vehicle: a thin line up from the point, the text at its top */
+.mark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 5;
+  padding: 0 0 30px 6px;
+  border-left: 1px solid white;
+  opacity: 0;
+  color: white;
+  font: 11px/1 ui-monospace, Menlo, monospace;
+  white-space: nowrap;
+  transition: opacity 0.3s;
+  pointer-events: none;
+}

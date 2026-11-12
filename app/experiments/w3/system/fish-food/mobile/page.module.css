@@ -1,58 +1,54 @@
-.container {
+/* The whole mobile is the map. Nothing scrolls, nothing zooms, no text gets selected. */
+.map {
   position: fixed;
   inset: 0;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  gap: 32px;
-  padding: 16px;
-  background: black;
-  color: white;
-  font: 14px ui-monospace, Menlo, monospace;
+  overflow: hidden;
+  overscroll-behavior: none;
+  touch-action: none;
+  background: #fff;
+  color: #000;
+  font: 600 15px -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
   user-select: none;
   -webkit-user-select: none;
+  -webkit-touch-callout: none;
+  -webkit-tap-highlight-color: transparent;
 }
 
+/* env(safe-area-inset-*): the room the notch and the home bar need */
 .status {
   position: absolute;
-  top: 16px;
-  left: 16px;
+  top: calc(14px + env(safe-area-inset-top));
+  left: 0;
+  right: 0;
   margin: 0;
-  color: #888;
+  text-align: center;
+  font-weight: 400;
+  font-size: 13px;
+  color: #8e8e93;
+  pointer-events: none;
 }
 
-/* The screen in small: the same 16:9 shape */
-.map {
-  position: relative;
-  aspect-ratio: 16 / 9;
-  width: min(100%, 55vh * 16 / 9); /* on a wide window: not taller than half the page */
-  align-self: center;
-  border: 1px solid #555;
-  overflow: hidden;
-  touch-action: none;
-}
-
-/* Where a pellet was dropped: the same marks as on the screen, fading out */
+/* Where a pellet was dropped, fading out */
 .food,
 .bitter {
   position: absolute;
   border-radius: 50%;
   pointer-events: none;
-  animation: fade 2s forwards;
+  animation: fade 2.5s forwards;
 }
 
 .food {
   width: 8px;
   height: 8px;
   margin: -4px 0 0 -4px;
-  background: white;
+  background: #c46a25;
 }
 
 .bitter {
-  width: 12px;
-  height: 12px;
-  margin: -6px 0 0 -6px;
-  border: 1px solid #e94a58;
+  width: 14px;
+  height: 14px;
+  margin: -7px 0 0 -7px;
+  background: #000;
 }
 
 @keyframes fade {
@@ -61,26 +57,32 @@
   }
 }
 
+/* The choice of what to drop: one bar fixed at the bottom, two halves */
 .kinds {
-  display: flex;
-  gap: 12px;
+  position: absolute;
+  left: max(16px, env(safe-area-inset-left));
+  right: max(16px, env(safe-area-inset-right));
+  bottom: calc(16px + env(safe-area-inset-bottom));
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4px;
+  padding: 4px;
+  border-radius: 16px;
+  background: #fff;
+  box-shadow: 0 4px 28px #0003;
 }
 
-.kind,
-.chosen {
-  flex: 1;
-  padding: 16px;
-  border: 1px solid #555;
-  border-radius: 0;
-  background: none;
-  color: #888;
+.kinds button {
+  min-height: 48px;
+  border: 0;
+  border-radius: 12px;
+  background: transparent;
+  color: #000;
   font: inherit;
-  font-size: 18px;
 }
 
-/* The kind the next tap will drop */
-.chosen {
-  border-color: white;
-  background: white;
-  color: black;
+/* The kind the next touch will drop */
+.kinds button[aria-pressed="true"] {
+  background: #000;
+  color: #fff;
 }

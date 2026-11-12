@@ -1,7 +1,7 @@
 .container {
   position: fixed;
   inset: 0;
-  background: black;
+  background: #fff;
 }
 
 .canvas {
@@ -20,5 +20,5 @@
 }
 
 .link {
-  color: white;
+  color: #000;
 }
