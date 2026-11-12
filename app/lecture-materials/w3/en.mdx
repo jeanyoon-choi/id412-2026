@@ -50,7 +50,7 @@ console.log(data.current.temperature_2m, data.current.wind_speed_10m);
 - Step 2. Store your API Key in <Term id="env">`.env.local`</Term>: `NYT_API_KEY=...`
   - What is `.env.local`? Environment variables, read only on the server
   - Do NOT prefix it with `NEXT_PUBLIC_`. Anything with that prefix is shipped to the browser, i.e. public
-- Step 3. Check `.gitignore`: `.env*` is already there. Your key must never be committed
+- Step 3. Check <Term id="gitignore">`.gitignore`</Term>: `.env*` is already there. Your key must never be committed
 - Step 4. Write the API code in a Route Handler: `app/api/<name>/route.ts`. Read the key with `process.env.NYT_API_KEY`
 - Step 5. On the frontend, call this Route Handler via fetch
 
@@ -80,7 +80,7 @@ console.log(data.current.temperature_2m, data.current.wind_speed_10m);
 - Already installed in the template: `tone`
 - Rules
   - Audio starts only after a user gesture (tap/click): `await Tone.start()` inside an event handler
-  - Microphone input requires HTTPS (see W2 A3)
+  - Microphone input requires HTTPS (see [W2 A2](/lecture-materials/w2#a2-https-for-local-dev-pnpm-devmobile))
 
 ```tsx
 import * as Tone from "tone";
@@ -107,19 +107,45 @@ async function play() {
 2. Data → sound (drone, wind, heartbeat, impacts): [w1/snp](/experiments/w1/snp) → `sound.ts`
 3. Microphone → parameter: [w1/video](/experiments/w1/video)
 
-## 4. <Term id="unreal" />
+## 4. <Term id="unreal" /> [#4-unreal]
 
-- Separate repo: https://github.com/jeanyoon-choi/mobile-to-unreal-realtime-backbone
-  - Phone → WebSocket → Node relay → UDP → UE 5.8 C++ receiver actor
-  - Same idea as our socket relay, different last hop: Unreal listens to UDP, not Socket.io
-- Not covered in class step by step. Read the README if your final combines Unreal and Web
+- A mobile can control Unreal Engine too, not only a web page. The path is the same as in W2: mobile → relay → output. Here the output is Unreal instead of a browser
+- Example repo: https://github.com/jeanyoon-choi/mobile-to-unreal-realtime-backbone
+- What it does: drag a finger on the mobile, and a sphere in Unreal follows it
+  1. The mobile opens a web page with an XY pad
+  2. While the finger drags, the page sends its position (`x`, `y`) and `pressure` to the relay over WebSocket, 25 times a second
+  3. The relay (Node.js) keeps only the newest position and passes it on to Unreal, 30 times a second
+  4. In Unreal, one C++ actor receives it and moves the sphere
+- What is different from our relay: a browser can receive Socket.io messages, Unreal cannot. So the relay sends the last step over UDP, a simpler way of sending data over a network, which Unreal can receive
+- To run it you need Node.js 20 or newer, pnpm 11 and Unreal Engine 5.8
+  1. `pnpm install`, then `pnpm dev`. This starts the mobile page (port 3000) and the relay (port 4000)
+  2. On the mobile, on the same Wi-Fi, open `http://<YOUR_IP>:3000`
+  3. Open `unreal/MobileToUnrealBackbone/MobileToUnrealBackbone.uproject` in Unreal Engine
+  4. Drag on the mobile. The sphere in Unreal moves
+- Folders: `apps/mobile/` (the mobile page), `relay/` (the relay), `unreal/` (the Unreal project), `docs/` (how it works, in detail)
 
 ## 5. System & Interaction
 
+Examples ([/experiments/w3](/experiments/w3))
+
+1. Fish Food ([mobile](/experiments/w3/system/fish-food/mobile) · [screen](/experiments/w3/system/fish-food/screen))
+   - Mobile: tap or slide on the map to drop food or something bitter into the water
+   - System: thousands of goldfish, each following the same few rules: stay with the school, go to food, flee from bitter water. Fright passes from fish to fish
+   - Screen: the schools gather around the food and scatter from the bitter cloud
+2. Cloud Field ([mobile](/experiments/w3/system/cloud-field/mobile) · [screen](/experiments/w3/system/cloud-field/screen))
+   - Mobile: drag on a map to choose a place in the sky, and set two sliders: pressure and heat
+   - System: each mobile is a centre of pressure. Low pressure gathers cloud, high pressure clears it. All mobiles are added up at every pixel
+   - Screen: one slow sky of clouds, with sound. Each mobile is one voice
+3. City Walk ([mobile](/experiments/w3/system/city-walk/mobile) · [screen](/experiments/w3/system/city-walk/screen))
+   - Mobile: drag to walk and turn through Shibuya crossing, seen in first person
+   - System: every device builds the same city from the same map data. Each mobile sends where it is, 15 times a second
+   - Screen: the whole city from above, with a beam of light on every walker
+
 ## Appendix. Projection Mapping
 
-- 1st-floor gallery: two projectors, two walls
-  - Left wall 1920 × 602, right wall 1675 × 602
+- The 1st-floor gallery (Black Room) has two projectors, one for each wall
+- The picture a projector throws is larger than the wall. Only a part of it lands on the wall
+  - Left wall: 1920 × 602 of the picture. Right wall: 1675 × 602
 
 <ImageRow
   items={[
@@ -127,9 +153,13 @@ async function play() {
   ]}
 />
 
-- The projected image and the wall are not the same: the image is larger than the wall. Crop the top and bottom, and fit the content to the wall
-- Method: put your content in a frame. Move and resize the frame (top, left, width, height) until it sits on the wall. Everything outside the frame is black
-  - Example: projection-mapping ([left](/experiments/w3/projection-mapping?side=left) · [right](/experiments/w3/projection-mapping?side=right)) → `app/experiments/w3/projection-mapping/`
-  - `MappingFrame.tsx`: the frame. `Content.tsx`: your content, wrapped by the frame
-  - Content takes its size from the frame (`100%`), not from the window (`100vw` / `100vh`)
+- So a page that fills the whole screen does not fit the wall: part of it falls outside. Projection mapping is placing your content exactly on the wall
+- How, in the browser
+  1. Make the whole page black. Black means the projector sends no light there, so it cannot be seen
+  2. Put one box on the page, and put all of your content inside the box
+  3. In the room, move and resize the box until its four edges meet the edges of the wall
+- Example: projection-mapping ([left](/experiments/w3/projection-mapping?side=left) · [right](/experiments/w3/projection-mapping?side=right)) → `app/experiments/w3/projection-mapping/`
+  - One laptop per projector. Open `?side=left` on one and `?side=right` on the other
+  - Four sliders move the box: top, left, width, height. When it fits, write the four numbers into `FRAMES` at the top of `MappingFrame.tsx`, then press hide
+  - `Content.tsx` is your content. Give it the size of the box (`100%`), not of the whole window (`100vw` / `100vh`)
 - Reference: https://github.com/jeanyoon-choi/xdlab-mapping

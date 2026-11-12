@@ -395,7 +395,7 @@ export const terms = {
     },
     official: { label: "MDN: Secure contexts", url: "https://developer.mozilla.org/en-US/docs/Web/Security/Secure_Contexts" },
     learn: [],
-    related: [{ href: "/lecture-materials/w2#5-mobile-https-debugging", en: "W2: Mobile HTTPS Debugging (A1, A3)", ko: "W2: 모바일 HTTPS 디버깅 (A1, A3)" }],
+    related: [{ href: "/lecture-materials/w2#5-mobile-https-debugging", en: "W2: Mobile HTTPS Debugging (A1, A2)", ko: "W2: 모바일 HTTPS 디버깅 (A1, A2)" }],
   },
   harness: {
     name: "harness",
@@ -468,7 +468,7 @@ export const terms = {
     },
     official: { label: "MDN: HTTPS", url: "https://developer.mozilla.org/en-US/docs/Glossary/HTTPS" },
     learn: [{ label: "Next.js: next dev --experimental-https", url: "https://nextjs.org/docs/app/api-reference/cli/next#using-https-during-development" }],
-    related: [{ href: "/lecture-materials/w2#5-mobile-https-debugging", en: "W2: A3. HTTPS for Local Dev", ko: "W2: A3. 로컬 HTTPS" }],
+    related: [{ href: "/lecture-materials/w2#5-mobile-https-debugging", en: "W2: A2. HTTPS for Local Dev", ko: "W2: A2. 로컬 HTTPS" }],
   },
   routeHandler: {
     name: "Route Handler",
@@ -495,6 +495,62 @@ export const terms = {
       use: "W3: OPENAI_API_KEY=... 또는 ANTHROPIC_API_KEY=...를 여기 적고 Route Handler에서 process.env로 읽는다. 절대 커밋하지 말고, 키에 NEXT_PUBLIC_을 붙이지 마라. Vercel에서는 프로젝트 설정에 같은 변수를 넣는다.",
     },
     official: { label: "Next.js: Environment variables", url: "https://nextjs.org/docs/app/guides/environment-variables" },
+    learn: [],
+    related: [{ href: "/lecture-materials/w3#2-using-an-api", en: "W3: Using an API", ko: "W3: API 사용하기" }],
+  },
+  render: {
+    name: "Render",
+    en: {
+      what: "A hosting service that keeps a program running on a server on the internet and gives it a public https address. It deploys from a GitHub repository.",
+      use: "W2 §7: runs the socket relay (socket-server.mjs), which Vercel cannot run. Free plan: the program sleeps after 15 minutes without use.",
+    },
+    ko: {
+      what: "프로그램을 인터넷 위의 서버에서 계속 켜두고 https 주소를 붙여주는 호스팅 서비스. GitHub 레포에서 바로 배포한다.",
+      use: "W2 §7: Vercel이 실행하지 못하는 socket relay(socket-server.mjs)를 여기서 돌린다. 무료 플랜은 15분 동안 쓰지 않으면 프로그램이 잠든다.",
+    },
+    official: { label: "render.com", url: "https://render.com/" },
+    learn: [{ label: "Render: Your first deploy", url: "https://render.com/docs/your-first-deploy" }],
+    related: [{ href: "/lecture-materials/w2#7-socket-deployment", en: "W2: Socket Deployment", ko: "W2: Socket 배포" }],
+  },
+  railway: {
+    name: "Railway",
+    en: {
+      what: "A hosting service that keeps a program running on a server on the internet and gives it a public https address. It deploys from a GitHub repository.",
+      use: "W2 §7: another place to run the socket relay (socket-server.mjs). $5 trial credit, then $5/month.",
+    },
+    ko: {
+      what: "프로그램을 인터넷 위의 서버에서 계속 켜두고 https 주소를 붙여주는 호스팅 서비스. GitHub 레포에서 바로 배포한다.",
+      use: "W2 §7: socket relay(socket-server.mjs)를 돌릴 수 있는 또 다른 곳. 체험 크레딧 $5, 그 뒤로는 월 $5.",
+    },
+    official: { label: "railway.com", url: "https://railway.com/" },
+    learn: [{ label: "Railway: Quick start", url: "https://docs.railway.com/quick-start" }],
+    related: [{ href: "/lecture-materials/w2#7-socket-deployment", en: "W2: Socket Deployment", ko: "W2: Socket 배포" }],
+  },
+  ec2: {
+    name: "AWS EC2",
+    en: {
+      what: "A virtual computer you rent from Amazon Web Services. It stays on, and you install and run on it whatever you want, yourself.",
+      use: "W2 §7: one more place to run the socket relay. More to set up than Render or Railway. Banpo-Xism runs its relay on EC2.",
+    },
+    ko: {
+      what: "Amazon Web Services에서 빌려 쓰는 가상 컴퓨터. 계속 켜져 있고, 필요한 프로그램을 직접 설치해서 돌린다.",
+      use: "W2 §7: socket relay를 돌릴 수 있는 또 다른 곳. Render나 Railway보다 직접 설정할 것이 많다. 반포자이즘의 relay 서버가 EC2에서 돌아간다.",
+    },
+    official: { label: "aws.amazon.com/ec2", url: "https://aws.amazon.com/ec2/" },
+    learn: [],
+    related: [{ href: "/lecture-materials/w2#7-socket-deployment", en: "W2: Socket Deployment", ko: "W2: Socket 배포" }],
+  },
+  gitignore: {
+    name: ".gitignore",
+    en: {
+      what: "A text file in the project folder that lists the files Git must not save or upload: one name or pattern per line. Whatever is listed there never goes to GitHub.",
+      use: "The template's .gitignore already lists .env*, node_modules/ and certificates/. So the API key you put in .env.local stays on your computer.",
+    },
+    ko: {
+      what: "프로젝트 폴더에 있는 텍스트 파일. Git이 저장하거나 올리면 안 되는 파일을 한 줄에 하나씩 적어둔다. 여기 적힌 파일은 GitHub에 올라가지 않는다.",
+      use: "템플릿의 .gitignore에는 .env*, node_modules/, certificates/가 이미 적혀 있다. 그래서 .env.local에 넣은 API key는 내 컴퓨터에만 남는다.",
+    },
+    official: { label: "Git: gitignore", url: "https://git-scm.com/docs/gitignore" },
     learn: [],
     related: [{ href: "/lecture-materials/w3#2-using-an-api", en: "W3: Using an API", ko: "W3: API 사용하기" }],
   },

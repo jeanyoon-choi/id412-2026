@@ -1,157 +1,97 @@
 .figure {
   margin: 1.25rem 0 1.5rem;
+  overflow-x: auto;
 }
 
-/* phone | wire | relay | wire | screen */
-.flow {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr) auto minmax(0, 1fr);
-  align-items: stretch;
+.svg {
+  display: block;
+  width: 100%;
+  min-width: 640px;
+  height: auto;
+  font-family: var(--font-sans);
 }
 
+/* A device (header) or something that happens inside one */
 .box {
-  padding: 0.7rem 0.8rem 0.8rem;
-  border: 1px solid var(--rule);
-  background: var(--code-bg);
-  font-size: 0.8125rem;
-  line-height: 1.5;
+  fill: var(--code-bg);
+  stroke: var(--rule);
+  stroke-width: 1;
 }
 
-.relay {
-  border: 2px solid var(--fg);
+.strong {
+  stroke: var(--fg);
+  stroke-width: 2;
 }
 
 .role {
-  font-size: 0.6875rem;
+  fill: var(--muted);
+  font-size: 10.5px;
   letter-spacing: 0.04em;
-  text-transform: uppercase;
-  color: var(--muted);
 }
 
 .title {
-  margin: 0.1rem 0 0.2rem;
-  font-size: 1rem;
+  fill: var(--fg);
+  font-size: 16px;
   font-weight: 600;
 }
 
 .file {
-  display: block;
-  font-size: 0.6875rem;
-  color: var(--muted);
-  overflow-wrap: anywhere;
-}
-
-.box code,
-.caption code {
-  padding: 0;
-  background: none;
-  font-size: 0.64rem;
-  white-space: nowrap;
-}
-
-.steps {
-  margin: 0.6rem 0 0;
-  padding: 0;
-  list-style: none;
-}
-
-.steps li {
-  margin: 0;
-  padding-left: 0;
-  text-indent: 0;
-  color: var(--muted);
-}
-
-.steps code {
-  color: var(--fg);
-}
-
-.steps li + li {
-  margin-top: 0.4rem;
-}
-
-.step {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 1.2rem;
-  height: 1.2rem;
-  margin-right: 0.1rem;
-  border-radius: 50%;
-  background: var(--fg);
-  color: var(--bg);
+  fill: var(--muted);
   font-family: var(--font-mono);
-  font-size: 0.6875rem;
-  font-weight: 600;
-  text-indent: 0;
+  font-size: 11px;
 }
 
-.room {
-  margin-top: 0.6rem;
-  padding: 0.4rem 0.5rem 0.5rem;
-  border: 1px dashed var(--muted);
+/* Time, running down from each device */
+.lifeline {
+  stroke: var(--rule);
+  stroke-width: 1.5;
 }
 
-.roomName {
-  font-family: var(--font-mono);
-  font-size: 0.75rem;
-  color: var(--muted);
+/* When the arrows below happen */
+.band {
+  fill: var(--bg);
 }
 
-.members {
-  display: flex;
-  gap: 0.4rem;
-  margin-top: 0.3rem;
-}
-
-.members span {
-  flex: 1;
-  padding: 0.1rem 0.4rem;
-  border: 1px solid var(--rule);
-  background: var(--bg);
-  text-align: center;
-}
-
-.wire {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 0.3rem;
-  width: 7.5rem;
-  padding: 0 0.4rem;
-  font-size: 0.75rem;
-}
-
-.wireLabel {
+.phase {
+  fill: var(--fg);
+  font-size: 12.5px;
   font-weight: 600;
 }
 
+/* One message */
 .arrow {
-  display: flex;
-  align-items: center;
-  width: 100%;
+  stroke: var(--fg);
+  stroke-width: 1.75;
 }
 
-.line {
-  flex: 1;
-  height: 2px;
-  background: var(--fg);
+.dashed {
+  stroke-dasharray: 5 4;
 }
 
 .head {
-  margin-left: -2px;
-  font-size: 0.7rem;
-  line-height: 1;
+  fill: var(--fg);
 }
 
-.payload {
-  padding: 0;
-  background: none;
-  font-size: 0.625rem;
-  color: var(--muted);
-  text-align: center;
-  white-space: nowrap;
+.step {
+  fill: var(--fg);
+}
+
+.stepNumber {
+  fill: var(--bg);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.code {
+  fill: var(--fg);
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+}
+
+.note {
+  fill: var(--muted);
+  font-size: 12px;
 }
 
 .caption {
@@ -160,30 +100,23 @@
   color: var(--muted);
 }
 
-/* Narrow: stack the boxes, the arrows point down */
-@media (max-width: 860px) {
-  .flow {
-    grid-template-columns: 1fr;
-  }
+/* The ports diagram */
+.machine {
+  fill: none;
+  stroke: var(--muted);
+  stroke-width: 1;
+  stroke-dasharray: 4 4;
+}
 
-  .wire {
-    width: auto;
-    padding: 0.4rem 0;
-  }
+.port {
+  fill: var(--fg);
+  font-family: var(--font-mono);
+  font-size: 30px;
+  font-weight: 700;
+}
 
-  .arrow {
-    flex-direction: column;
-    width: auto;
-  }
-
-  .line {
-    flex: none;
-    width: 2px;
-    height: 1.25rem;
-  }
-
-  .head {
-    margin: -2px 0 0;
-    transform: rotate(90deg);
-  }
+.linkLabel {
+  fill: var(--fg);
+  font-size: 13px;
+  font-weight: 600;
 }

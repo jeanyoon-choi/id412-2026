@@ -53,6 +53,16 @@ Everything is organised by what it belongs to. An experiment's code, styles, hel
 
 <!-- BEGIN:nextjs-agent-rules -->
 
+## When you edit the lecture notes
+
+Only when the user asks. Read `docs/lecture-materials/README.md` → "Writing for the reader" and "Korean is written, not translated" first, every time. In short:
+
+- The reader is a design student who hears this for the first time. Decide what they already know, what they must be able to do afterwards, and the order in between, before you write. Explain what a thing is for before how this repo does it.
+- Write only what the instructor wrote or asked for. No advice, asides, recommendations or filler of your own. Do not remove the instructor's sentences without asking.
+- `en.mdx` and `ko.mdx` change together, in the same edit. Korean is written from the meaning, in natural Korean; it is never a sentence-by-sentence translation.
+- `→` is for flows only. Unknown terms get a `Term`. "mobile", not "phone".
+- Check before you say it is done: read the whole section once as a first-time student, open the page in the browser in both languages, run `pnpm check:notes`. When instructions pile up, list them and tick each one off; never leave the build broken in between.
+
 ## This is NOT the Next.js you know
 
 This version has breaking changes — APIs, conventions, and file structure may all differ from your training data. Read the relevant guide in `node_modules/next/dist/docs/` (resolved from this file's directory; in monorepos the `next` package may not be visible from the repo root) before writing any code. Heed deprecation notices.

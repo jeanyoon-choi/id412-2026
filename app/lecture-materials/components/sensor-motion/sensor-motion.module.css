@@ -1,0 +1,187 @@
+.svg {
+  display: block;
+  width: 3.5rem;
+  height: 3.5rem;
+  overflow: visible;
+}
+
+.line,
+.skin,
+.mobile {
+  fill: none;
+  stroke: var(--fg);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* Filled with the page colour, so what is behind does not show through */
+.skin,
+.mobile {
+  fill: var(--bg);
+}
+
+.dot,
+.bar {
+  fill: var(--fg);
+}
+
+/* Tilt: lean left, lean right */
+.tilt {
+  transform-origin: 36px 62px;
+  animation: tilt 2.6s ease-in-out infinite alternate;
+}
+
+.roll {
+  animation: roll 2.6s ease-in-out infinite alternate;
+}
+
+@keyframes tilt {
+  from {
+    transform: rotate(-24deg);
+  }
+  to {
+    transform: rotate(24deg);
+  }
+}
+
+@keyframes roll {
+  from {
+    transform: translateX(-6px);
+  }
+  to {
+    transform: translateX(6px);
+  }
+}
+
+/* Shake: a burst of quick left-right moves, then a rest */
+.shake {
+  animation: shake 1.8s linear infinite;
+}
+
+@keyframes shake {
+  0%,
+  10%,
+  20%,
+  30%,
+  40% {
+    transform: translateX(-5px) rotate(-4deg);
+  }
+  5%,
+  15%,
+  25%,
+  35% {
+    transform: translateX(5px) rotate(4deg);
+  }
+  50%,
+  100% {
+    transform: none;
+  }
+}
+
+.shake,
+.blink {
+  transform-origin: 36px 40px;
+}
+
+.blink {
+  animation: blink 1.8s linear infinite;
+}
+
+@keyframes blink {
+  0%,
+  45% {
+    opacity: 1;
+  }
+  55%,
+  100% {
+    opacity: 0;
+  }
+}
+
+/* Microphone: three waves, one after another, and three bars that follow them */
+.wave1,
+.wave2,
+.wave3 {
+  animation: wave 1.5s ease-out infinite;
+}
+
+.wave2 {
+  animation-delay: -1.25s;
+}
+
+.wave3 {
+  animation-delay: -1s;
+}
+
+@keyframes wave {
+  0%,
+  100% {
+    opacity: 0.15;
+  }
+  40% {
+    opacity: 1;
+  }
+}
+
+.level1,
+.level2,
+.level3 {
+  transform-origin: 36px 34px;
+  animation: level 0.75s ease-in-out infinite alternate;
+}
+
+.level2 {
+  animation-delay: -0.3s;
+}
+
+.level3 {
+  animation-delay: -0.55s;
+}
+
+@keyframes level {
+  from {
+    transform: scaleY(0.25);
+  }
+  to {
+    transform: scaleY(1);
+  }
+}
+
+/* Camera: every two seconds the shutter closes and the screen flashes */
+.flash {
+  animation: flash 2s linear infinite;
+}
+
+.shutter {
+  transform-origin: 36px 35px;
+  animation: shutter 2s linear infinite;
+}
+
+@keyframes flash {
+  0%,
+  78%,
+  100% {
+    opacity: 0;
+  }
+  84% {
+    opacity: 1;
+  }
+}
+
+@keyframes shutter {
+  0%,
+  72%,
+  100% {
+    transform: scale(1);
+  }
+  80% {
+    transform: scale(0.35);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .svg * {
+    animation: none;
+  }
+}

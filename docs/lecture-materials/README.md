@@ -15,9 +15,11 @@ app/lecture-materials/
     image-row/                <ImageRow items={[...]} /> row of captioned images
     capability-chart/         the METR time-horizon chart on Prelim
     stack-diagram/            the layered frontend-stack figure on W1
-    socket-diagram/           mobile → relay → screen, the five workflow steps (W2 §3)
+    hash-scroll/              makes "#section" links land on the visible language's section (both languages share ids)
+    socket-diagram/           two figures: what runs on port 3000 and 4000, and the five workflow steps in order (W2 §3)
     parameter-diagram/        input → parameter → output mapping schematic (W2 §2)
-    device-diagram/           <DeviceDiagram work="banpo-xism | omega | sota" />: device schematic next to the installation photo (W2 §4)
+    device-diagram/           <DeviceDiagram work="banpo-xism | omega | sota" />: a clip of the work next to how it works, mobile → system → screens (W2 §4)
+    sensor-motion/            <SensorMotion kind="tilt | shake | microphone | camera" />: a small animated drawing of the hand and the mobile (W2 §6)
     experiment-index/         scans app/experiments on the server and lists them (/experiments, /experiments/<week>); a multi-device experiment gets one indented row per device
     collapsible/              makes every h2 section and bold run-in subsection expand/collapse (DOM-only, nothing moves)
     code-block/               <pre> with a Copy button (every fenced code block)
@@ -45,6 +47,20 @@ The index page (`app/page.tsx`) and the shell (`app/layout.tsx`, `app/globals.cs
 - Prefer one way of doing something. If two ways are both fine (template vs. from scratch for the final), say so in one line, not two sections.
 - Short lines, concrete commands, the same words every time (`pnpm dev`, `app/experiments/...`). Jargon gets a `Term`, not a lecture.
 
+## Writing for the reader
+
+The reader is a design student who is new to code and hears each thing for the first time. These rules come from mistakes that were made in these notes; follow them on every edit.
+
+1. Before writing a section, decide three things: what the student already knows at this point, what they must be able to do after it, and the order in between. Write in that order. Never use a term, a tool or a step before the place where it is introduced.
+2. Write from the student's seat, not the builder's. Say what something is for and why it is needed before how this repo implements it. "The relay needs a computer that stays on, because …" comes before any file name, port or setting.
+3. Write only what the instructor wrote or asked for. No added advice, asides, encouragement, recommendations ("if you want …"), summaries or filler. If a sentence was not asked for and carries no instruction, leave it out. Do not delete the instructor's own sentences either: ask.
+4. `→` means a flow only: a message going from one device to another, or one step after another. Not "is", not "does", not "opens at". Use a colon or a table for those.
+5. A file, command or term the student has not met gets a `Term` (dotted underline) or a half-sentence saying what it is. Never a bare `.gitignore`.
+   A reference to another section is a link to it: `[§5](#5-mobile-https-debugging)` on the same page, `[W1 §12](/lecture-materials/w1#12-deployment)` across pages. The ids are the same in both languages.
+6. Say "mobile", never "phone". The same word for the same thing on every page.
+7. After writing, read the whole section once from the top as that student. Then check it in the browser, in both languages. A page that renders is not yet a page that can be followed.
+8. A change is finished when the whole section still reads in order, not when one line is fixed.
+
 ## Writing notes (MDX)
 
 - Markdown + GFM (tables, autolinked URLs). Bare URLs become links. External links open in a new tab automatically.
@@ -58,6 +74,19 @@ The index page (`app/page.tsx`) and the shell (`app/layout.tsx`, `app/globals.cs
 - Section ids must match across languages so links and the glossary work. English ids come from the heading text (github-slugger: `## 6. Schedule & Assignments` → `6-schedule--assignments`). In Korean, end the heading with the English id in brackets: `## 6. 일정과 과제 [#6-schedule--assignments]`. The bracket is stripped on render.
 - When you add or rename a section in `en.mdx`, do the same in `ko.mdx` and update any `related` links in `glossary.ts` that point at it.
 - Short bilingual strings inside TSX: `<L en="..." ko="..." />`.
+
+### Korean is written, not translated
+
+The notes change often. Every change to `en.mdx` is made in `ko.mdx` in the same edit, never later.
+
+- Read the English for its meaning, then say that meaning the way a Korean instructor would write lecture notes. Do not map sentence to sentence, word to word.
+  - Bad: "앱만 호스팅한다. relay는 없다" · Good: "Vercel은 Next.js 앱은 실행해 주지만 relay는 실행하지 못한다"
+  - Bad: "이게 루프를 닫는다" · Good: "그러면 작업 루프가 완성된다"
+- Register: plain "~한다 / ~이다", short sentences. No "너/네/당신", no "~해라": leave the subject out, or say "내 컴퓨터".
+- No English-style colon chains, no "~하는 것이다", no literal passives, no stacked nouns.
+- Keep in English what Korean developers say in English (relay, room, socket, hook, shader, API key, prompt, agent); Korean for the rest (배포, 서버, 브라우저, 터미널, 인증서). Button labels and product names stay as they are on screen.
+- Same structure as `en.mdx`, line for line: same headings, bullets, numbers, tables, components, links and code. `pnpm check:notes` verifies this; run it after every edit of the notes.
+- Glossary (`glossary.ts`) `ko` texts follow the same rules.
 
 ## Glossary (Term)
 
@@ -73,5 +102,6 @@ The index page (`app/page.tsx`) and the shell (`app/layout.tsx`, `app/globals.cs
 
 ## Checks
 
+- `pnpm check:notes` must pass: `en.mdx` and `ko.mdx` have the same structure on every page.
 - `pnpm typecheck` and `pnpm build` must pass. `pnpm dev` is usually running on :3000; reload the page and check both languages, light and dark.
 - The chart's data is hand-entered in `capability-chart.tsx` with its source; update numbers and the source line together.

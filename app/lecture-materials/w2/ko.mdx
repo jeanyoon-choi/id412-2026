@@ -1,8 +1,9 @@
 import { Term } from "@/app/lecture-materials/components/term/term";
 import { ImageRow } from "@/app/lecture-materials/components/image-row/image-row";
-import { SocketDiagram } from "@/app/lecture-materials/components/socket-diagram/socket-diagram";
+import { SocketDiagram, DeployDiagram } from "@/app/lecture-materials/components/socket-diagram/socket-diagram";
 import { ParameterDiagram } from "@/app/lecture-materials/components/parameter-diagram/parameter-diagram";
 import { DeviceDiagram } from "@/app/lecture-materials/components/device-diagram/device-diagram";
+import { SensorMotion } from "@/app/lecture-materials/components/sensor-motion/sensor-motion";
 
 # W2
 
@@ -10,70 +11,70 @@ import { DeviceDiagram } from "@/app/lecture-materials/components/device-diagram
 
 ## 1. 모바일 모달리티 & 파라메트릭 인터페이스 [#1-mobile-modality--parametric-interface]
 
-**모바일 모달리티: 악기로서의 폰**
+**모바일 모달리티: 모바일이라는 악기**
 
-- "2001: 스페이스 오디세이"의 그 장면: 뼈가 인공위성이 된다. 도구의 진화다.
+- 영화 "2001: 스페이스 오디세이"의 유명한 장면에서는 뼈가 인공위성으로 바뀐다. 도구의 진화를 보여주는 장면이다.
   - [2001: A Space Odyssey (1968) - From Bone to Satellite Scene (1/6) | Movieclips](https://www.youtube.com/watch?v=avjdKTqiVvQ)
-- 2007년 스티브 잡스의 아이폰 발표도 비슷한 순간이었다. 강력한 새 도구가 우리 손에 들어왔다.
+- 2007년 스티브 잡스가 아이폰을 발표한 순간도 비슷했다. 강력한 새 도구가 우리 손에 들어왔다.
   - [Steve Jobs introduces iPhone in 2007](https://youtu.be/MnrJzXM7a6o?si=eriyVK-ald9RRGN9&t=274)
-- 우리가 가진 최고의 도구는 손가락이다. 아이폰/스마트폰은 손가락으로 연주하는 악기다.
-- **우리의 목표**: 이 "연주"에 반응하는 인터페이스를 만드는 것.
-  - 악기적 인터페이스 (Instrumental Interface)
+- 우리가 가진 가장 좋은 도구는 손가락이다. 아이폰/스마트폰은 손가락으로 연주하는 악기다.
+- **목표**: 이 "연주"에 반응하는 인터페이스 만들기.
+  - 악기 같은 인터페이스 (Instrumental Interface)
 
-**두 종류의 인터랙션**
+**인터랙션의 두 종류**
 
 - **1. 의미적 인터랙션 (Semantic, 의미 기반)**
-  - **무엇**: 불연속적, 범주적. 분명한 선택을 한다.
+  - **특징**: 불연속적이고 범주가 나뉘어 있다. 하나를 분명하게 고른다.
   - **예**: 버튼 클릭, 메뉴에서 옵션 선택.
-  - **쓰이는 곳**: 대부분의 실용 인터페이스 (앱, 웹사이트).
+  - **쓰이는 곳**: 실용적인 인터페이스 대부분 (앱, 웹사이트).
 - **2. 현상학적 인터랙션 (Phenomenological, 경험 기반)**
-  - **무엇**: 연속적, 흐르는.
-  - **예**: 몸을 움직이기, 손가락 드래그, 스크롤.
+  - **특징**: 연속적이고 끊김 없이 이어진다.
+  - **예**: 몸 움직이기, 손가락으로 드래그하기, 스크롤.
   - **쓰이는 곳**: 인터랙티브 아트, 게임.
 **파라메트릭 웹 인터페이스**
 
-- **무엇인가?** 모바일 인터랙션(입력)으로 _파라미터_(변수)를 바꾸는 인터페이스.
-- 악기 연주와 같다. 네 동작이 소리를 바꾼다. 여기서는 네 동작이 _맥락_, _시간_, _공간_을 바꾼다.
+- **무엇인가?** 모바일에서의 인터랙션(입력)으로 _파라미터_(변수)를 바꾸는 인터페이스.
+- 악기 연주를 떠올리면 된다. 악기에서는 동작이 소리를 바꾼다. 여기서는 동작이 *맥락*, *시간*, *공간*을 바꾼다.
 - **예: 시간 바꾸기**
-  - _의미적 방식_: 상자에 "8:00 AM" 입력.
-  - _현상학적 방식_: iOS 알람처럼 다이얼 돌리기. (iOS 휠 피커 - 라스베이거스에서 영감)
-  - _질문_: 어느 쪽이 더 직관적인가? 더 재밌는가?
+  - _의미적 방식_: 입력칸에 "8:00 AM"을 적는다.
+  - _현상학적 방식_: iOS 알람처럼 다이얼을 돌린다. (iOS 휠 피커 - 라스베이거스에서 영감을 얻었다)
+  - _질문_: 어느 쪽이 더 직관적인가? 어느 쪽이 더 재미있는가?
 - **예: 계절 바꾸기**
-  - _의미적 방식_: 버튼 4개 ("봄", "여름", "가을", "겨울").
-  - _현상학적 방식_: 계절 사이를 섞는 연속적인 X축/Y축 슬라이더.
+  - _의미적 방식_: 따로 떨어진 버튼 4개 ("봄", "여름", "가을", "겨울").
+  - _현상학적 방식_: X축이나 Y축 슬라이더 하나. 움직이면 계절이 끊김 없이 섞이며 넘어간다.
 - **예: 직업 바꾸기**
-  - _의미적 방식_: 정해진 직업 드롭다운.
-  - _현상학적 방식_: 직업 범주 사이를 미끄러지는 "흐릿한" 선택 공간.
+  - _의미적 방식_: 미리 정해둔 직업이 나열된 드롭다운.
+  - _현상학적 방식_: 경계가 "흐릿한" 선택 공간. 여러 직업군 사이를 미끄러지듯 오간다.
 
 **입력 재료 (악기의 "건반")**
 
-- **I. 선택 / 내비게이션 (거친 제어)**
+- **I. 선택 / 내비게이션 (대략적인 조작)**
   - 스크롤
-  - 스와이프 (틴더식 카드 스와이프)
+  - 스와이프 (예: 틴더처럼 카드 넘기기)
   - 줌 인 / 줌 아웃
-- **II. 미세 조정 (정밀 제어)**
+- **II. 미세 조정 (정밀한 조작)**
   - 핑거 스케이팅 / 스케치 (화면에 그리기)
-  - 토글 묶음 (on/off 스위치)
-  - 슬라이더 묶음
-  - 버튼 묶음
-  - 가속도계 (폰 기울이기)
+  - 토글 여러 개 (on/off 스위치)
+  - 슬라이더 여러 개
+  - 버튼 여러 개
+  - 가속도계 (모바일 기울이기)
   - 음성/말
-    - _의미적_: Speech-to-Text (무엇을 말하는가)
-    - _비의미적_: 볼륨 (얼마나 크게 말하는가)
+    - _의미적_: Speech-to-Text (무슨 말을 하는가)
+    - _비의미적_: 음량 (얼마나 크게 말하는가)
   - 카메라 트래킹 (시선 추적, 사물 인식)
-  - 물체 회전 & 줌
+  - 오브젝트 회전 & 확대/축소
 
 ## 2. 멀티 디바이스 인터랙션 [#2-multi-device-interaction]
 
 <ImageRow
   items={[
-    { src: "/lecture-materials/w2/multi-device-banpo-xism.jpg", alt: "반포자이즘: 관객이 미디어 월 앞에서 폰을 들고 있다", caption: "Banpo-Xism 반포자이즘 (2026): 폰 = 입력, 미디어 월 = 출력", href: "https://banpo-xism.vercel.app/" },
+    { src: "/lecture-materials/w2/multi-device-banpo-xism.jpg", alt: "반포자이즘: 관객이 미디어 월 앞에서 모바일을 들고 있다", caption: "Banpo-Xism 반포자이즘 (2026): 모바일 = 입력, 미디어 월 = 출력", href: "https://banpo-xism.vercel.app/" },
   ]}
 />
 
-- 멀티 디바이스 인터랙션: 두 개 이상의 기기를 쓰는 것
-  - 예: 모바일: 입력, 스크린/노트북: 출력
-- 예: 반포자이즘: 여러 대의 모바일 (입력) → 미디어월 1 + 세로형 TV 3 (출력)
+- 멀티 디바이스 인터랙션: 기기를 두 대 이상 함께 쓰는 인터랙션
+  - 예: 모바일은 입력, 스크린/노트북은 출력
+- 예: 반포자이즘. 모바일 여러 대 (입력) → 미디어월 1대 + 세로형 TV 3대 (출력)
 
 <ImageRow
   items={[
@@ -84,20 +85,20 @@ import { DeviceDiagram } from "@/app/lecture-materials/components/device-diagram
 
 **단일 디바이스 vs. 멀티 디바이스**
 
-- **단일 디바이스 (예: 노트북만)**
-  - **구조**: 사용자 입력 (마우스/키보드) → 파라미터 변환 → 비주얼 출력
-  - **입력**: 마우스 클릭 지속 시간, 마우스 이동 속도/경로, 타이핑 속도.
-  - **예술적 전략**: "낯설게 하기" (Verfremdungseffekt) – 평범한 인터랙션(타이핑)이 예상 밖의 결과를 만들게 하기.
-- **멀티 디바이스 웹 아트워크 (우리의 초점)**
+- **단일 디바이스 (예: 노트북 한 대)**
+  - **구조**: 사용자 입력 (마우스/키보드) → 파라미터 변환 → 시각 출력
+  - **입력**: 마우스를 누르고 있는 시간, 마우스가 움직이는 속도와 경로, 키보드 타이핑 속도.
+  - **예술적 전략**: "낯설게 하기" (Verfremdungseffekt). 타이핑 같은 평범한 인터랙션에서 예상 밖의 결과가 나오게 한다.
+- **멀티 디바이스 웹 아트워크 (이 수업의 초점)**
   - **입력 디바이스**: 모바일 (iOS / Android)
   - **출력 디바이스**: 노트북 (1920 x 1080 화면)
-  - **왜?** 폰의 인터랙션(터치, 기울임)은 노트북(마우스, 키보드)과 _현상학적으로_ 다른 느낌을 준다.
+  - **왜?** 모바일의 인터랙션(터치, 기울이기)은 노트북의 인터랙션(마우스, 키보드)과 *현상학적*으로 느낌이 다르다.
 
-**너의 '비주얼 악기' 만들기**
+**나만의 '비주얼 악기' 만들기**
 
 <ParameterDiagram />
 
-- 이게 프로젝트의 핵심 설계 구조다.
+- 프로젝트를 설계할 때 뼈대가 되는 구조다.
 - **흐름**: 모바일 입력 → 파라미터 변환 + 시스템 규칙 → 노트북 출력
 - **어떤 입력을 쓸까? (모바일)**
   - 버튼 '탭'
@@ -110,68 +111,70 @@ import { DeviceDiagram } from "@/app/lecture-materials/components/device-diagram
   - 외부 데이터 (날씨, 교통, 주가)
 - **어떤 출력을 쓸까? (노트북)**
   - 크리에이티브 코딩 (<Term id="canvas" />, <Term id="glsl" />)
-  - 텍스트 / 타이포그래피 (폰트, 크기, 레이아웃 변화)
-  - 이미지 / 비디오 콜라주
+  - 텍스트 / 타이포그래피 (폰트, 크기, 레이아웃 바꾸기)
+  - 이미지 / 영상 콜라주
   - 3D 그래픽 (예: <Term id="threejs" />)
-  - 오디오 요소 (예: <Term id="tonejs" />)
+  - 오디오 (예: <Term id="tonejs" />)
 
 ## 3. Socket.io [#3-socketio]
 
-- <Term id="websocket" />: 클라이언트/서버 간 양방향 실시간 통신. 웹에서 기기 간 실시간 인터랙션을 가능하게 한다
-- <Term id="socketio" />: WebSocket을 고수준으로 감싼 Javascript 라이브러리. 초보자 친화적 (자동 재접속, 기본 폴백)
-- 전략
-  - 클라이언트 A (인터랙션 입력)와 클라이언트 B (인터랙션 출력)가 있다고 하자
-  - 클라이언트 A → relay 서버에 메시지 전송 → relay 서버가 같은 room의 다른 모든 클라이언트에 전파 → 클라이언트 B가 메시지를 받는다
-- 템플릿에 이미 설치됨: `socket.io` (서버), `socket.io-client` (브라우저)
+- <Term id="websocket" />: 클라이언트와 서버가 실시간으로 양방향 통신하는 방식. 웹에서 기기끼리 실시간으로 인터랙션할 수 있게 해준다
+- <Term id="socketio" />: WebSocket을 쓰기 쉽게 감싼 Javascript 라이브러리. 입문자가 쓰기 좋다 (자동 재연결, fallback 기본 제공)
+- 방식
+  - 클라이언트 A(인터랙션 입력)와 클라이언트 B(인터랙션 출력)가 있다고 하자
+  - 클라이언트 A가 메시지를 보낸다 → relay 서버가 같은 room에 있는 나머지 클라이언트 모두에게 전달한다 → 클라이언트 B가 받는다
+- 템플릿에 이미 설치되어 있다: `socket.io` (서버), `socket.io-client` (브라우저)
 
 <SocketDiagram />
 
-**이 레포의 구조**
+**이 레포에서의 구조**
 
-- `socket-server.mjs` → relay 서버. 파일 하나, 4000 포트
+- `socket-server.mjs`: relay 서버. 파일 하나로 되어 있고 4000번 포트를 쓴다
   - `join(room)`: 기기가 room에 들어간다
-  - `message({ type, data })`: 같은 room의 다른 모든 기기에 그대로 전달
-  - Next.js의 일부가 아니다. 별도의 Node 프로세스다 (그래서 Vercel이 못 돌린다. §7 참고)
-- `hooks/shared/useSocket.ts` → 클라이언트 훅
+  - `message({ type, data })`: 같은 room에 있는 나머지 기기 모두에게 그대로 전달된다
+  - Next.js에 포함된 것이 아니라 따로 실행되는 Node 프로세스다 (그래서 Vercel에는 올릴 수 없다. [§7](#7-socket-deployment) 참고)
+- `hooks/shared/useSocket.ts`: 클라이언트 쪽 hook
   - `const { send, connected } = useSocket(room, onMessage)`
-  - `send(type, data)` → room에 보낸다
-  - `onMessage(type, data)` → 다른 기기의 메시지마다 호출된다
-  - 주소: `NEXT_PUBLIC_SOCKET_URL`이 있으면 그것, 없으면 현재 호스트의 4000 포트
-- 실험 하나의 라우트 관례
-  - 클라이언트 A 모바일: `app/experiments/w2/<name>/mobile/page.tsx` → localhost:3000/experiments/w2/name/mobile
-  - 클라이언트 B 스크린: `app/experiments/w2/<name>/screen/page.tsx` → localhost:3000/experiments/w2/name/screen
-  - 둘 다 같은 room 이름으로 `useSocket("<name>", ...)`
+  - `send(type, data)`: room에 메시지를 보낸다
+  - `onMessage(type, data)`: 다른 기기에서 메시지가 올 때마다 호출된다
+  - 주소: `NEXT_PUBLIC_SOCKET_URL`이 설정되어 있으면 그 주소, 없으면 현재 호스트의 4000번 포트
+- 실험 하나의 라우트 구성 규칙
+  - 두 페이지 모두 같은 room 이름으로 `useSocket("<name>", ...)`을 호출한다
+
+  | | 파일 | 주소 |
+  |---|---|---|
+  | 클라이언트 A · 모바일 | `app/experiments/w2/<name>/mobile/page.tsx` | localhost:3000/experiments/w2/name/mobile |
+  | 클라이언트 B · 스크린 | `app/experiments/w2/<name>/screen/page.tsx` | localhost:3000/experiments/w2/name/screen |
 
 **전체 흐름**
 
-1. 스크린 페이지가 뜬다 → `useSocket`이 relay에 접속 → `join("name")`
-2. 모바일 페이지가 뜬다 → 동일
-3. 모바일: `send("action", { x, y })`
-4. Relay: `{ type: "action", data: { x, y } }`를 room의 나머지에 전달
-5. 스크린: `onMessage("action", { x, y })` → 상태 갱신 → 렌더
+다이어그램의 번호 다섯 개는 다음과 같다.
 
-- 이게 기본 코드다. 위에 복잡하게 쌓거나 모듈화해도 된다
-- 너의 사변적인 기기 간 인터랙션은 무엇일까? 이 기술로 어떤 인터랙티브/몰입형 오디오비주얼 작업을 할까?
-- Socket.io/WebSocket을 TouchDesigner나 Unreal에 연결할 수도 있다 (W3)
+1. 스크린 페이지를 연다. `useSocket("drawing", onMessage)`가 relay에 연결하고 room에 들어간다
+2. 모바일 페이지를 연다. 스크린과 마찬가지다
+3. 모바일: `send("move", { x, y })`
+4. Relay: `{ type: "move", data: { x, y } }`를 room의 나머지 기기에 전달한다
+5. 스크린: `onMessage("move", { x, y })`가 호출된다. state를 업데이트하고 화면에 그린다
+
+- 여기까지가 기본 코드다. 이 위에 더 복잡한 기능을 얹거나 모듈로 나눠도 된다
+- 기기 사이에 어떤 사변적(speculative) 인터랙션을 만들 것인가? 이 기술을 인터랙티브/몰입형 오디오비주얼 디자인 작업에 어떻게 쓸 것인가?
+- Socket.io/WebSocket은 TouchDesigner나 Unreal과도 연결할 수 있다 (W3)
 
 ## 4. Socket.io 예제 [#4-socketio-examples]
 
-**이 레포** ([/experiments/w2](/experiments/w2))
+**이 레포에 있는 예제** ([/experiments/w2](/experiments/w2))
 
-- 터치만 쓴다. `pnpm dev` (http)로 충분하다: /screen을 열고, /mobile을 두 번째 탭이나 폰에서 연다
-
-1. Drawing: 모바일 터치 이동 → 스크린의 선 ([mobile](/experiments/w2/drawing/mobile) · [screen](/experiments/w2/drawing/screen))
+1. Drawing: 모바일에서 손가락을 움직인다 → 스크린에 선이 그려진다 ([mobile](/experiments/w2/drawing/mobile) · [screen](/experiments/w2/drawing/screen))
 2. Signature
-   - Live: 모바일에서 서명 → 쓰는 대로 스크린에 나타난다 ([mobile](/experiments/w2/signature/live/mobile) · [screen](/experiments/w2/signature/live/screen))
-   - Contracts: 모바일에서 서명하고 전송 → 서명이 서류 40장에 찍힌다 ([mobile](/experiments/w2/signature/contracts/mobile) · [screen](/experiments/w2/signature/contracts/screen))
-3. Market: 모바일에서 손가락을 위 / 아래로 → 가상의 주식 시장이 오른다 / 내린다 ([mobile](/experiments/w2/market/mobile) · [screen](/experiments/w2/market/screen))
-4. Typing: 모바일에서 타이핑 → 문장이 채팅 앱 여덟 개에 전송되고, 방마다 답이 온다 ([mobile](/experiments/w2/typing/mobile) · [screen](/experiments/w2/typing/screen))
-5. 3D (Three.js)
-   - Rotate: 모바일 드래그 → 스크린의 3D 도형이 돈다 ([mobile](/experiments/w2/3d/rotate/mobile) · [screen](/experiments/w2/3d/rotate/screen))
-   - Particles: 모바일에서 두 손가락을 벌리면 → 구가 파티클 40,000개로 흩어진다 ([mobile](/experiments/w2/3d/particles/mobile) · [screen](/experiments/w2/3d/particles/screen))
-   - Togglers: 모바일의 스위치 40개 위를 finger-skating → 시뮬레이션된 수면의 파원 40개 ([mobile](/experiments/w2/3d/togglers/mobile) · [screen](/experiments/w2/3d/togglers/screen))
-   - City: 모바일의 세 모드(Settings, Navigate, Statistics) → 생성된 도시의 파라미터, 카메라, 통계. 사운드도 실시간으로 만든다 ([mobile](/experiments/w2/3d/city/mobile) · [screen](/experiments/w2/3d/city/screen))
-- 모바일의 센서(기울기, 카메라)를 쓰는 예제는 HTTPS가 필요하다: §5, 그다음 §6
+   - Live: 모바일에서 서명한다 → 쓰는 대로 스크린에 서명이 나타난다 ([mobile](/experiments/w2/signature/live/mobile) · [screen](/experiments/w2/signature/live/screen))
+   - Contracts: 모바일에서 서명하고 전송한다 → 서류 40장에 서명이 찍힌다 ([mobile](/experiments/w2/signature/contracts/mobile) · [screen](/experiments/w2/signature/contracts/screen))
+3. Typing: 모바일에서 글을 입력한다 → 그 문장이 채팅 앱 여덟 개에 전송되고, 채팅방마다 답장이 온다 ([mobile](/experiments/w2/typing/mobile) · [screen](/experiments/w2/typing/screen))
+4. 3D (Three.js)
+   - Rotate: 모바일에서 드래그한다 → 스크린의 3D 도형이 회전한다 ([mobile](/experiments/w2/3d/rotate/mobile) · [screen](/experiments/w2/3d/rotate/screen))
+   - Particles: 모바일에서 두 손가락을 벌린다 → 구가 파티클 40,000개로 부서진다 ([mobile](/experiments/w2/3d/particles/mobile) · [screen](/experiments/w2/3d/particles/screen))
+   - Togglers: 모바일에서 스위치 40개 위를 핑거 스케이팅한다 → 수면 시뮬레이션 속 파원 40개 ([mobile](/experiments/w2/3d/togglers/mobile) · [screen](/experiments/w2/3d/togglers/screen))
+   - City: 모바일의 세 가지 모드(Settings, Navigate, Statistics) → 생성된 도시의 파라미터, 카메라, 통계. 실시간 사운드 포함 ([mobile](/experiments/w2/3d/city/mobile) · [screen](/experiments/w2/3d/city/screen))
+- 모바일 센서(기울기, 카메라)를 쓰는 예제는 HTTPS가 필요하다. [§5](#5-mobile-https-debugging), 그다음 [§6](#6-mobile-sensors) 참고
 
 **XD Lab 작업**
 
@@ -184,80 +187,84 @@ import { DeviceDiagram } from "@/app/lecture-materials/components/device-diagram
 ## 5. 모바일 HTTPS 디버깅 [#5-mobile-https-debugging]
 
 - 모바일 디버깅: 어렵다
-- 크로스 디바이스 (모바일 + 데스크톱) 디버깅: 아주 어렵다
-  - 이 일은 당분간 AI가 안 뺏어갈 것 같아 다행!
+- 크로스 디바이스 (모바일 + 데스크톱) 디버깅: 훨씬 더 어렵다
 
-### A1. 로컬 네트워크 접속 (ifconfig) [#a1-local-network-connection-using-ifconfig]
+### A1. 로컬 네트워크로 접속하기 [#a1-local-network-connection]
 
-폰은 localhost:3000에 접속할 수 없다. "localhost"는 그 기기 _자신_을 뜻하기 때문이다. 폰은 네 컴퓨터의 로컬 네트워크 IP로 접속해야 한다.
+노트북에서 띄운 페이지를 모바일에서 연다. `pnpm dev`는 계속 켜둔다.
 
-- **컴퓨터 IP 찾기:** 컴퓨터에서 터미널을 연다.
-  - **macOS** 또는 **Linux**: `ifconfig | grep "inet "`
-  - **Windows**: `ipconfig`
-  - `pnpm dev:mobile`도 출력해준다 (A3 참고).
-- **IP 확인:** 192.168.1.XX나 10.0.0.XX처럼 생긴 주소를 찾아라. 그게 컴퓨터의 로컬 IP다.
-- **기기 연결:** 폰과 컴퓨터가 **같은 Wi-Fi**에 있어야 한다. 학교 Wi-Fi가 기기 간 통신을 막으면 폰 핫스팟을 써라.
-- **폰에서 접속:** 폰 브라우저(Chrome이나 Safari)에서 `https://<YOUR_IP_ADDRESS>:3000`. 예: https://192.168.1.10:3000/experiments/w2/drawing/mobile
+- `localhost`는 "지금 이 기기"를 뜻한다. 노트북에서 localhost:3000은 노트북을 가리킨다. 모바일에서 localhost를 입력하면 모바일 자신을 가리키는데, 모바일에서는 아무것도 실행되고 있지 않다
+- 그래서 모바일에는 같은 Wi-Fi 안에서 노트북을 가리키는 주소, 즉 IP 주소가 필요하다. IP 주소는 Wi-Fi 공유기가 기기마다 하나씩 나눠준다. 192.168.0.12나 10.0.0.12 같은 형태다
+- 노트북의 IP 주소를 찾는 방법은 두 가지다
+  1. 터미널에서 찾기
+     - **macOS** 또는 **Linux**: `ifconfig | grep "inet "`
+     - **Windows**: `ipconfig`
+     - 192.168.x.x나 10.x.x.x 형태의 주소를 쓴다. 127.0.0.1은 localhost이므로 아니다
+  2. AI 에이전트에게 묻기: "내 컴퓨터의 로컬 IP 주소가 뭐야?" 에이전트가 명령어를 실행해서 알려준다
+- 모바일과 노트북을 **같은 Wi-Fi**에 연결한다. 학교 Wi-Fi가 기기끼리의 통신을 막고 있으면 모바일 핫스팟을 쓴다
+- 모바일 브라우저에 `http://<YOUR_IP>:3000`과 경로를 입력한다. 예: http://192.168.0.12:3000/experiments/w2/drawing/mobile
+- 노트북에서는 평소처럼 스크린 페이지를 연다: localhost:3000/experiments/w2/drawing/screen
 
-### A2. 원격 디버깅 (iOS vs. Android) [#a2-remote-debugging-ios-vs-android]
+### A2. 로컬 개발용 <Term id="https">HTTPS</Term>: `pnpm dev:mobile` [#a2-https-for-local-dev-pnpm-devmobile]
 
-폰의 console.log() 메시지, DOM, 네트워크 요청을 컴퓨터 화면에서 보는 방법이다.
+**왜 HTTPS가 필요한가**
 
-#### Android (Chrome 디버깅)
+- `http://`: 페이지와 브라우저가 주고받는 내용이 암호화되지 않는다. 같은 네트워크에 있으면 누구나 읽을 수 있다
+- `https://`: 내용이 암호화된다. 페이지와 브라우저만 읽을 수 있다
+- 카메라, 마이크, 모션 센서에는 사용자의 모습과 지금 있는 공간이 그대로 담긴다. 그래서 브라우저는 `https://`로 연 페이지에서만 이 기능을 쓰게 해준다
+- 예외가 하나 있다. `localhost`다. localhost에서는 아무것도 내 기기 밖으로 나가지 않는다. W1에서 `pnpm dev`만으로 노트북 카메라를 쓸 수 있었던 이유다
+- 모바일은 `http://192.168.x.x`로 페이지를 연다. localhost도 아니고 https도 아니다. 그래서 페이지를 https로 띄우기 전까지는 카메라와 센서가 막힌다
 
-1. **Android 기기에서:** "개발자 옵션"을 켠다 (보통 숨겨져 있다. 기종별로 켜는 법을 검색). 개발자 옵션 안에서 "USB 디버깅"을 켠다.
-2. **컴퓨터에서:** 폰을 USB로 연결한다.
-3. 데스크톱 **Chrome**에서 주소창에 `chrome://inspect#devices` 입력.
-4. 기기와 열린 탭이 보인다. 디버깅할 탭의 "Inspect"를 누른다.
-5. DevTools 창이 열리고 폰의 브라우저 세션을 들여다볼 수 있다.
+**방법**
+
+1. 실행 중인 서버를 끈다. `pnpm dev`를 실행한 터미널에서 `Ctrl + C`를 누른다
+2. `pnpm dev:mobile`로 다시 켠다. 서버 두 개(3000, 4000)는 그대로이고 이번에는 https로 뜬다. 처음 실행할 때는 비밀번호를 물어볼 수 있다. 모바일에서 열 주소가 출력된다
+3. 모바일에서 `https://<YOUR_IP>:3000`과 경로를 연다. 경고 페이지가 뜬다 ("연결이 비공개로 설정되어 있지 않습니다")
+   - **정상**이다. 인증서는 "이 사이트가 진짜 그 사이트가 맞다"는 것을 증명하는데, 이 인증서를 내 노트북이 직접 만들었기 때문에 모바일이 확인할 수 없다
+   - **"고급"** → **"계속 진행 (안전하지 않음)"**을 누른다
+4. relay도 똑같이 해준다. 모바일에서 `https://<YOUR_IP>:4000`을 열고 경고를 넘어간다. "socket relay ok"가 보여야 한다
+   - 이 단계를 건너뛰면 페이지는 열리지만 스크린에는 아무것도 전달되지 않는다
+5. 노트북에서는 https://localhost:3000을 연다
+
+경고는 기기마다 한 번만 넘어가면 된다.
+
+### A3. 원격 디버깅 (iOS vs. Android) [#a3-remote-debugging-ios-vs-android]
+
+모바일의 console.log() 메시지, DOM, 네트워크 요청을 컴퓨터 화면에서 확인한다.
+
+#### Android (Chrome 디버깅) [#android-chrome-debugging]
+
+1. **Android 기기에서:** "개발자 옵션"을 켠다 (보통 숨겨져 있으므로 본인 기종에서 켜는 방법을 검색한다). 개발자 옵션에서 "USB 디버깅"을 켠다.
+2. **컴퓨터에서:** 모바일을 USB 케이블로 컴퓨터에 연결한다.
+3. 데스크톱 **Chrome**을 열고 주소창에 `chrome://inspect#devices`를 입력한다.
+4. 연결한 기기와 열려 있는 탭이 보인다. 디버깅할 탭의 "Inspect"를 누른다.
+5. DevTools 창이 열리고, 모바일 브라우저를 여기서 검사할 수 있다.
 
 #### iOS (Safari Web Inspector)
 
-**참고:** **Mac**이 필요하다.
+**참고:** **Mac**이 있어야 한다.
 
-1. **iPhone에서:** 설정 > Safari > 고급 > "웹 속성(Web Inspector)" 켜기.
-2. **Mac에서:** **Safari**를 열고 Safari > 설정 > 고급 > 맨 아래 "메뉴 막대에서 개발자용 메뉴 보기" 체크.
-3. **연결:** iPhone을 Mac에 USB로 연결.
-4. Mac Safari의 새 "개발자용" 메뉴에 iPhone 이름이 보인다.
-5. iPhone 이름 위에 마우스를 올리면 열린 탭 목록이 나온다. 디버깅할 탭을 누르면 Web Inspector가 열린다.
-
-### A3. 로컬 개발용 <Term id="https">HTTPS</Term>: `pnpm dev:mobile` [#a3-https-for-local-dev-pnpm-devmobile]
-
-요즘 브라우저는 보안상 http:// 연결에서 민감한 API(카메라, 마이크, 가속도계)를 막는다. `localhost`는 예외다(보안 컨텍스트로 친다). 그래서 W1에서는 `pnpm dev`로 충분했다. 폰이 `192.168.x.x`로 접속하는 순간 더 이상 localhost가 아니므로, 로컬 사이트를 https://로 띄워야 한다.
-
-**`pnpm dev:mobile`이 하는 일**
-
-- `next dev --experimental-https -H 0.0.0.0` 실행 → Next.js가 `certificates/`에 자체 서명 인증서를 만들고(처음 한 번, 비밀번호를 물을 수 있음) https://localhost:3000에서 듣는다. 폰은 네 IP로 접속
-- `node socket-server.mjs` 실행 → relay가 같은 인증서를 재사용해 https://localhost:4000에서 듣는다. 폰용 URL을 출력해준다
-
-**중요: 보안 경고 통과하기 (두 번)**
-
-**자체 서명 인증서**라 폰이 기본적으로 신뢰하지 않는다. 큰 경고 페이지가 뜬다 ("연결이 비공개로 설정되어 있지 않습니다", NET::ERR_CERT_AUTHORITY_INVALID).
-
-- **정상**이고 **예상된** 것이다.
-- 경고 화면에서 **"고급"** → **"계속 진행 (안전하지 않음)"**.
-- 포트 **둘 다** 해야 한다:
-  1. `https://<YOUR_IP>:3000` → 페이지
-  2. `https://<YOUR_IP>:4000` → relay. 폰 브라우저에서 한 번 열어 경고를 통과하면 "socket relay ok"가 보인다
-- 2번을 빼먹으면 증상은 이렇다: "페이지는 뜨는데 스크린에 아무것도 안 온다". 소켓이 조용히 막힌 것.
-
-기기당 한 번만 하면 된다 (인증서가 바뀌기 전까지). 그다음부터 폰은 https:// 버전을 열고, 민감한 API(카메라, 가속도계 등)가 동작한다.
+1. **iPhone에서:** 설정 > Safari > 고급으로 들어가 "웹 속성(Web Inspector)"을 켠다.
+2. **Mac에서:** **Safari**를 연다. Safari > 설정 > 고급으로 들어가 맨 아래의 "메뉴 막대에서 개발자용 메뉴 보기"를 체크한다.
+3. **연결:** iPhone을 USB 케이블로 Mac에 연결한다.
+4. Mac의 Safari에 새로 생긴 "개발자용" 메뉴를 누른다. iPhone 이름이 보인다.
+5. iPhone 이름에 마우스를 올리면 열려 있는 탭 목록이 나온다. 디버깅할 탭을 누르면 Web Inspector 창이 열린다.
 
 ## 6. 모바일 센서 [#6-mobile-sensors]
 
-- 카메라, 마이크, 모션 센서는 <Term id="https">HTTPS</Term>(또는 localhost)에서만 된다: `pnpm dev:mobile` (A3)
-- 사용자의 탭 이후에 시작한다. 브라우저가 권한을 묻는다
+- 카메라, 마이크, 모션 센서는 <Term id="https">HTTPS</Term>(또는 localhost)에서만 작동한다: `pnpm dev:mobile` ([A2](#a2-https-for-local-dev-pnpm-devmobile))
+- 사용자가 탭한 뒤에 시작된다. 브라우저가 권한을 묻는다
 
-| 입력 | 브라우저 API | 예제 |
-| --- | --- | --- |
-| 기울기 | `deviceorientation` 이벤트 → `alpha`, `beta`, `gamma` (도) | [w2/tilt](/experiments/w2/tilt/screen) |
-| 흔들기 | `devicemotion` 이벤트 → `acceleration` | |
-| 마이크 | `navigator.mediaDevices.getUserMedia({ audio: true })` | [w1/video](/experiments/w1/video) |
-| 카메라 | `navigator.mediaDevices.getUserMedia({ video: true })` | [w2/camera-slit-scan](/experiments/w2/camera-slit-scan/screen) · [w1/glsl/creation-webcam](/experiments/w1/glsl/creation-webcam) |
+| | 입력 | 브라우저 API | 예제 |
+| --- | --- | --- | --- |
+| <SensorMotion kind="tilt" /> | 기울기 | `deviceorientation` 이벤트 → `alpha`, `beta`, `gamma` (도) | [w2/tilt](/experiments/w2/tilt/screen) |
+| <SensorMotion kind="shake" /> | 흔들기 | `devicemotion` 이벤트 → `acceleration` | |
+| <SensorMotion kind="microphone" /> | 마이크 | `navigator.mediaDevices.getUserMedia({ audio: true })` | [w1/video](/experiments/w1/video) |
+| <SensorMotion kind="camera" /> | 카메라 | `navigator.mediaDevices.getUserMedia({ video: true })` | [w2/camera-slit-scan](/experiments/w2/camera-slit-scan/screen) · [w1/glsl/creation-webcam](/experiments/w1/glsl/creation-webcam) |
 
 **기울기 (가속도계)**
 
-- iOS: 탭 핸들러 안에서 `DeviceOrientationEvent.requestPermission()`. Android: 권한 팝업 없음
+- iOS: 탭 핸들러 안에서 `DeviceOrientationEvent.requestPermission()`을 호출한다. Android: 권한 팝업이 없다
 
 ```tsx
 async function start() {
@@ -280,50 +287,68 @@ async function start() {
 1. Tilt: 모바일 기울기 → 스크린의 공 ([mobile](/experiments/w2/tilt/mobile) · [screen](/experiments/w2/tilt/screen))
 2. Camera Slit-Scan: 모바일 카메라 → 스크린의 슬릿 스캔 ([mobile](/experiments/w2/camera-slit-scan/mobile) · [screen](/experiments/w2/camera-slit-scan/screen))
 
-## 7. 소켓 배포 [#7-socket-deployment]
+## 7. Socket 배포 [#7-socket-deployment]
 
-- <Term id="vercel" />은 Next.js 앱만 호스팅한다. 계속 도는 프로세스가 없으니 소켓 relay도 없다. 단일 디바이스 페이지(W1)는 Vercel에 올리면 끝. 크로스 디바이스 작업은 relay가 다른 어딘가에 있어야 한다. 옵션 넷
-- **A · 노트북이 서버** (웹 과제 2, 기말, Black Room에서 우리가 하는 방식)
-  - `pnpm dev:mobile`. 폰과 노트북이 같은 Wi-Fi. relay는 노트북에서 돌고, 폰은 `https://<노트북 IP>:3000`을 연다
-  - 배포할 게 없고, 인터넷 없이도 된다. 닿는 범위: 그 네트워크 하나
-- **B · 앱은 Vercel + relay는 Node 호스트** (공개 URL이 필요할 때)
-  - `socket-server.mjs`는 어떤 Node 호스트에서든 그대로 돈다. Vercel에 `NEXT_PUBLIC_SOCKET_URL`을 relay 주소로 설정한다. 호스트가 HTTPS를 주니까 소켓은 `wss://`
-  - 호스트, 2026년 11월 기준: [Render](https://render.com/docs/free) (무료, 안 쓰면 잠든다) · [Railway](https://railway.com/pricing) (체험 크레딧 $5, 그다음 Hobby $5/월) · [Fly.io](https://fly.io/docs/about/pricing/) (무료 없음) · AWS EC2 + Nginx + PM2 (반포자이즘이 도는 곳)
-  - 단계별 방법은 아래
-- **C · 노트북을 터널로 열기** (다른 곳에서 한 시간짜리 데모)
-  - relay는 노트북에 두고, 터널이 공개 주소를 준다: [ngrok](https://ngrok.com/docs/pricing-limits/free-plan-limits) (`ngrok http 4000`) 또는 [cloudflared](https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/) (`cloudflared tunnel --url http://localhost:4000`)
-  - 노트북이 켜져 있고 온라인이어야 한다
-- **D · 우리 relay 대신 호스팅형 실시간 서비스**: [Ably](https://ably.com/), [Pusher](https://pusher.com/), [Supabase Realtime](https://supabase.com/realtime), [PartyKit](https://www.partykit.io/). `useSocket`과 다른 API
-- 이 워크숍에서는 A. 포트폴리오용으로 온라인에 올리고 싶으면 Render로 B
+- [W1 §12](/lecture-materials/w1#12-deployment)에서 한 배포는 내 노트북(localhost)에서만 열리던 앱을 <Term id="vercel" />에 올려서 누구나 접속할 수 있게 만드는 일이었다
+- 멀티 디바이스 작업은 프로그램 두 개가 같이 돌아야 한다([§3](#3-socketio)). Next.js 앱(3000 포트)과 relay 서버 `socket-server.mjs`(4000 포트)다
+- 이 중에서 Vercel에 올릴 수 있는 것은 Next.js 앱뿐이다. relay 서버는 올릴 수 없다
+  - Vercel은 serverless 방식이라, 누군가 페이지를 열 때만 잠깐 코드를 실행하고 곧바로 종료한다
+  - 반면 relay 서버는 모바일, 스크린과 연결을 계속 유지해야 해서 꺼지면 안 된다
+- 따라서 relay 서버를 계속 켜둘 컴퓨터가 따로 있어야 한다. 방법은 두 가지다
 
-**B · 단계별: Render**
+**1. 내 노트북에서 돌리기**
 
-1. 레포를 GitHub에 push한다. 앱은 Vercel에 배포한다 ([W1 §12](/lecture-materials/w1#12-deployment))
-2. https://render.com → 가입 → **+ New > Web Service** → GitHub 레포 선택 → **Connect**
-3. 폼 채우기
+- 수업 시간에 쓴 방식이다. `pnpm dev`(또는 `pnpm dev:mobile`)를 실행하면 두 프로그램이 노트북에서 함께 돌고, 모바일은 같은 Wi-Fi로 접속한다([§5](#5-mobile-https-debugging))
+- 따로 배포할 필요는 없지만, 같은 Wi-Fi에 연결된 기기에서만 열린다
+
+**2. 인터넷 서버에 올리기**
+
+- Next.js 앱은 W1 때처럼 Vercel에 올리고, relay 서버는 프로그램을 계속 켜둘 수 있는 호스팅 서비스에 올린다. <Term id="render" />나 <Term id="railway" />를 쓴다
+  - <Term id="ec2" />도 한 예다. 반포자이즘의 relay 서버가 여기서 돌아간다
+- 이렇게 하면 같은 Wi-Fi가 아니어도, 주소만 알면 어디서든 작업을 열 수 있다
+- Black Room에서 진행하는 기말 프로젝트는 이 방식으로 배포하기를 권장한다
+
+<DeployDiagram />
+
+**앱에 relay 서버 주소 알려주기**
+
+- 노트북에서는 앱과 relay 서버가 같은 컴퓨터에 있었다. 그래서 주소를 따로 알려주지 않아도 페이지가 "지금 이 컴퓨터의 4000 포트"로 접속하면 됐다
+- 배포하고 나면 둘이 서로 다른 곳에 있게 된다. 앱은 Vercel에, relay 서버는 Render에 있고 주소도 각각 다르다. 앱은 relay 서버가 어디에 있는지 모르기 때문에 주소를 직접 알려줘야 한다
+- 주소는 Vercel의 환경 변수(Environment Variable)로 알려준다. 환경 변수는 코드에 직접 적지 않는 값이다. 서비스의 설정 화면에 "이름 = 값" 형태로 적어두면 앱이 그 값을 읽어서 쓴다
+  - 이름: `NEXT_PUBLIC_SOCKET_URL`. 이 템플릿의 `useSocket`은 이 이름으로 relay 서버 주소를 찾는다
+  - 값: Render가 만들어 준 relay 서버 주소. 예를 들면 `https://my-relay.onrender.com`
+
+**Render로 배포하기**
+
+1. Next.js 앱: 레포를 GitHub에 push한 뒤 Vercel에 배포한다 ([W1 §12](/lecture-materials/w1#12-deployment))
+2. relay 서버: https://render.com → 가입 → **+ New > Web Service** → 앱을 올린 것과 같은 GitHub 레포 선택 → **Connect**
+3. 설정 항목을 아래와 같이 입력한다. Start Command에 적은 명령 때문에 이 서비스는 Next.js 앱이 아니라 relay 서버를 실행하게 된다
    - Language: `Node`
    - Build Command: `pnpm install`
    - Start Command: `node socket-server.mjs`
    - Compute: `Free`
    - Environment Variables: `NODE_VERSION` = `24`
-4. 배포한다. 서비스 URL `https://<name>.onrender.com`을 연다 → "socket relay ok"
-5. Vercel → 프로젝트 → **Environment Variables** → `NEXT_PUBLIC_SOCKET_URL` = `https://<name>.onrender.com` → **Save** → 다시 배포
-6. Vercel URL에서 `/screen`과 `/mobile`을 연다
+4. 배포가 끝나면 Render가 relay 서버의 주소(`https://<name>.onrender.com`)를 만들어 준다. 이 주소를 열었을 때 "socket relay ok"가 보이면 정상이다
+5. 이 주소를 Vercel에 환경 변수로 등록한다
+   - Vercel에서 내 프로젝트를 연다 → **Settings** → **Environment Variables**
+   - Key에 `NEXT_PUBLIC_SOCKET_URL`, Value에 `https://<name>.onrender.com`을 입력하고 **Save**를 누른다
+   - 다시 배포한다. **Deployments** → 가장 최근 배포의 **⋯** → **Redeploy**. 환경 변수는 배포할 때 앱에 들어가기 때문에, 다시 배포해야 적용된다
+6. Vercel 주소로 접속해서 노트북에서는 `/screen`, 모바일에서는 `/mobile`을 연다
 
-- 무료 플랜: 15분 동안 트래픽이 없으면 잠들고, 깨는 데 1분쯤 걸린다. 월 750시간
-- `git push`마다 다시 배포된다. 로그: 서비스의 **Logs** 페이지
+- 무료 플랜에서는 15분 동안 접속이 없으면 relay 서버가 꺼진다. 그 뒤 처음 접속할 때는 다시 켜지느라 1분 정도 걸린다
 - 문서: [Your first deploy](https://render.com/docs/your-first-deploy) · [WebSockets](https://render.com/docs/websocket) · [Free plan](https://render.com/docs/free)
 
-**B · 단계별: Railway**
+**Railway로 배포하기**
 
-1. https://railway.com → GitHub으로 가입 → **New Project** → **GitHub repo** → 레포 선택
-2. 서비스 → **Settings** → Custom Start Command: `node socket-server.mjs` → **Deploy**
-3. 서비스 → **Settings** → **Networking** → **Generate Domain** → `https://<name>.up.railway.app` → "socket relay ok"
-4. Vercel: 위 5번과 같다. Railway URL을 넣는다
+1. Next.js 앱: 위와 똑같이 Vercel에 배포한다
+2. relay 서버: https://railway.com → GitHub 계정으로 가입 → **New Project** → **GitHub repo** → 같은 레포 선택
+3. 서비스 → **Settings** → Custom Start Command에 `node socket-server.mjs` 입력 → **Deploy**
+4. 서비스 → **Settings** → **Networking** → **Generate Domain**. 만들어진 주소 `https://<name>.up.railway.app`을 열었을 때 "socket relay ok"가 보이면 정상이다
+5. 이 주소를 Vercel에 환경 변수로 등록한다. 위 5번과 같고, Railway 주소를 넣으면 된다
 
-- 체험: 크레딧 $5, 30일. 그다음 Hobby: $5/월
+- 무료 체험은 크레딧 $5, 30일까지다. 그 이후에는 월 $5를 낸다
 - 문서: [Quick start](https://docs.railway.com/quick-start) · [Build and start commands](https://docs.railway.com/builds/build-and-start-commands) · [Domains](https://docs.railway.com/networking/domains/working-with-domains)
 
 ## 8. 과제: 웹 과제 2 [#8-homework-web-assignment-2]
 
-**모바일-노트북 인터랙티브 경험 만들기.** 성적에 안 들어간다. 꼭 필요하다. Web 3 (11/16)까지.
+**모바일과 노트북을 연결한 인터랙티브 경험 만들기.** 마감은 Web 3 (11/16).

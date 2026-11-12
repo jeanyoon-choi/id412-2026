@@ -8,32 +8,32 @@ import { ImageRow } from "@/app/lecture-materials/components/image-row/image-row
 ## 1. API 소개 [#1-api-introduction]
 
 - <Term id="api" />란?
-  - 컴퓨터 사이, 혹은 프로그램 사이의 연결. 다른 소프트웨어에 서비스를 제공하는 소프트웨어 인터페이스의 한 종류. - Wikipedia
-- 여러 종류의 API
-  - 날씨, 뉴스, 지도, 공공 데이터
+  - 컴퓨터와 컴퓨터, 또는 프로그램과 프로그램 사이를 이어 주는 연결이다. 소프트웨어 인터페이스의 한 종류로, 다른 소프트웨어에 서비스를 제공한다. - Wikipedia
+- API의 종류
+  - 날씨, 뉴스, 지도, 공공데이터
   - OpenAI API, Anthropic API (Claude)
   - Replicate API
   - Microsoft Azure/AWS/Google Cloud
-- Next.js와의 통합
+- Next.js와 연동하기
   - App Router: <Term id="routeHandler">Route Handler</Term> [LINK](https://nextjs.org/docs/app/building-your-application/routing/route-handlers)
-    - Route Handler란: 별도 백엔드 서버 없이 Next.js 안에 서버 로직을 바로 만드는 것
-    - `app/api/<name>/route.ts` → 페이지에서 `fetch("/api/<name>")`
-    - 서버에서 돈다. API 키가 브라우저에 절대 안 간다
-    - Route Handler는 Vercel에 배포된다 (소켓 relay와 달리)
+    - Route Handler를 쓰면 백엔드 서버를 따로 만들지 않고 Next.js 안에 서버 쪽 로직을 바로 작성할 수 있다
+    - `app/api/<name>/route.ts`에 작성 → 페이지에서 `fetch("/api/<name>")`로 호출
+    - 서버에서 실행된다. API key는 브라우저로 절대 넘어가지 않는다
+    - Route Handler는 Vercel에 함께 배포된다 (socket relay는 배포되지 않는다)
 
 ## 2. API 사용하기 [#2-using-an-api]
 
 **무료 API**
 
-| API | 데이터 | 키 |
+| API | 데이터 | API key |
 | --- | --- | --- |
-| [Open-Meteo](https://open-meteo.com/) | 날씨, 대기질 | 키 없음 |
-| [USGS Earthquakes](https://earthquake.usgs.gov/earthquakes/feed/v1.0/geojson.php) | 지난 한 시간 / 하루 / 일주일의 지진 | 키 없음 |
-| [New York Times](https://developer.nytimes.com/) | 뉴스: 톱 스토리, 기사 검색 | 무료 키 |
-| [NASA](https://api.nasa.gov/) | 우주 이미지와 데이터 | 무료 키 |
-| [공공데이터포털](https://www.data.go.kr/) | 한국 공공 데이터 | 무료 키 |
+| [Open-Meteo](https://open-meteo.com/) | 날씨, 대기질 | 필요 없음 |
+| [USGS Earthquakes](https://earthquake.usgs.gov/earthquakes/feed/v1.0/geojson.php) | 최근 1시간 / 하루 / 일주일 동안 발생한 지진 | 필요 없음 |
+| [New York Times](https://developer.nytimes.com/) | 뉴스 (주요 기사, 기사 검색) | 무료 key |
+| [NASA](https://api.nasa.gov/) | 우주 이미지와 데이터 | 무료 key |
+| [공공데이터포털](https://www.data.go.kr/) | 한국 공공데이터 | 무료 key |
 
-**키 없이**: 페이지에서 `fetch`로 바로 호출
+**API key가 필요 없는 경우**: 페이지에서 `fetch`로 호출한다
 
 ```tsx
 const response = await fetch(
@@ -43,28 +43,28 @@ const data = await response.json();
 console.log(data.current.temperature_2m, data.current.wind_speed_10m);
 ```
 
-**키가 있을 때**: Route Handler에서 호출
+**API key가 필요한 경우**: Route Handler에서 호출한다
 
-- 1단계. 가입하고 API 키 만들기
+- 1단계. 가입한 뒤 API key를 발급받는다
   - New York Times: https://developer.nytimes.com/
-- 2단계. API 키를 <Term id="env">`.env.local`</Term>에 저장: `NYT_API_KEY=...`
-  - `.env.local`이란? 서버에서만 읽는 환경변수
-  - `NEXT_PUBLIC_` 접두사를 붙이지 마라. 그 접두사가 붙으면 브라우저로 나간다. 즉 공개된다
-- 3단계. `.gitignore` 확인: `.env*`는 이미 들어 있다. 키는 절대 커밋하면 안 된다
-- 4단계. Route Handler에 API 코드 작성: `app/api/<name>/route.ts`. 키는 `process.env.NYT_API_KEY`로 읽는다
-- 5단계. 프론트엔드에서 fetch로 이 Route Handler 호출
+- 2단계. API key를 <Term id="env">`.env.local`</Term>에 저장한다: `NYT_API_KEY=...`
+  - `.env.local`이란? 환경 변수를 담는 파일. 서버에서만 읽는다
+  - 이름 앞에 `NEXT_PUBLIC_`을 붙이면 안 된다. 이 접두사가 붙은 변수는 모두 브라우저까지 전달된다. 곧 외부에 공개된다는 뜻이다
+- 3단계. <Term id="gitignore">`.gitignore`</Term>를 확인한다. `.env*`는 이미 들어 있다. API key는 절대 커밋하면 안 된다
+- 4단계. API를 호출하는 코드를 Route Handler에 작성한다: `app/api/<name>/route.ts`. API key는 `process.env.NYT_API_KEY`로 읽어 온다
+- 5단계. 프론트엔드에서는 이 Route Handler를 fetch로 호출한다
 
 **API 예제** ([/experiments/w3](/experiments/w3))
 
-1. 날씨 → 바람 필드 (키 없음): [api/weather](/experiments/w3/api/weather)
-2. NYT 헤드라인 (키, Route Handler): [api/nyt-headlines](/experiments/w3/api/nyt-headlines) → `app/api/nyt-headlines/route.ts`
+1. 날씨 → 바람의 흐름 (API key 필요 없음): [api/weather](/experiments/w3/api/weather)
+2. NYT 헤드라인 (API key 필요, Route Handler 사용): [api/nyt-headlines](/experiments/w3/api/nyt-headlines) → `app/api/nyt-headlines/route.ts`
 
 **LLM API**
 
-- LLM API(OpenAI, Anthropic)도 같은 방식으로 쓴다: 키는 `.env.local`, 호출은 Route Handler에서
+- LLM API(OpenAI, Anthropic)도 사용법은 같다. API key는 `.env.local`에 두고, Route Handler에서 호출한다
   - OpenAI: https://platform.openai.com/docs/overview
   - Anthropic: https://platform.claude.com/docs
-- SoTA (2024): AI 아바타 도슨트가 하는 말을 GPT-4o가 쓴다. 관객이 떠나면: GPT-4o API → Embeddings API → 토큰 임베딩 교차 유사도 행렬 → 선
+- SoTA (2024): AI 아바타 도슨트의 대사를 GPT-4o가 쓴다. 관객이 자리를 떠나면 GPT-4o API → Embeddings API → 토큰 임베딩 간 교차 유사도 행렬 → 선
 
 <ImageRow
   items={[
@@ -75,12 +75,12 @@ console.log(data.current.temperature_2m, data.current.wind_speed_10m);
 
 ## 3. 사운드: Tone.js [#3-sound-tonejs]
 
-- <Term id="webAudio" />: 브라우저의 오디오 엔진. 오실레이터, 샘플, 이펙트, 분석(볼륨, FFT)
-- <Term id="tonejs" />: Web Audio 위의 Javascript 라이브러리. 음악가 친화적 (Synth, Transport, Effect) [LINK](https://tonejs.github.io/)
-- 템플릿에 이미 설치됨: `tone`
+- <Term id="webAudio" />: 브라우저의 오디오 엔진. oscillator, 샘플, 이펙트, 분석(볼륨, FFT) 기능을 제공한다
+- <Term id="tonejs" />: Web Audio를 기반으로 만든 Javascript 라이브러리. 음악가에게 친숙한 개념(Synth, Transport, Effect)으로 쓸 수 있다 [LINK](https://tonejs.github.io/)
+- 템플릿에 이미 설치되어 있다: `tone`
 - 규칙
-  - 오디오는 사용자 제스처(탭/클릭) 뒤에만 시작된다: 이벤트 핸들러 안에서 `await Tone.start()`
-  - 마이크 입력은 HTTPS 필요 (W2 A3 참고)
+  - 사용자가 탭하거나 클릭한 뒤에만 오디오를 시작할 수 있다. 이벤트 핸들러 안에서 `await Tone.start()`를 호출한다
+  - 마이크 입력을 받으려면 HTTPS가 필요하다 ([W2 A2](/lecture-materials/w2#a2-https-for-local-dev-pnpm-devmobile) 참고)
 
 ```tsx
 import * as Tone from "tone";
@@ -95,31 +95,57 @@ async function play() {
 **사운드를 만드는 방법**
 
 1. 합성: `Tone.Synth`, `Tone.FatOscillator`, `Tone.NoiseSynth`. 파라미터 → 주파수, 볼륨
-2. 샘플: `public/`의 녹음 파일을 `Tone.Player` / `Tone.Sampler`로 재생
-3. 시퀀싱: `Tone.Transport`, `Tone.Loop`. 템포가 파라미터
-4. 이펙트: 소스와 스피커 사이에 `Tone.Filter`, `Tone.Reverb`, `Tone.Distortion`, `Tone.FeedbackDelay`
-5. 마이크를 입력으로: `Tone.UserMedia` + `Tone.Meter` / `Tone.FFT`
-6. 음성: 브라우저의 `speechSynthesis`, 또는 Route Handler를 거친 TTS API
+2. 샘플: `public/`에 넣어 둔 녹음 파일을 `Tone.Player` / `Tone.Sampler`로 재생한다
+3. 시퀀싱: `Tone.Transport`, `Tone.Loop`. 템포를 파라미터로 쓴다
+4. 이펙트: 소스와 스피커 사이에 `Tone.Filter`, `Tone.Reverb`, `Tone.Distortion`, `Tone.FeedbackDelay`를 연결한다
+5. 마이크를 입력으로 쓰기: `Tone.UserMedia` + `Tone.Meter` / `Tone.FFT`
+6. 음성: 브라우저의 `speechSynthesis`를 쓰거나, Route Handler를 거쳐 TTS API를 호출한다
 
 **사운드 예제**
 
-1. Tone Pad: 포인터 → 음높이, 필터: [sound/tone-pad](/experiments/w3/sound/tone-pad)
-2. 데이터 → 사운드 (드론, 바람, 심장박동, 충격음): [w1/snp](/experiments/w1/snp) → `sound.ts`
+1. Tone Pad: 포인터 → 음높이, filter: [sound/tone-pad](/experiments/w3/sound/tone-pad)
+2. 데이터 → 사운드 (드론, 바람, 심장 박동, 충격음): [w1/snp](/experiments/w1/snp) → `sound.ts`
 3. 마이크 → 파라미터: [w1/video](/experiments/w1/video)
 
 ## 4. <Term id="unreal" /> [#4-unreal]
 
-- 별도 레포: https://github.com/jeanyoon-choi/mobile-to-unreal-realtime-backbone
-  - 폰 → WebSocket → Node relay → UDP → UE 5.8 C++ 리시버 액터
-  - 우리 소켓 relay와 같은 아이디어, 마지막 구간만 다르다: Unreal은 Socket.io가 아니라 UDP를 듣는다
-- 수업에서 단계별로 다루지 않는다. 기말이 Unreal과 Web을 합친다면 README를 읽어라
+- 모바일로 웹 페이지뿐 아니라 Unreal Engine도 조작할 수 있다. 거치는 길은 W2와 같다. 모바일 → relay → 출력. 출력이 브라우저에서 Unreal로 바뀔 뿐이다
+- 예제 레포: https://github.com/jeanyoon-choi/mobile-to-unreal-realtime-backbone
+- 이 예제가 하는 일: 모바일에서 손가락을 드래그하면 Unreal 안의 구(sphere)가 따라 움직인다
+  1. 모바일에서 XY 패드가 있는 웹 페이지를 연다
+  2. 손가락을 드래그하는 동안 페이지가 손가락 위치(`x`, `y`)와 누르는 세기(`pressure`)를 WebSocket으로 relay에 보낸다. 1초에 25번 보낸다
+  3. relay(Node.js)는 가장 최근 위치만 남겨서 Unreal로 넘긴다. 1초에 30번 넘긴다
+  4. Unreal에서는 C++ 액터 하나가 이 값을 받아서 구를 움직인다
+- 수업에서 쓰는 relay와 다른 점: 브라우저는 Socket.io 메시지를 받을 수 있지만 Unreal은 받지 못한다. 그래서 relay가 마지막 구간을 UDP로 보낸다. UDP는 네트워크로 데이터를 보내는 더 단순한 방식이고, Unreal이 받을 수 있다
+- 실행하려면 Node.js 20 이상, pnpm 11, Unreal Engine 5.8이 필요하다
+  1. `pnpm install`을 한 뒤 `pnpm dev`를 실행한다. 모바일용 페이지(3000 포트)와 relay(4000 포트)가 켜진다
+  2. 같은 Wi-Fi에 연결한 모바일에서 `http://<YOUR_IP>:3000`을 연다
+  3. Unreal Engine에서 `unreal/MobileToUnrealBackbone/MobileToUnrealBackbone.uproject`를 연다
+  4. 모바일에서 드래그하면 Unreal의 구가 움직인다
+- 폴더 구성: `apps/mobile/` (모바일 페이지), `relay/` (relay), `unreal/` (Unreal 프로젝트), `docs/` (동작 방식에 대한 자세한 설명)
 
 ## 5. 시스템 & 인터랙션 [#5-system--interaction]
 
+예제 ([/experiments/w3](/experiments/w3))
+
+1. Fish Food ([mobile](/experiments/w3/system/fish-food/mobile) · [screen](/experiments/w3/system/fish-food/screen))
+   - 모바일: 지도를 탭하거나 문질러서 물에 먹이나 쓴 것을 떨어뜨린다
+   - 시스템: 금붕어 수천 마리가 모두 같은 규칙 몇 개를 따른다. 무리와 함께 다니고, 먹이로 모이고, 쓴 물에서는 도망친다. 놀란 상태는 옆 물고기에게 옮겨 간다
+   - 스크린: 무리가 먹이 주위로 모여들고, 쓴 물이 퍼지면 흩어진다
+2. Cloud Field ([mobile](/experiments/w3/system/cloud-field/mobile) · [screen](/experiments/w3/system/cloud-field/screen))
+   - 모바일: 지도를 드래그해서 하늘에서의 위치를 정하고, 슬라이더 두 개로 기압과 열을 조절한다
+   - 시스템: 모바일 한 대가 기압의 중심 하나가 된다. 저기압은 구름을 모으고 고기압은 구름을 걷어 낸다. 픽셀마다 모든 모바일의 영향을 더한다
+   - 스크린: 천천히 움직이는 구름 낀 하늘이 소리와 함께 나온다. 모바일 한 대가 소리 하나를 맡는다
+3. City Walk ([mobile](/experiments/w3/system/city-walk/mobile) · [screen](/experiments/w3/system/city-walk/screen))
+   - 모바일: 드래그해서 시부야 교차로를 1인칭 시점으로 걷고 방향을 바꾼다
+   - 시스템: 모든 기기가 같은 지도 데이터로 같은 도시를 만든다. 모바일은 자기 위치를 1초에 15번 보낸다
+   - 스크린: 도시 전체를 위에서 내려다본다. 걷는 사람마다 빛기둥이 서 있다
+
 ## 부록. 프로젝션 매핑 [#appendix-projection-mapping]
 
-- 1층 갤러리: 프로젝터 두 대, 벽 두 면
-  - 왼쪽 벽 1920 × 602, 오른쪽 벽 1675 × 602
+- 1층 갤러리(Black Room)에는 프로젝터가 두 대 있고, 벽 하나에 한 대씩 쏜다
+- 프로젝터가 쏘는 화면은 벽보다 크다. 그래서 화면의 일부만 벽에 맺힌다
+  - 왼쪽 벽에는 화면 중 1920 × 602만큼, 오른쪽 벽에는 1675 × 602만큼 맺힌다
 
 <ImageRow
   items={[
@@ -127,9 +153,13 @@ async function play() {
   ]}
 />
 
-- 프로젝터가 쏘는 상과 벽은 같지 않다: 상이 벽보다 크다. 위아래를 잘라내고 콘텐츠를 벽에 맞춘다
-- 방법: 콘텐츠를 프레임 안에 넣는다. 프레임을 옮기고 크기를 바꿔서 (top, left, width, height) 벽에 맞춘다. 프레임 밖은 전부 검정
-  - 예제: projection-mapping ([left](/experiments/w3/projection-mapping?side=left) · [right](/experiments/w3/projection-mapping?side=right)) → `app/experiments/w3/projection-mapping/`
-  - `MappingFrame.tsx`: 프레임. `Content.tsx`: 프레임이 감싸는 너의 콘텐츠
-  - 콘텐츠의 크기는 창(`100vw` / `100vh`)이 아니라 프레임(`100%`)에서 받는다
+- 따라서 화면 전체를 채우도록 만든 페이지는 벽에 맞지 않고, 일부가 벽 밖으로 나간다. 콘텐츠가 벽에 딱 맞게 놓이도록 조정하는 일이 프로젝션 매핑이다
+- 브라우저에서 하는 방법
+  1. 페이지 전체를 검은색으로 만든다. 검은색 부분은 프로젝터가 빛을 쏘지 않아서 보이지 않는다
+  2. 페이지 위에 상자를 하나 두고, 콘텐츠를 전부 그 상자 안에 넣는다
+  3. 전시장에서 상자의 네 변이 벽의 가장자리와 만날 때까지 상자의 위치와 크기를 조절한다
+- 예제: projection-mapping ([left](/experiments/w3/projection-mapping?side=left) · [right](/experiments/w3/projection-mapping?side=right)) → `app/experiments/w3/projection-mapping/`
+  - 프로젝터 한 대에 노트북 한 대를 연결한다. 한쪽에서는 `?side=left`를, 다른 쪽에서는 `?side=right`를 연다
+  - 슬라이더 네 개(top, left, width, height)로 상자를 움직인다. 벽에 맞으면 그 숫자 네 개를 `MappingFrame.tsx` 맨 위의 `FRAMES`에 적어 넣고 hide를 누른다
+  - `Content.tsx`가 내 콘텐츠다. 크기는 창 전체(`100vw` / `100vh`)가 아니라 상자(`100%`)를 기준으로 잡는다
 - 참고: https://github.com/jeanyoon-choi/xdlab-mapping

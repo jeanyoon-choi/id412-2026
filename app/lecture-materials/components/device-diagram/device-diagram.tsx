@@ -1,212 +1,185 @@
+import { L } from "../lang/lang-block";
 import styles from "./device-diagram.module.css";
 
-// One XD Lab work = its system schematic next to its installation photo.
-// The schematics follow the artist's own (jeanyoon.ch/oi): output devices on top,
-// the work's system in the middle, the mobile at the bottom.
-// Solid arrow: an event sent through Socket.IO. Dashed arrow: an API call, or what is sent back.
+// One XD Lab work: a short muted clip of it, and how it works.
+// Read like the Socket.io diagrams of §3: the mobile on the left, the screens on the right.
+// One row = one thing the visitor does: on the mobile → what the system does with it → what changes on the screens.
+// A row marked `back` runs the other way: the system → the mobile.
+// Sources: the artist's own schematics and texts (jeanyoon.ch/oi/artworks).
 type Label = { en: string; ko: string };
-type Node = { id: string; label: Label; note?: Label; kind?: "system" | "mobile"; weight?: number };
-type Route = { from: string; to: string; label?: Label; dashed?: boolean };
-type Work = { title: Label; href: string; photo: string; rows: Node[][]; routes: Route[] };
-
-const same = (text: string): Label => ({ en: text, ko: text });
-const each = (ids: string[], route: (id: string) => Route) => ids.map(route);
+type Flow = { mobile: Label; sends: Label; system: Label; screens?: Label; back?: boolean };
+type Work = { title: string; year: number; href: string; clip: string; devices: Label; about: Label; outputs: Label; flows: Flow[] };
 
 const WORKS: Record<string, Work> = {
   "banpo-xism": {
-    title: { en: "Banpo-Xism (2026): multiple mobiles → 1 media wall + 3 vertical TVs", ko: "반포자이즘 (2026): 여러 대의 모바일 → 미디어월 1 + 세로형 TV 3" },
-    href: "https://www.xdlab.net/projects/banpo-xism",
-    photo: "/lecture-materials/w2/banpo-xism-installation.webp",
-    rows: [
-      [
-        { id: "tv0", label: same("L-Axis"), note: same("TV · 1D") },
-        { id: "tv1", label: same("L-B Plane"), note: same("TV · 2D") },
-        { id: "tv2", label: same("B-Axis"), note: same("TV · 1D") },
-        { id: "wall", label: { en: "Media Wall", ko: "미디어월" }, note: same("3D"), weight: 1.6 },
-      ],
-      [
-        { id: "price", label: { en: "Price", ko: "가격" }, note: { en: "= position on the L-B plane", ko: "= L-B 평면 위의 위치" }, kind: "system" },
-        { id: "field", label: { en: "Apartment Field", ko: "아파트 필드" }, note: { en: "361 apartments", ko: "아파트 361개" }, kind: "system" },
-      ],
-      [
-        { id: "m1", label: same(""), kind: "mobile" },
-        { id: "m2", label: { en: "Mobiles", ko: "모바일" }, kind: "mobile" },
-        { id: "m3", label: same(""), kind: "mobile" },
-      ],
-    ],
-    routes: [
-      ...each(["m1", "m2", "m3"], (id) => ({ from: id, to: "field", label: id === "m3" ? { en: "scroll, touch, tilt, shake, voice", ko: "스크롤, 터치, 기울기, 흔들기, 목소리" } : undefined })),
-      { from: "field", to: "wall" },
-      { from: "field", to: "price" },
-      ...each(["tv0", "tv1", "tv2"], (id) => ({ from: "price", to: id })),
-      ...each(["m1", "m2", "m3"], (id) => ({ from: "price", to: id, dashed: true, label: id === "m1" ? { en: "price", ko: "가격" } : undefined })),
+    title: "Banpo-Xism",
+    year: 2026,
+    href: "https://jeanyoon.ch/oi/artworks/banpo-xism",
+    clip: "/lecture-materials/w2/banpo-xism-loop",
+    devices: { en: "multiple mobiles → 1 media wall + 3 vertical TVs", ko: "여러 대의 모바일 → 미디어월 1 + 세로형 TV 3" },
+    about: {
+      en: "361 fictional apartments on a grid: location (L) × brand (B). An apartment's position on the grid is its price.",
+      ko: "가상의 아파트 361개가 입지(L)와 브랜드(B)를 두 축으로 하는 격자 위에 놓여 있다. 격자에서의 위치가 곧 가격이다.",
+    },
+    outputs: { en: "Media wall + 3 TVs", ko: "미디어월 + TV 3" },
+    flows: [
+      {
+        mobile: { en: "Scroll the apartment feed", ko: "아파트 피드를 스크롤한다" },
+        sends: { en: "scroll", ko: "스크롤" },
+        system: { en: "The visitor's position climbs the grid, toward the most expensive apartment", ko: "관객의 위치가 격자에서 가장 비싼 아파트 쪽으로 올라간다" },
+        screens: { en: "Every visitor's position, at the same time", ko: "모든 관객의 위치를 한꺼번에 보여준다" },
+      },
+      {
+        mobile: { en: "Touch, tilt, shake, shout", ko: "터치, 기울이기, 흔들기, 소리치기" },
+        sends: { en: "gesture", ko: "제스처" },
+        system: { en: "The flat grid of apartments bends: it rolls into a torus, then turns in higher dimensions", ko: "평평하던 아파트 격자가 토러스 모양으로 말리고, 더 높은 차원에서 회전하며 휜다" },
+        screens: { en: "Media wall: the bent grid in 3D. TVs: its flat shadows (L axis, L-B plane, B axis)", ko: "미디어월은 휜 격자를 3D로 보여주고, TV 세 대는 그 격자를 평면에 비춘 모습(L축, L-B 평면, B축)을 보여준다" },
+      },
+      {
+        back: true,
+        mobile: { en: "Each mobile shows the new price of its apartment", ko: "모바일마다 자기 아파트의 바뀐 가격이 뜬다" },
+        sends: { en: "price", ko: "가격" },
+        system: { en: "Every apartment gets a new price from its new position", ko: "아파트마다 바뀐 위치에 따라 가격이 다시 매겨진다" },
+      },
     ],
   },
   omega: {
-    title: { en: "Ω (2025): 1 mobile → 4 screens", ko: "Ω (2025): 모바일 1 → 스크린 4" },
-    href: "https://www.xdlab.net/projects/omega",
-    photo: "/lecture-materials/w2/omega-mobile.webp",
-    rows: [
-      [
-        { id: "s0", label: same("E/I Axis"), note: { en: "screen", ko: "스크린" } },
-        { id: "s1", label: same("N/S Axis"), note: { en: "screen", ko: "스크린" } },
-        { id: "s2", label: same("T/F Axis"), note: { en: "screen", ko: "스크린" } },
-        { id: "s3", label: same("P/J Axis"), note: { en: "screen", ko: "스크린" } },
-      ],
-      [
-        { id: "type", label: { en: "Type Analysis", ko: "유형 분석" }, note: same("GPT"), kind: "system" },
-        { id: "shake", label: { en: "Shake Counter", ko: "흔들기 카운터" }, kind: "system" },
-      ],
-      [
-        { id: "question", label: { en: "Questionnaire", ko: "질문지" }, note: same("GPT"), kind: "system", weight: 1.6 },
-        { id: "mobile", label: { en: "Mobile", ko: "모바일" }, kind: "mobile" },
-        { id: "_gap", label: same(""), weight: 1.6 },
-      ],
-    ],
-    routes: [
-      { from: "question", to: "mobile", dashed: true },
-      { from: "mobile", to: "type", label: { en: "answer", ko: "답" } },
-      { from: "mobile", to: "shake", label: { en: "accelerometer, camera", ko: "가속도계, 카메라" } },
-      ...each(["s0", "s1", "s2", "s3"], (id) => ({ from: "type", to: id })),
-      ...each(["s0", "s1", "s2", "s3"], (id) => ({ from: "shake", to: id })),
+    title: "Ω",
+    year: 2025,
+    href: "https://jeanyoon.ch/oi/artworks/omega",
+    clip: "/lecture-materials/w2/omega-screens-loop",
+    devices: { en: "1 mobile → 4 screens", ko: "모바일 1 → 스크린 4" },
+    about: {
+      en: "A personality test. Each of the four screens is one MBTI axis: E/I, N/S, T/F, P/J.",
+      ko: "성격 검사를 다룬 작품이다. 스크린 네 개가 MBTI의 네 축(E/I, N/S, T/F, P/J)을 하나씩 맡는다.",
+    },
+    outputs: { en: "4 screens", ko: "스크린 4" },
+    flows: [
+      {
+        mobile: { en: "Answer a two-choice question", ko: "양자택일 질문에 답한다" },
+        sends: { en: "answer", ko: "답" },
+        system: { en: "GPT reads the answers and gives one weight per axis", ko: "GPT가 답을 분석해서 축마다 가중치를 매긴다" },
+        screens: { en: "One screen takes its new letter and colour; the four take turns", ko: "스크린 하나의 글자와 색이 바뀐다. 답할 때마다 네 스크린이 차례로 바뀐다" },
+      },
+      {
+        back: true,
+        mobile: { en: "The next question appears", ko: "다음 질문이 뜬다" },
+        sends: { en: "question", ko: "질문" },
+        system: { en: "GPT writes one question at a time", ko: "GPT가 질문을 하나씩 만들어 보낸다" },
+      },
+      {
+        mobile: { en: "Shake the mobile; its camera takes a photo", ko: "모바일을 흔들면 카메라가 사진을 찍는다" },
+        sends: { en: "shake, photo", ko: "흔들기, 사진" },
+        system: { en: "Each shake is counted (up to 35, then the work ends)", ko: "흔든 횟수를 센다 (35번이 되면 작품이 끝난다)" },
+        screens: { en: "All four distort at once; the photo enters them", ko: "스크린 네 개가 한꺼번에 일그러지고, 찍힌 사진이 화면 속에 들어간다" },
+      },
     ],
   },
   sota: {
-    title: { en: "SoTA (2024): 1 mobile → 2 projections + 4 screens", ko: "SoTA (2024): 모바일 1 → 프로젝션 2 + 스크린 4" },
-    href: "https://www.xdlab.net/projects/sota",
-    photo: "/lecture-materials/w2/sota-installation.webp",
-    rows: [
-      [
-        { id: "proj1", label: { en: "Projection", ko: "프로젝션" }, note: same("3D"), weight: 1.3 },
-        { id: "pc0", label: same("Dashboard") },
-        { id: "pc1", label: same("Avatar") },
-        { id: "pc2", label: same("Wireframe") },
-        { id: "pc3", label: same("Map") },
-        { id: "proj2", label: { en: "Projection", ko: "프로젝션" }, note: same("3D"), weight: 1.3 },
-      ],
-      [
-        { id: "tts", label: same("Azure TTS"), note: { en: "speech", ko: "음성" }, kind: "system" },
-        { id: "server", label: { en: "Server", ko: "서버" }, note: same("Socket.IO"), kind: "system", weight: 1.4 },
-        { id: "openai", label: same("GPT-4o"), note: same("Embeddings API"), kind: "system" },
-      ],
-      [{ id: "mobile", label: { en: "Mobile", ko: "모바일" }, kind: "mobile" }],
-    ],
-    routes: [
-      { from: "mobile", to: "server", label: { en: "select model, orientation, heartbeat", ko: "모델 선택, 기기 방향, 하트비트" } },
-      ...each(["proj1", "pc0", "pc1", "pc2", "pc3", "proj2"], (id) => ({ from: "server", to: id })),
-      { from: "pc1", to: "tts", dashed: true },
-      ...each(["pc0", "pc1", "pc2", "pc3"], (id) => ({ from: id, to: "openai", dashed: true })),
+    title: "SoTA",
+    year: 2024,
+    href: "https://jeanyoon.ch/oi/artworks/sota",
+    clip: "/lecture-materials/w2/sota-loop",
+    devices: { en: "1 mobile → 2 projections + 4 screens", ko: "모바일 1 → 프로젝션 2 + 스크린 4" },
+    about: {
+      en: "An exhibition of AI models. Four screens (dashboard, AI avatar docent, wireframe, map) between two projections.",
+      ko: "AI 모델을 전시하는 작품이다. 프로젝션 두 개 사이에 스크린 네 개(대시보드, AI 아바타 도슨트, 와이어프레임, 지도)가 놓여 있다.",
+    },
+    outputs: { en: "2 projections + 4 screens", ko: "프로젝션 2 + 스크린 4" },
+    flows: [
+      {
+        mobile: { en: "Select an AI model", ko: "AI 모델을 고른다" },
+        sends: { en: "model", ko: "모델" },
+        system: { en: "The server sends the choice to every device", ko: "서버가 고른 모델을 모든 기기에 알린다" },
+        screens: { en: "All six show that model", ko: "여섯 화면 모두 그 모델을 보여준다" },
+      },
+      {
+        mobile: { en: "Tilt the mobile", ko: "모바일을 기울인다" },
+        sends: { en: "orientation", ko: "기기 방향" },
+        system: { en: "The server passes it on, continuously", ko: "서버가 기울기 값을 계속 전달한다" },
+        screens: { en: "The projections and the avatar turn with it", ko: "프로젝션과 아바타가 기울기를 따라 회전한다" },
+      },
+      {
+        mobile: { en: "Lock or close the mobile", ko: "모바일을 잠그거나 닫는다" },
+        sends: { en: "heartbeat stops", ko: "하트비트 끊김" },
+        system: { en: "No sign of the mobile for 4 seconds: the visitor has left", ko: "모바일의 신호가 4초 동안 끊기면 관객이 떠난 것으로 본다" },
+        screens: { en: "Blue screens, one after another. Then the screens talk to GPT-4o and to each other, without a visitor", ko: "화면이 하나씩 블루스크린으로 바뀐다. 그 뒤에는 관객 없이 스크린들이 GPT-4o와, 그리고 서로 대화를 이어간다" },
+      },
     ],
   },
 };
 
-const WIDTH = 460;
-const ROW = 104; // distance between rows
-const BOX = 44; // box height
-const TOP = 10;
-
-type Placed = Node & { x: number; y: number; width: number };
-
-// Give every node of every row a position: rows top to bottom, nodes side by side by weight.
-function place(rows: Node[][]) {
-  const placed: Record<string, Placed> = {};
-  rows.forEach((row, rowIndex) => {
-    const total = row.reduce((sum, node) => sum + (node.weight ?? 1), 0);
-    let left = 0;
-    for (const node of row) {
-      const slot = (WIDTH * (node.weight ?? 1)) / total;
-      const width = node.kind === "mobile" ? Math.min(slot - 10, 62) : slot - 10;
-      placed[node.id] = { ...node, x: left + slot / 2, y: TOP + rowIndex * ROW, width };
-      left += slot;
-    }
-  });
-  return placed;
-}
-
-function Text({ label, ...props }: { label: Label } & React.SVGProps<SVGTextElement>) {
+function Arrow({ label, back }: { label?: Label; back?: boolean }) {
   return (
-    <>
-      <text data-lang-block="en" {...props}>
-        {label.en}
-      </text>
-      <text data-lang-block="ko" {...props}>
-        {label.ko}
-      </text>
-    </>
-  );
-}
-
-function Arrow({ from, to, route }: { from: Placed; to: Placed; route: Route }) {
-  // Leave from the side facing the other node: top / bottom between rows, left / right inside a row.
-  let start: [number, number];
-  let end: [number, number];
-  if (from.y === to.y) {
-    const direction = to.x > from.x ? 1 : -1;
-    start = [from.x + (direction * from.width) / 2, from.y + BOX / 2];
-    end = [to.x - (direction * to.width) / 2, to.y + BOX / 2];
-  } else if (from.y > to.y) {
-    start = [from.x, from.y];
-    end = [to.x, to.y + BOX];
-  } else {
-    start = [from.x, from.y + BOX];
-    end = [to.x, to.y];
-  }
-  const length = Math.hypot(end[0] - start[0], end[1] - start[1]);
-  const tipX = end[0] - ((end[0] - start[0]) / length) * 7; // stop short: the arrow head fills the gap
-  const tipY = end[1] - ((end[1] - start[1]) / length) * 7;
-  return (
-    <>
-      <line x1={start[0]} y1={start[1]} x2={tipX} y2={tipY} className={route.dashed ? `${styles.line} ${styles.dashed}` : styles.line} markerEnd="url(#device-arrow)" />
-      {route.label && <Text label={route.label} x={(start[0] + end[0]) / 2} y={(start[1] + end[1]) / 2 - 5} textAnchor="middle" className={styles.label} />}
-    </>
+    <div className={back ? `${styles.arrow} ${styles.back}` : styles.arrow}>
+      {label && <L en={label.en} ko={label.ko} />}
+      <i aria-hidden="true" />
+    </div>
   );
 }
 
 export function DeviceDiagram({ work }: { work: keyof typeof WORKS }) {
-  const { title, href, photo, rows, routes } = WORKS[work];
-  const nodes = place(rows);
-  const height = TOP * 2 + (rows.length - 1) * ROW + BOX;
-
+  const { title, year, href, clip, devices, about, outputs, flows } = WORKS[work];
   return (
     <figure className={styles.figure}>
-      <svg viewBox={`0 0 ${WIDTH} ${height}`} className={styles.svg} role="img" aria-label={`${title.en}, system schematic`}>
-        <defs>
-          <marker id="device-arrow" viewBox="0 0 8 8" refX="1" refY="4" markerWidth="7" markerHeight="7" orient="auto">
-            <path d="M 0 0 L 8 4 L 0 8 z" className={styles.head} />
-          </marker>
-        </defs>
-
-        {routes.map((route) => (
-          <Arrow key={`${route.from}-${route.to}`} from={nodes[route.from]} to={nodes[route.to]} route={route} />
-        ))}
-
-        {Object.values(nodes)
-          .filter((node) => !node.id.startsWith("_")) // "_gap" only takes up space
-          .map((node) => (
-            <g key={node.id}>
-              <rect
-                x={node.x - node.width / 2}
-                y={node.y}
-                width={node.width}
-                height={BOX}
-                rx={node.kind === "mobile" ? 8 : 0}
-                className={node.kind === "system" ? `${styles.box} ${styles.system}` : styles.box}
-              />
-              <Text label={node.label} x={node.x} y={node.y + (node.note ? 19 : 26)} textAnchor="middle" className={styles.title} />
-              {node.note && <Text label={node.note} x={node.x} y={node.y + 33} textAnchor="middle" className={styles.note} />}
-            </g>
-          ))}
-      </svg>
-
-      <a href={href} target="_blank" rel="noopener noreferrer" className={styles.photo}>
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={photo} alt={`${title.en}, installation view`} />
-      </a>
-
-      <figcaption className={styles.caption}>
-        <span data-lang-block="en">{title.en}. Solid: Socket.IO event. Dashed: API call / sent back.</span>
-        <span data-lang-block="ko">{title.ko}. 실선: Socket.IO 이벤트. 점선: API 호출 / 되돌아가는 것.</span>
+      <figcaption className={styles.heading}>
+        <a href={href} target="_blank" rel="noopener noreferrer">
+          {title} ({year})
+        </a>
+        <span>
+          <L en={devices.en} ko={devices.ko} />
+        </span>
       </figcaption>
+
+      <div className={styles.body}>
+        <a href={href} target="_blank" rel="noopener noreferrer" className={styles.photo}>
+          {/* A loop cut from the work's documentation video (jeanyoon.ch/oi) */}
+          <video src={`${clip}.mp4`} poster={`${clip}.webp`} autoPlay loop muted playsInline aria-label={`${title}, documentation clip`} />
+          <span>
+            <L en={about.en} ko={about.ko} />
+          </span>
+        </a>
+
+        <div className={styles.flows}>
+          {/* The three columns: the same order as in §3 */}
+          <div className={styles.column}>
+            <L en="Mobile · input" ko="모바일 · 입력" />
+          </div>
+          <div />
+          <div className={styles.column}>
+            <L en="System" ko="시스템" />
+          </div>
+          <div />
+          <div className={styles.column}>
+            <L en={`${outputs.en} · output`} ko={`${outputs.ko} · 출력`} />
+          </div>
+
+          {flows.map((flow, index) => (
+            <div key={index} className={styles.flow}>
+              <div className={`${styles.cell} ${styles.mobile}`}>
+                <L en={flow.mobile.en} ko={flow.mobile.ko} />
+              </div>
+              <Arrow label={flow.sends} back={flow.back} />
+              <div className={`${styles.cell} ${styles.system}`}>
+                <L en={flow.system.en} ko={flow.system.ko} />
+              </div>
+              {flow.screens ? (
+                <>
+                  <Arrow />
+                  <div className={styles.cell}>
+                    <L en={flow.screens.en} ko={flow.screens.ko} />
+                  </div>
+                </>
+              ) : (
+                <>
+                  <div />
+                  <div />
+                </>
+              )}
+            </div>
+          ))}
+        </div>
+      </div>
     </figure>
   );
 }

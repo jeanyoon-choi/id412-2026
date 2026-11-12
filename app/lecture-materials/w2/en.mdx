@@ -1,8 +1,9 @@
 import { Term } from "@/app/lecture-materials/components/term/term";
 import { ImageRow } from "@/app/lecture-materials/components/image-row/image-row";
-import { SocketDiagram } from "@/app/lecture-materials/components/socket-diagram/socket-diagram";
+import { SocketDiagram, DeployDiagram } from "@/app/lecture-materials/components/socket-diagram/socket-diagram";
 import { ParameterDiagram } from "@/app/lecture-materials/components/parameter-diagram/parameter-diagram";
 import { DeviceDiagram } from "@/app/lecture-materials/components/device-diagram/device-diagram";
+import { SensorMotion } from "@/app/lecture-materials/components/sensor-motion/sensor-motion";
 
 # W2
 
@@ -67,7 +68,7 @@ Week 2. Cross-Device Interaction (WebSocket)
 
 <ImageRow
   items={[
-    { src: "/lecture-materials/w2/multi-device-banpo-xism.jpg", alt: "Banpo-Xism: a visitor holds up a phone in front of the media wall", caption: "Banpo-Xism (2026): phone = input, media wall = output", href: "https://banpo-xism.vercel.app/" },
+    { src: "/lecture-materials/w2/multi-device-banpo-xism.jpg", alt: "Banpo-Xism: a visitor holds up a mobile in front of the media wall", caption: "Banpo-Xism (2026): mobile = input, media wall = output", href: "https://banpo-xism.vercel.app/" },
   ]}
 />
 
@@ -121,34 +122,39 @@ Week 2. Cross-Device Interaction (WebSocket)
 - <Term id="socketio" />: Javascript library, high-level abstraction of WebSocket, beginner-friendly (Automatic reconnection, Default fallback option)
 - Strategy
   - Let's say we have Client A (Interaction Input) and Client B (Interaction Output)
-  - Client A → Send Message to Relay Server → Relay Server Propagates Message to all other clients in the same room → Client B Receives a message
+  - Client A sends a message → the relay server forwards it to all other clients in the same room → Client B receives it
 - Already installed in the template: `socket.io` (server), `socket.io-client` (browser)
 
 <SocketDiagram />
 
 **How it is structured in this repo**
 
-- `socket-server.mjs` → The relay server. One file, port 4000
+- `socket-server.mjs`: the relay server. One file, port 4000
   - `join(room)`: A device joins a room
   - `message({ type, data })`: Forwarded as-is to every other device in the same room
-  - It is not part of Next.js. It is a separate Node process (that's why Vercel can't host it, see §7)
-- `hooks/shared/useSocket.ts` → The client-side hook
+  - It is not part of Next.js. It is a separate Node process (that's why Vercel can't host it, see [§7](#7-socket-deployment))
+- `hooks/shared/useSocket.ts`: the client-side hook
   - `const { send, connected } = useSocket(room, onMessage)`
-  - `send(type, data)` → emits to the room
-  - `onMessage(type, data)` → called for every message from the other devices
+  - `send(type, data)`: sends a message to the room
+  - `onMessage(type, data)`: called for every message from the other devices
   - Address: `NEXT_PUBLIC_SOCKET_URL` if set, otherwise the current host at port 4000
 - Route convention for one experiment
-  - Client A Mobile: `app/experiments/w2/<name>/mobile/page.tsx` → localhost:3000/experiments/w2/name/mobile
-  - Client B Screen: `app/experiments/w2/<name>/screen/page.tsx` → localhost:3000/experiments/w2/name/screen
   - Both call `useSocket("<name>", ...)` with the same room name
+
+  | | File | Address |
+  |---|---|---|
+  | Client A · Mobile | `app/experiments/w2/<name>/mobile/page.tsx` | localhost:3000/experiments/w2/name/mobile |
+  | Client B · Screen | `app/experiments/w2/<name>/screen/page.tsx` | localhost:3000/experiments/w2/name/screen |
 
 **Overall workflow**
 
-1. Screen page mounts → `useSocket` connects to the relay → `join("name")`
-2. Mobile page mounts → same
-3. Mobile: `send("action", { x, y })`
-4. Relay: forwards `{ type: "action", data: { x, y } }` to the rest of the room
-5. Screen: `onMessage("action", { x, y })` → update your state → render
+The five numbers of the diagram:
+
+1. Screen page opens: `useSocket("drawing", onMessage)` connects to the relay and joins the room
+2. Mobile page opens: the same
+3. Mobile: `send("move", { x, y })`
+4. Relay: forwards `{ type: "move", data: { x, y } }` to the rest of the room
+5. Screen: `onMessage("move", { x, y })` is called. Update your state, draw
 
 - This is the base code. You can make it more complicated/add modularity on top of it
 - What will be your speculative inter-device interaction? How will you use this technology to design your interactive/immersive audio-visual design practice?
@@ -158,20 +164,17 @@ Week 2. Cross-Device Interaction (WebSocket)
 
 **In this repo** ([/experiments/w2](/experiments/w2))
 
-- These use touch only. `pnpm dev` (http) is enough: open /screen, then /mobile in a second tab or on a phone
-
 1. Drawing: touch move on mobile → line on screen ([mobile](/experiments/w2/drawing/mobile) · [screen](/experiments/w2/drawing/screen))
 2. Signature
    - Live: sign on mobile → the signature appears on screen as you write ([mobile](/experiments/w2/signature/live/mobile) · [screen](/experiments/w2/signature/live/screen))
    - Contracts: sign on mobile, send → the signature lands on 40 documents ([mobile](/experiments/w2/signature/contracts/mobile) · [screen](/experiments/w2/signature/contracts/screen))
-3. Market: finger up / down on mobile → a fictional stock market rallies / sells off ([mobile](/experiments/w2/market/mobile) · [screen](/experiments/w2/market/screen))
-4. Typing: type on mobile → the sentence is sent in eight chat apps, every room answers ([mobile](/experiments/w2/typing/mobile) · [screen](/experiments/w2/typing/screen))
-5. 3D (Three.js)
+3. Typing: type on mobile → the sentence is sent in eight chat apps, every room answers ([mobile](/experiments/w2/typing/mobile) · [screen](/experiments/w2/typing/screen))
+4. 3D (Three.js)
    - Rotate: drag on mobile → 3D shape turns on screen ([mobile](/experiments/w2/3d/rotate/mobile) · [screen](/experiments/w2/3d/rotate/screen))
    - Particles: two fingers on mobile, pulled apart → a sphere breaks into 40,000 particles ([mobile](/experiments/w2/3d/particles/mobile) · [screen](/experiments/w2/3d/particles/screen))
    - Togglers: finger-skating over 40 switches on mobile → 40 wave sources in a simulated surface ([mobile](/experiments/w2/3d/togglers/mobile) · [screen](/experiments/w2/3d/togglers/screen))
    - City: three modes on mobile (Settings, Navigate, Statistics) → the parameters, the camera and the statistics of a generated city, with live sound ([mobile](/experiments/w2/3d/city/mobile) · [screen](/experiments/w2/3d/city/screen))
-- Examples that need the mobile's sensors (tilt, camera) need HTTPS: §5, then §6
+- Examples that need the mobile's sensors (tilt, camera) need HTTPS: [§5](#5-mobile-https-debugging), then [§6](#6-mobile-sensors)
 
 **XD Lab works**
 
@@ -185,23 +188,49 @@ Week 2. Cross-Device Interaction (WebSocket)
 
 - Mobile Debugging: Hard
 - Cross-Device (Mobile + Desktop) Debugging: VERY HARD
-  - Glad that this job won't be taken by AI very soon!
 
-### A1. Local Network Connection (Using ifconfig)
+### A1. Local Network Connection
 
-Your mobile device cannot access localhost:3000 because "localhost" refers to the device _itself_. You must connect your mobile to your computer's local network IP address.
+Open your laptop's page on your mobile. Keep `pnpm dev` running.
 
-- **Find Your Computer's IP:** On your computer, open the Terminal.
-  - On **macOS** or **Linux**, type `ifconfig | grep "inet "`.
-  - On **Windows**, type `ipconfig`.
-  - `pnpm dev:mobile` also prints it (see A3).
-- **Identify the IP:** Look for an IP address in the list that looks like 192.168.1.XX or 10.0.0.XX. This is your computer's local IP address.
-- **Connect Devices:** Ensure your mobile phone and your computer are connected to the **same Wi-Fi network**. If the school Wi-Fi blocks device-to-device traffic, use your phone's hotspot.
-- **Access on Mobile:** On your phone's browser (e.g., Chrome or Safari), type `https://<YOUR_IP_ADDRESS>:3000`. For example: https://192.168.1.10:3000/experiments/w2/drawing/mobile
+- `localhost` means "this device itself". On your laptop, localhost:3000 is your laptop. Typed on your mobile, localhost is the mobile, and nothing runs there
+- So the mobile needs your laptop's address on the Wi-Fi: its IP address. The Wi-Fi router gives one to every device. It looks like 192.168.0.12 or 10.0.0.12
+- Find your laptop's IP address. Two ways:
+  1. In the Terminal
+     - **macOS** or **Linux**: `ifconfig | grep "inet "`
+     - **Windows**: `ipconfig`
+     - Take the address that looks like 192.168.x.x or 10.x.x.x. Not 127.0.0.1: that one is localhost
+  2. Ask your AI agent: "What is my computer's local IP address?" It runs the command and tells you
+- Connect the mobile and the laptop to the **same Wi-Fi**. If the school Wi-Fi blocks device-to-device traffic, use your mobile's hotspot
+- On the mobile's browser, type `http://<YOUR_IP>:3000` and the path. For example: http://192.168.0.12:3000/experiments/w2/drawing/mobile
+- On the laptop, open the screen page as before: localhost:3000/experiments/w2/drawing/screen
 
-### A2. Remote Debugging (iOS vs. Android)
+### A2. <Term id="https">HTTPS</Term> for Local Dev: `pnpm dev:mobile`
 
-This is how you "Google it" to see console.log() messages, inspect the DOM, and check network requests from your phone on your computer's screen.
+**Why HTTPS**
+
+- `http://`: what the page and the browser send each other is not encrypted. Anyone on the same network can read it
+- `https://`: it is encrypted. Only the page and the browser can read it
+- Camera, microphone and motion sensors show you and the room you are in. So browsers give them only to pages opened with `https://`
+- One exception: `localhost`. Nothing leaves your own device there. That is why the camera worked on your laptop in W1 with `pnpm dev`
+- Your mobile opens the page with `http://192.168.x.x`. That is not localhost, and not https. So the camera and the sensors are blocked, until you serve your page over https
+
+**How**
+
+1. Stop the server that is running: press `Ctrl + C` in the terminal where `pnpm dev` runs
+2. Start it again with `pnpm dev:mobile`. The same two servers (3000 and 4000), now over https. The first time it may ask for your password. It prints the address for your mobile
+3. On the mobile, open `https://<YOUR_IP>:3000` and the path. A warning page appears ("Your connection is not private")
+   - This is **normal**. The certificate that proves "this is really that site" was made by your own laptop, so the mobile cannot check it
+   - Tap **"Advanced"** → **"Proceed (unsafe)"**
+4. Do the same for the relay: open `https://<YOUR_IP>:4000` on the mobile and pass the warning. You should see "socket relay ok"
+   - If you skip this: the page loads but nothing arrives on the screen
+5. On the laptop, open https://localhost:3000
+
+You only need to pass the warnings once per device.
+
+### A3. Remote Debugging (iOS vs. Android)
+
+See your mobile's console.log() messages, DOM and network requests on your computer's screen.
 
 #### Android (Chrome Debugging)
 
@@ -221,39 +250,17 @@ This is how you "Google it" to see console.log() messages, inspect the DOM, and 
 4. On your Mac's Safari, click the new "Develop" menu. You should see your iPhone's name.
 5. Hover over your iPhone's name to see a list of open tabs. Click the tab you wish to debug to open a Web Inspector window.
 
-### A3. <Term id="https">HTTPS</Term> for Local Dev: `pnpm dev:mobile`
-
-Modern browsers block sensitive APIs (like the camera, microphone, or accelerometer) on insecure http:// connections for security reasons. `localhost` is an exception (it counts as a secure context), which is why `pnpm dev` was enough in W1. The moment your phone connects via `192.168.x.x`, it is not localhost anymore, so you must serve your local site over https://.
-
-**What `pnpm dev:mobile` does**
-
-- Runs `next dev --experimental-https -H 0.0.0.0` → Next.js generates a self-signed certificate into `certificates/` (first time only, it may ask for your password) and listens on https://localhost:3000, reachable from your phone via your IP
-- Runs `node socket-server.mjs` → the relay reuses the same certificate and listens on https://localhost:4000. It prints the phone URL
-
-**CRITICAL: Bypassing the Security Warning (twice)**
-
-This uses a **self-signed certificate**, which your phone does not trust by default. You will see a large security warning page (e.g., "Your connection is not private" or NET::ERR_CERT_AUTHORITY_INVALID).
-
-- This is **normal** and **expected**.
-- On the warning screen, tap **"Advanced"** → **"Proceed (unsafe)"**.
-- You have to do this for BOTH ports:
-  1. `https://<YOUR_IP>:3000` → the page
-  2. `https://<YOUR_IP>:4000` → the relay. Open it once in the phone browser, pass the warning, you should see "socket relay ok"
-- If you skip step 2 the symptom is: "the page loads but nothing arrives on the screen". The socket is silently blocked.
-
-You only need to do this once per device (until the certificate changes). Your phone will then load the https:// version of your site, and your sensitive APIs (camera, accelerometer, etc.) will now work for testing.
-
 ## 6. Mobile Sensors
 
-- Camera, microphone and motion sensors work only on <Term id="https">HTTPS</Term> (or localhost): `pnpm dev:mobile` (A3)
+- Camera, microphone and motion sensors work only on <Term id="https">HTTPS</Term> (or localhost): `pnpm dev:mobile` ([A2](#a2-https-for-local-dev-pnpm-devmobile))
 - They start after a user tap. The browser asks for permission
 
-| Input | Browser API | Example |
-| --- | --- | --- |
-| Tilt | `deviceorientation` event → `alpha`, `beta`, `gamma` (degrees) | [w2/tilt](/experiments/w2/tilt/screen) |
-| Shake | `devicemotion` event → `acceleration` | |
-| Microphone | `navigator.mediaDevices.getUserMedia({ audio: true })` | [w1/video](/experiments/w1/video) |
-| Camera | `navigator.mediaDevices.getUserMedia({ video: true })` | [w2/camera-slit-scan](/experiments/w2/camera-slit-scan/screen) · [w1/glsl/creation-webcam](/experiments/w1/glsl/creation-webcam) |
+| | Input | Browser API | Example |
+| --- | --- | --- | --- |
+| <SensorMotion kind="tilt" /> | Tilt | `deviceorientation` event → `alpha`, `beta`, `gamma` (degrees) | [w2/tilt](/experiments/w2/tilt/screen) |
+| <SensorMotion kind="shake" /> | Shake | `devicemotion` event → `acceleration` | |
+| <SensorMotion kind="microphone" /> | Microphone | `navigator.mediaDevices.getUserMedia({ audio: true })` | [w1/video](/experiments/w1/video) |
+| <SensorMotion kind="camera" /> | Camera | `navigator.mediaDevices.getUserMedia({ video: true })` | [w2/camera-slit-scan](/experiments/w2/camera-slit-scan/screen) · [w1/glsl/creation-webcam](/experiments/w1/glsl/creation-webcam) |
 
 **Tilt (accelerometer)**
 
@@ -282,48 +289,66 @@ async function start() {
 
 ## 7. Socket Deployment
 
-- <Term id="vercel" /> hosts the Next.js app only. No long-running process, so no socket relay. A single-device page (W1) deploys to Vercel and is done. A cross-device piece needs the relay somewhere else. Four options
-- **A · The laptop is the server** (what we do for WA2, the final and the Black Room)
-  - `pnpm dev:mobile`. Phone and laptop on the same Wi-Fi. The relay runs on the laptop, the phone opens `https://<laptop IP>:3000`
-  - Nothing to deploy, works without internet. Reach: that one network
-- **B · Vercel for the app + the relay on a Node host** (when you want a public URL)
-  - `socket-server.mjs` runs unchanged on any Node host. In Vercel set `NEXT_PUBLIC_SOCKET_URL` to the relay's address; the host gives you HTTPS, so the socket is `wss://`
-  - Hosts, as of Nov 2026: [Render](https://render.com/docs/free) (free, sleeps when idle) · [Railway](https://railway.com/pricing) ($5 trial credit, then Hobby $5/month) · [Fly.io](https://fly.io/docs/about/pricing/) (no free tier) · AWS EC2 + Nginx + PM2 (what Banpo-Xism runs on)
-  - Step by step below
-- **C · Tunnel the laptop** (a demo from somewhere else, for an hour)
-  - The relay stays on your laptop; a tunnel gives it a public address: [ngrok](https://ngrok.com/docs/pricing-limits/free-plan-limits) (`ngrok http 4000`) or [cloudflared](https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/) (`cloudflared tunnel --url http://localhost:4000`)
-  - The laptop must stay open and online
-- **D · A hosted realtime service instead of our relay**: [Ably](https://ably.com/), [Pusher](https://pusher.com/), [Supabase Realtime](https://supabase.com/realtime), [PartyKit](https://www.partykit.io/). A different API from `useSocket`
-- In this workshop: A. If you want your piece online for your portfolio: B with Render
+- Deployment ([W1 §12](/lecture-materials/w1#12-deployment)): your app moves from localhost to a public address, on <Term id="vercel" />
+- A multi-device piece is two programs ([§3](#3-socketio)): the Next.js app (port 3000) and the relay, `socket-server.mjs` (port 4000)
+- Vercel runs the Next.js app. It cannot run the relay
+  - Vercel is serverless: it runs your code only for the moment a page is requested, then stops
+  - The relay has to stay on all the time, holding the connection to the mobile and to the screen
+- So the relay needs a computer that stays on. Two choices
 
-**B · Step by step: Render**
+**1. Your laptop**
 
-1. Push your repo to GitHub. Deploy the app on Vercel ([W1 §12](/lecture-materials/w1#12-deployment))
-2. https://render.com → sign up → **+ New > Web Service** → select your GitHub repo → **Connect**
-3. Fill in the form
+- What we did in class: `pnpm dev` (or `pnpm dev:mobile`) runs both programs on your laptop, and the mobile joins over the same Wi-Fi ([§5](#5-mobile-https-debugging))
+- No deployment. It works only on that Wi-Fi
+
+**2. A server on the internet**
+
+- The app goes on Vercel, as in W1. The relay goes on a hosting service that keeps a program running: <Term id="render" /> or <Term id="railway" />
+  - <Term id="ec2" /> is another example. Banpo-Xism runs its relay there
+- Then anyone can open your piece, from any network
+- For the final in the Black Room, deploy this way
+
+<DeployDiagram />
+
+**Telling the app where the relay is**
+
+- On your laptop, the app and the relay were on the same computer. The page did not need an address: it connected to "port 4000 of this computer"
+- After deployment they are in two different places. The app is on Vercel, the relay is on Render, and each has its own address. The app does not know where the relay is, so you have to tell it
+- You tell it with an environment variable on Vercel. An environment variable is a value you do not write in the code: you type it into the service's settings as "name = value", and the app reads it from there
+  - Name: `NEXT_PUBLIC_SOCKET_URL`. The template's `useSocket` looks for the relay's address under this name
+  - Value: the relay's address that Render gives you, for example `https://my-relay.onrender.com`
+
+**Step by step: Render**
+
+1. The app: push your repo to GitHub and deploy it on Vercel ([W1 §12](/lecture-materials/w1#12-deployment))
+2. The relay: https://render.com → sign up → **+ New > Web Service** → select the same GitHub repo → **Connect**
+3. Fill in the form. The Start Command is what makes this service run the relay, not the app
    - Language: `Node`
    - Build Command: `pnpm install`
    - Start Command: `node socket-server.mjs`
    - Compute: `Free`
    - Environment Variables: `NODE_VERSION` = `24`
-4. Deploy. Open the service URL `https://<name>.onrender.com` → "socket relay ok"
-5. Vercel → your project → **Environment Variables** → `NEXT_PUBLIC_SOCKET_URL` = `https://<name>.onrender.com` → **Save** → redeploy
-6. Open `/screen` and `/mobile` on the Vercel URL
+4. Deploy. Render gives the relay an address, `https://<name>.onrender.com`. Open it: it shows "socket relay ok"
+5. Register this address on Vercel as an environment variable
+   - On Vercel, open your project → **Settings** → **Environment Variables**
+   - Type `NEXT_PUBLIC_SOCKET_URL` into Key and `https://<name>.onrender.com` into Value, then press **Save**
+   - Deploy again: **Deployments** → the **⋯** of the latest deployment → **Redeploy**. The value goes into the app when it is deployed, so it only takes effect after a new deployment
+6. Open `/screen` on the laptop and `/mobile` on the mobile, both on the Vercel address
 
-- Free plan: sleeps after 15 minutes without traffic, wakes in about one minute. 750 hours per month
-- Every `git push` redeploys. Logs: the service's **Logs** page
+- Free plan: the relay sleeps after 15 minutes without use. The next connection takes about one minute
 - Docs: [Your first deploy](https://render.com/docs/your-first-deploy) · [WebSockets](https://render.com/docs/websocket) · [Free plan](https://render.com/docs/free)
 
-**B · Step by step: Railway**
+**Step by step: Railway**
 
-1. https://railway.com → sign up with GitHub → **New Project** → **GitHub repo** → select your repo
-2. Service → **Settings** → Custom Start Command: `node socket-server.mjs` → **Deploy**
-3. Service → **Settings** → **Networking** → **Generate Domain** → `https://<name>.up.railway.app` → "socket relay ok"
-4. Vercel: same as step 5 above, with the Railway URL
+1. The app: on Vercel, as above
+2. The relay: https://railway.com → sign up with GitHub → **New Project** → **GitHub repo** → select the same repo
+3. Service → **Settings** → Custom Start Command: `node socket-server.mjs` → **Deploy**
+4. Service → **Settings** → **Networking** → **Generate Domain**. Open `https://<name>.up.railway.app`: it shows "socket relay ok"
+5. Register this address on Vercel as an environment variable: same as step 5 above, with the Railway address
 
-- Trial: $5 credit, 30 days. After that Hobby: $5/month
+- Trial: $5 credit, 30 days. After that $5/month
 - Docs: [Quick start](https://docs.railway.com/quick-start) · [Build and start commands](https://docs.railway.com/builds/build-and-start-commands) · [Domains](https://docs.railway.com/networking/domains/working-with-domains)
 
 ## 8. Homework: Web Assignment 2
 
-**Build a Mobile-to-Laptop Interactive Experience.** Not graded. Essential. Due to Web 3 (11/16).
+**Build a Mobile-to-Laptop Interactive Experience.** Due to Web 3 (11/16).

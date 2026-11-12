@@ -14,8 +14,13 @@ const pages = [
   { href: "/lecture-materials/w1", label: "Web 1", ko: "Web 1", meta: "10/26" },
   { href: "/lecture-materials/w2", label: "Web 2", ko: "Web 2", meta: "11/2" },
   { href: "/lecture-materials/w3", label: "Web 3", ko: "Web 3", meta: "11/16" },
-  { href: "/experiments", label: "Experiments", ko: "실험", meta: "" },
-  { href: "/final", label: "Final", ko: "기말", meta: "" },
+];
+
+// The experiments are full-screen pages, so these open in a new tab and the notes stay open.
+const experiments = [
+  { href: "/experiments/w1", label: "W1" },
+  { href: "/experiments/w2", label: "W2" },
+  { href: "/experiments/w3", label: "W3" },
 ];
 
 type Heading = { id: string; text: string };
@@ -126,6 +131,22 @@ export function Sidebar() {
                 </li>
               );
             })}
+            <li className={styles.page}>
+              <a href="/experiments" target="_blank">
+                <span>
+                  <L en="Experiments" ko="실험" />
+                </span>
+              </a>
+              <ol className={styles.sections}>
+                {experiments.map((week) => (
+                  <li key={week.href} className={styles.section}>
+                    <a href={week.href} target="_blank">
+                      {week.label}
+                    </a>
+                  </li>
+                ))}
+              </ol>
+            </li>
           </ol>
         </nav>
 

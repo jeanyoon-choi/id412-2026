@@ -1,5 +1,6 @@
 import { BackToTop } from "../back-to-top/back-to-top";
 import { Collapsible } from "../collapsible/collapsible";
+import { HashScroll } from "../hash-scroll/hash-scroll";
 import { Sidebar } from "../sidebar/sidebar";
 import styles from "./shell.module.css";
 
@@ -13,6 +14,7 @@ export function LectureShell({ children }: { children: React.ReactNode }) {
       </main>
       <BackToTop />
       <Collapsible />
+      <HashScroll />
     </>
   );
 }
