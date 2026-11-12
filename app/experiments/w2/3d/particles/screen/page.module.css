@@ -1,0 +1,18 @@
+.container {
+  position: fixed;
+  inset: 0;
+  background: black;
+}
+
+.status {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  margin: 0;
+  font: 14px ui-monospace, Menlo, monospace;
+  color: #888;
+}
+
+.link {
+  color: white;
+}

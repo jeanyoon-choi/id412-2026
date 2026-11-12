@@ -1,0 +1,34 @@
+.container {
+  position: fixed;
+  inset: 0;
+  background: black;
+}
+
+.canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.status,
+.count {
+  position: absolute;
+  top: 16px;
+  margin: 0;
+  font: 14px ui-monospace, Menlo, monospace;
+  color: #888;
+}
+
+.status {
+  left: 16px;
+}
+
+/* How many pressure centres are in the sky */
+.count {
+  right: 16px;
+  color: white;
+}
+
+.link {
+  color: white;
+}

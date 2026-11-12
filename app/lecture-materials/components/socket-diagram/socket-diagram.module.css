@@ -1,0 +1,189 @@
+.figure {
+  margin: 1.25rem 0 1.5rem;
+}
+
+/* phone | wire | relay | wire | screen */
+.flow {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr) auto minmax(0, 1fr);
+  align-items: stretch;
+}
+
+.box {
+  padding: 0.7rem 0.8rem 0.8rem;
+  border: 1px solid var(--rule);
+  background: var(--code-bg);
+  font-size: 0.8125rem;
+  line-height: 1.5;
+}
+
+.relay {
+  border: 2px solid var(--fg);
+}
+
+.role {
+  font-size: 0.6875rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.title {
+  margin: 0.1rem 0 0.2rem;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.file {
+  display: block;
+  font-size: 0.6875rem;
+  color: var(--muted);
+  overflow-wrap: anywhere;
+}
+
+.box code,
+.caption code {
+  padding: 0;
+  background: none;
+  font-size: 0.64rem;
+  white-space: nowrap;
+}
+
+.steps {
+  margin: 0.6rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.steps li {
+  margin: 0;
+  padding-left: 0;
+  text-indent: 0;
+  color: var(--muted);
+}
+
+.steps code {
+  color: var(--fg);
+}
+
+.steps li + li {
+  margin-top: 0.4rem;
+}
+
+.step {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.2rem;
+  height: 1.2rem;
+  margin-right: 0.1rem;
+  border-radius: 50%;
+  background: var(--fg);
+  color: var(--bg);
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  text-indent: 0;
+}
+
+.room {
+  margin-top: 0.6rem;
+  padding: 0.4rem 0.5rem 0.5rem;
+  border: 1px dashed var(--muted);
+}
+
+.roomName {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--muted);
+}
+
+.members {
+  display: flex;
+  gap: 0.4rem;
+  margin-top: 0.3rem;
+}
+
+.members span {
+  flex: 1;
+  padding: 0.1rem 0.4rem;
+  border: 1px solid var(--rule);
+  background: var(--bg);
+  text-align: center;
+}
+
+.wire {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.3rem;
+  width: 7.5rem;
+  padding: 0 0.4rem;
+  font-size: 0.75rem;
+}
+
+.wireLabel {
+  font-weight: 600;
+}
+
+.arrow {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.line {
+  flex: 1;
+  height: 2px;
+  background: var(--fg);
+}
+
+.head {
+  margin-left: -2px;
+  font-size: 0.7rem;
+  line-height: 1;
+}
+
+.payload {
+  padding: 0;
+  background: none;
+  font-size: 0.625rem;
+  color: var(--muted);
+  text-align: center;
+  white-space: nowrap;
+}
+
+.caption {
+  margin-top: 0.6rem;
+  font-size: 0.8125rem;
+  color: var(--muted);
+}
+
+/* Narrow: stack the boxes, the arrows point down */
+@media (max-width: 860px) {
+  .flow {
+    grid-template-columns: 1fr;
+  }
+
+  .wire {
+    width: auto;
+    padding: 0.4rem 0;
+  }
+
+  .arrow {
+    flex-direction: column;
+    width: auto;
+  }
+
+  .line {
+    flex: none;
+    width: 2px;
+    height: 1.25rem;
+  }
+
+  .head {
+    margin: -2px 0 0;
+    transform: rotate(90deg);
+  }
+}

@@ -26,7 +26,7 @@ export default function CameraSlitScanMobile() {
     if (type === "candidate" && peer) peer.addIceCandidate(data as RTCIceCandidateInit).catch(() => {});
   }
 
-  const { send, connected } = useSocket("camera-slit-scan", onMessage);
+  const { send, connected, status: socketStatus } = useSocket("camera-slit-scan", onMessage);
 
   // 1. Offer: "here is my video, this is how to reach me".
   async function call() {
@@ -72,7 +72,7 @@ export default function CameraSlitScanMobile() {
     <main className={styles.container}>
       <video ref={videoRef} className={styles.video} autoPlay playsInline muted />
       <p className={styles.status}>
-        socket {connected ? "connected" : "connecting…"} {status && `· video ${status}`}
+        socket {connected ? "connected" : socketStatus} {status && `· video ${status}`}
       </p>
       {!started && (
         <button className={styles.button} onClick={start}>

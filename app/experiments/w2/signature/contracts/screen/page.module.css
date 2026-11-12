@@ -1,0 +1,306 @@
+.container {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: #1b1b1d;
+}
+
+.status {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  margin: 0;
+  font: 14px ui-monospace, Menlo, monospace;
+  color: #888;
+}
+
+.link {
+  color: white;
+}
+
+.counter {
+  position: absolute;
+  top: 16px;
+  right: 20px;
+  margin: 0;
+  font: 14px ui-monospace, Menlo, monospace;
+  color: #888;
+}
+
+/* ---------- the signature ---------- */
+
+.ink {
+  fill: none;
+  stroke: #14235e; /* blue-black pen */
+  stroke-width: 1.2%;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+  stroke-width: 2.5px;
+  /* The path counts as 1 long (pathLength). A dash of 1 shifted by 1 hides it; shifting back writes it. */
+  stroke-dasharray: 1;
+  animation: write linear both;
+}
+
+@keyframes write {
+  from {
+    stroke-dashoffset: 1;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+/* Step 0: the signature alone, on white */
+.alone {
+  width: 70vw;
+  height: 70vh;
+  padding: 4vh;
+  background: white;
+}
+
+.alone .ink {
+  stroke-width: 5px;
+}
+
+/* ---------- one document at a time ---------- */
+
+/* Everything inside a page is in em: this font-size is the page's scale. 89em tall = 89vh. */
+.stage {
+  font-size: 1vh;
+  animation: drop 0.16s ease-out;
+}
+
+@keyframes drop {
+  from {
+    opacity: 0;
+    translate: 0 5%;
+  }
+}
+
+.page {
+  display: flex;
+  flex-direction: column;
+  width: 63em; /* A4: 210 × 297 */
+  height: 89em;
+  padding: 6em 6.5em 5em;
+  overflow: hidden;
+  background: #fcfcf9;
+  color: #111;
+  font-family: "Apple SD Gothic Neo", "Malgun Gothic", "Noto Sans KR", Helvetica, Arial, sans-serif;
+  box-shadow: 0 1em 4em rgba(0, 0, 0, 0.5);
+}
+
+.issuer {
+  display: flex;
+  justify-content: space-between;
+  font-size: 1.3em;
+  color: #555;
+}
+
+.title {
+  margin: 1.2em 0 1em;
+  padding: 0;
+  border: 0;
+  font-size: 3.2em;
+  font-weight: 700;
+  line-height: 1.2;
+  text-align: center;
+  letter-spacing: 0.08em;
+}
+
+.fields {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  margin-bottom: 2em;
+  border-top: 0.15em solid #111;
+  border-left: 0.1em solid #111;
+  font-size: 1.4em;
+}
+
+.field {
+  display: grid;
+  grid-template-columns: 6em 1fr;
+  border-right: 0.07em solid #111;
+  border-bottom: 0.07em solid #111;
+}
+
+.field span {
+  padding: 0.6em 0.8em;
+}
+
+.field span:first-child {
+  background: #eceae4;
+  border-right: 0.07em solid #111;
+}
+
+.clauses {
+  flex: 1;
+  margin: 0;
+  padding-left: 1.6em;
+  font-size: 1.55em;
+  line-height: 1.75;
+}
+
+.clauses li {
+  margin: 0 0 0.5em;
+}
+
+.signing {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 3em;
+  font-size: 1.5em;
+}
+
+.date {
+  color: #333;
+}
+
+/* The line to sign on, the label under it, the signature across it */
+.signBox {
+  position: relative;
+  width: 18em;
+  padding-top: 5.5em;
+  border-bottom: 0.08em solid #111;
+}
+
+.signLabel {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  padding-top: 0.3em;
+  font-size: 0.8em;
+  color: #555;
+  white-space: nowrap;
+}
+
+.signature {
+  position: absolute;
+  left: 0;
+  bottom: -1em;
+  width: 100%;
+  height: 7em;
+}
+
+/* --- legal: a dense contract in serif --- */
+.legal {
+  font-family: "Times New Roman", Times, Georgia, serif;
+}
+
+.legal .title {
+  font-size: 2.6em;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.legal .clauses {
+  text-align: justify;
+}
+
+/* --- receipt: a narrow slip of thermal paper --- */
+.receipt {
+  width: 34em;
+  height: 62em;
+  padding: 4em 3em;
+  font-family: ui-monospace, Menlo, "Courier New", monospace;
+  background: #f4f3ee;
+}
+
+.receipt .title {
+  font-size: 2.4em;
+  letter-spacing: 0;
+  padding: 0.6em 0;
+  border-top: 0.1em dashed #111;
+  border-bottom: 0.1em dashed #111;
+}
+
+.receipt .clauses {
+  padding: 0;
+  list-style: none;
+  font-size: 1.5em;
+}
+
+.receipt .signing {
+  flex-direction: column;
+  align-items: stretch;
+  gap: 1em;
+}
+
+.receipt .signBox {
+  width: 100%;
+}
+
+/* --- screen: an app asking you to agree --- */
+.screen {
+  width: 44em;
+  height: 86em;
+  padding: 7em 3.5em 4em;
+  border-radius: 5em;
+  background: #f2f2f7;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+  box-shadow: 0 0 0 1em #0c0c0d, 0 1em 4em rgba(0, 0, 0, 0.5);
+}
+
+.screen .title {
+  font-size: 3em;
+  letter-spacing: 0;
+  text-align: left;
+}
+
+.screen .clauses {
+  padding: 0;
+  list-style: none;
+  font-size: 1.7em;
+}
+
+.screen .clauses li {
+  padding: 1em 1.2em;
+  border-radius: 0.8em;
+  background: white;
+}
+
+.screen .signing {
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.screen .date {
+  display: none;
+}
+
+.screen .signBox {
+  width: 100%;
+  padding-top: 7em;
+  border: 0;
+  border-radius: 1em;
+  background: white;
+}
+
+.screen .signLabel {
+  top: auto;
+  bottom: 100%;
+  padding: 0 0 0.4em;
+  font-weight: 600;
+  color: #0a60ff;
+}
+
+.screen .signature {
+  bottom: 0;
+}
+
+/* ---------- step 41: all 40 at once ---------- */
+
+.wall {
+  display: grid;
+  grid-template-columns: repeat(10, auto);
+  gap: 3em 2.5em;
+  align-items: center;
+  justify-items: center;
+  font-size: 0.135vw; /* 63em wide → about 8.5vw per page */
+  animation: drop 0.4s ease-out;
+}

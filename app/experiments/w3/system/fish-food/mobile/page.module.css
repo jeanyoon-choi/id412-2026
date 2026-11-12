@@ -1,0 +1,86 @@
+.container {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 32px;
+  padding: 16px;
+  background: black;
+  color: white;
+  font: 14px ui-monospace, Menlo, monospace;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.status {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  margin: 0;
+  color: #888;
+}
+
+/* The screen in small: the same 16:9 shape */
+.map {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  width: min(100%, 55vh * 16 / 9); /* on a wide window: not taller than half the page */
+  align-self: center;
+  border: 1px solid #555;
+  overflow: hidden;
+  touch-action: none;
+}
+
+/* Where a pellet was dropped: the same marks as on the screen, fading out */
+.food,
+.bitter {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  animation: fade 2s forwards;
+}
+
+.food {
+  width: 8px;
+  height: 8px;
+  margin: -4px 0 0 -4px;
+  background: white;
+}
+
+.bitter {
+  width: 12px;
+  height: 12px;
+  margin: -6px 0 0 -6px;
+  border: 1px solid #e94a58;
+}
+
+@keyframes fade {
+  to {
+    opacity: 0;
+  }
+}
+
+.kinds {
+  display: flex;
+  gap: 12px;
+}
+
+.kind,
+.chosen {
+  flex: 1;
+  padding: 16px;
+  border: 1px solid #555;
+  border-radius: 0;
+  background: none;
+  color: #888;
+  font: inherit;
+  font-size: 18px;
+}
+
+/* The kind the next tap will drop */
+.chosen {
+  border-color: white;
+  background: white;
+  color: black;
+}

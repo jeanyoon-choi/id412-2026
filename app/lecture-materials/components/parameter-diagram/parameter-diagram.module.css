@@ -1,0 +1,73 @@
+.figure {
+  margin: 1.25rem 0 1.5rem;
+  overflow-x: auto;
+}
+
+.svg {
+  display: block;
+  width: 100%;
+  min-width: 620px;
+  height: auto;
+  font-family: var(--font-sans);
+}
+
+.box {
+  fill: var(--code-bg);
+  stroke: var(--rule);
+  stroke-width: 1;
+}
+
+.strong {
+  stroke: var(--fg);
+  stroke-width: 2;
+}
+
+.name {
+  fill: var(--fg);
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.note {
+  fill: var(--muted);
+  font-family: var(--font-mono);
+  font-size: 10px;
+}
+
+.heading {
+  fill: var(--muted);
+  font-size: 11px;
+  letter-spacing: 0.04em;
+}
+
+.stage {
+  fill: var(--fg);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.link {
+  fill: none;
+  stroke: var(--fg);
+  stroke-width: 1.5;
+}
+
+.dashed {
+  stroke-dasharray: 5 4;
+}
+
+.head {
+  fill: var(--fg);
+}
+
+.convert {
+  fill: var(--muted);
+  font-family: var(--font-mono);
+  font-size: 10px;
+}
+
+.caption {
+  margin-top: 0.4rem;
+  font-size: 0.8125rem;
+  color: var(--muted);
+}

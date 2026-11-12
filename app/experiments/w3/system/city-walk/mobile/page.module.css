@@ -1,0 +1,58 @@
+.container {
+  position: fixed;
+  inset: 0;
+  background: black;
+  touch-action: none; /* no scroll, no pinch zoom: every drag is the stick */
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.status,
+.hint {
+  position: absolute;
+  left: 16px;
+  margin: 0;
+  font: 14px ui-monospace, Menlo, monospace;
+  color: #888;
+  pointer-events: none;
+}
+
+.status {
+  top: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.hint {
+  bottom: 16px;
+}
+
+/* This phone's colour, the same as its figure on the screen */
+.swatch {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+/* The stick: a ring where the drag began, a knob where the finger is */
+.ring {
+  position: absolute;
+  width: 140px;
+  height: 140px;
+  margin: -70px 0 0 -70px;
+  border: 1px solid #555;
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.knob {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 36px;
+  height: 36px;
+  margin: -18px 0 0 -18px;
+  border-radius: 50%;
+  background: white;
+}

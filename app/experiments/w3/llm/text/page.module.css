@@ -1,0 +1,47 @@
+.container {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  background: black;
+  color: white;
+  font-family: Georgia, "Times New Roman", serif;
+}
+
+.answer {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  padding: 8vw;
+  font-size: clamp(24px, 4vw, 64px);
+  line-height: 1.25;
+  text-align: center;
+  white-space: pre-wrap;
+  transition: opacity 0.3s;
+}
+
+/* While the server is asking the model */
+.waiting {
+  opacity: 0.25;
+}
+
+.form {
+  padding: 24px;
+}
+
+.input {
+  width: 100%;
+  padding: 12px 0;
+  border: 0;
+  border-bottom: 1px solid #555;
+  background: none;
+  color: white;
+  font: 18px ui-monospace, Menlo, monospace;
+  outline: none;
+}
+
+.input:focus {
+  border-bottom-color: white;
+}

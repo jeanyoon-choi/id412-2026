@@ -1,0 +1,55 @@
+.container {
+  position: fixed;
+  inset: 0;
+  background: black;
+  color: white;
+  font-family: ui-monospace, Menlo, monospace;
+}
+
+.canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.parameters {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #aaa;
+  pointer-events: none;
+}
+
+.form {
+  position: absolute;
+  left: 24px;
+  right: 24px;
+  bottom: 24px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.input {
+  flex: 1;
+  padding: 12px 0;
+  border: 0;
+  border-bottom: 1px solid #777;
+  background: none;
+  color: white;
+  font: inherit;
+  font-size: 18px;
+  outline: none;
+}
+
+.input:focus {
+  border-bottom-color: white;
+}
+
+.status {
+  font-size: 14px;
+  color: #aaa;
+}

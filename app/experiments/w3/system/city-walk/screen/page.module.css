@@ -1,0 +1,38 @@
+.container {
+  position: fixed;
+  inset: 0;
+  background: black;
+}
+
+.status,
+.count {
+  position: absolute;
+  top: 16px;
+  margin: 0;
+  font: 14px ui-monospace, Menlo, monospace;
+  color: #888;
+}
+
+.status {
+  left: 16px;
+}
+
+/* How many phones are walking */
+.count {
+  right: 16px;
+  color: white;
+}
+
+.link {
+  color: white;
+}
+
+/* Where the map comes from */
+.credit {
+  position: absolute;
+  right: 16px;
+  bottom: 16px;
+  margin: 0;
+  font: 12px ui-monospace, Menlo, monospace;
+  color: #888;
+}

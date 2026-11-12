@@ -15,7 +15,10 @@ app/lecture-materials/
     image-row/                <ImageRow items={[...]} /> row of captioned images
     capability-chart/         the METR time-horizon chart on Prelim
     stack-diagram/            the layered frontend-stack figure on W1
-    experiment-index/         scans app/experiments on the server and lists them (/experiments, /experiments/<week>)
+    socket-diagram/           mobile → relay → screen, the five workflow steps (W2 §3)
+    parameter-diagram/        input → parameter → output mapping schematic (W2 §2)
+    device-diagram/           <DeviceDiagram work="banpo-xism | omega | sota" />: device schematic next to the installation photo (W2 §4)
+    experiment-index/         scans app/experiments on the server and lists them (/experiments, /experiments/<week>); a multi-device experiment gets one indented row per device
     collapsible/              makes every h2 section and bold run-in subsection expand/collapse (DOM-only, nothing moves)
     code-block/               <pre> with a Copy button (every fenced code block)
     shell/                    LectureShell: sidebar + main column, used by the index and lecture pages only

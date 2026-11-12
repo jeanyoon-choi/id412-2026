@@ -23,7 +23,7 @@ export default function DrawingScreen() {
     if (type === "up") touching.current = false;
   }, []);
 
-  const { connected } = useSocket("drawing", onMessage);
+  const { connected, status } = useSocket("drawing", onMessage);
 
   useEffect(() => {
     // On the phone: the same address, with the computer's IP instead of localhost.
@@ -93,7 +93,7 @@ export default function DrawingScreen() {
     <main className={styles.container}>
       <canvas ref={canvasRef} className={styles.canvas} />
       <p className={styles.status}>
-        {connected ? "connected" : "connecting…"} · open{" "}
+        {connected ? "connected" : status} · open{" "}
         {/* A new tab with the mobile page: test both sides on one laptop. */}
         <a href={phonePath} target="_blank" className={styles.link}>
           {phonePath}

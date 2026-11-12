@@ -1,0 +1,28 @@
+.pad {
+  position: fixed;
+  inset: 0;
+  background: black;
+  touch-action: none; /* no scroll, no zoom: every touch plays */
+  user-select: none;
+  -webkit-user-select: none;
+  cursor: crosshair;
+}
+
+.hint {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  margin: 0;
+  font: 14px ui-monospace, Menlo, monospace;
+  color: #888;
+}
+
+.dot {
+  position: absolute;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: white;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}

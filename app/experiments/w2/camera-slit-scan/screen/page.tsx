@@ -37,7 +37,7 @@ export default function CameraSlitScanScreen() {
     if (type === "candidate") peerRef.current?.addIceCandidate(data as RTCIceCandidateInit).catch(() => {});
   }
 
-  const { send, connected } = useSocket("camera-slit-scan", onMessage);
+  const { send, connected, status: socketStatus } = useSocket("camera-slit-scan", onMessage);
 
   // Tell a phone that is already filming to call this page.
   useEffect(() => {
@@ -86,7 +86,7 @@ export default function CameraSlitScanScreen() {
       {/* The raw camera, small: compare it with what the canvas makes of it. */}
       <video ref={videoRef} className={styles.video} autoPlay playsInline muted />
       <p className={styles.status}>
-        socket {connected ? "connected" : "connecting…"} · video {status} · open{" "}
+        socket {connected ? "connected" : socketStatus} · video {status} · open{" "}
         <a href={phonePath} target="_blank" className={styles.link}>
           {phonePath}
         </a>

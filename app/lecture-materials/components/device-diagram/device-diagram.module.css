@@ -1,0 +1,86 @@
+/* schematic | installation photo, side by side */
+.figure {
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+  gap: 0.75rem 1rem;
+  align-items: stretch;
+  margin: 1.25rem 0 1.75rem;
+}
+
+.svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--rule);
+  font-family: var(--font-sans);
+}
+
+.photo {
+  display: block;
+  border: 1px solid var(--rule);
+  overflow: hidden;
+}
+
+.photo img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.box {
+  fill: var(--code-bg);
+  stroke: var(--rule);
+  stroke-width: 1;
+}
+
+.system {
+  fill: var(--bg);
+  stroke: var(--fg);
+  stroke-width: 1.5;
+}
+
+.title {
+  fill: var(--fg);
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.note {
+  fill: var(--muted);
+  font-size: 8.5px;
+}
+
+.line {
+  stroke: var(--fg);
+  stroke-width: 1;
+}
+
+.dashed {
+  stroke-dasharray: 4 3;
+}
+
+.head {
+  fill: var(--fg);
+}
+
+.label {
+  fill: var(--muted);
+  font-family: var(--font-mono);
+  font-size: 8.5px;
+  paint-order: stroke;
+  stroke: var(--bg);
+  stroke-width: 3px;
+}
+
+.caption {
+  grid-column: 1 / -1;
+  font-size: 0.8125rem;
+  color: var(--muted);
+}
+
+@media (max-width: 700px) {
+  .figure {
+    grid-template-columns: 1fr;
+  }
+}

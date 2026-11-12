@@ -1,0 +1,65 @@
+/* The whole projector picture: black, so everything outside the wall stays dark. */
+.room {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  background: black;
+  color: white;
+  font: 13px ui-monospace, Menlo, monospace;
+}
+
+/* The wall. Its position and size come from MappingFrame (vh / vw). */
+.frame {
+  position: absolute;
+  overflow: hidden; /* crop whatever does not fit */
+}
+
+.outline {
+  outline: 1px dashed red;
+}
+
+/* The content fills the frame, not the window: 100%, never 100vw / 100vh. */
+.content {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.controls {
+  position: absolute;
+  right: 16px;
+  bottom: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 260px;
+  padding: 12px;
+  background: rgba(0, 0, 0, 0.8);
+  border: 1px solid #555;
+}
+
+.control {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.button {
+  padding: 6px;
+  border: 1px solid #555;
+  background: none;
+  color: white;
+  font: inherit;
+  cursor: pointer;
+}
+
+.corner {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 60px;
+  height: 60px;
+  border: 0;
+  background: none;
+  cursor: pointer;
+}

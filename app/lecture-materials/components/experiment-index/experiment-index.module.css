@@ -209,6 +209,43 @@
   text-align: right;
 }
 
+/* A multi-device experiment: a heading row (not a link), then one indented row per device */
+.parent:hover {
+  background: none;
+  color: var(--fg);
+}
+
+.parent:hover .phrase,
+.parent:hover .date,
+.parent:hover .routes {
+  color: var(--muted);
+}
+
+.parent .name::after {
+  content: none;
+}
+
+.device {
+  min-height: 2.1rem;
+  padding-left: 3.4rem;
+}
+
+.device .name {
+  font-weight: 600;
+}
+
+.branch {
+  display: inline-block;
+  width: 1.2rem;
+  margin-left: -1.2rem;
+  font-weight: 400;
+  color: var(--muted);
+}
+
+.row:hover .branch {
+  color: var(--bg);
+}
+
 @media (max-width: 700px) {
   .row {
     grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr) 1rem;

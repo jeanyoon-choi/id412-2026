@@ -8,7 +8,7 @@ import styles from "./page.module.css";
 const SEND_INTERVAL = 33; // ms, about 30 messages per second
 
 export default function DrawingMobile() {
-  const { send, connected } = useSocket("drawing");
+  const { send, connected, status } = useSocket("drawing");
   const [finger, setFinger] = useState<{ x: number; y: number } | null>(null);
   const lastSent = useRef(0);
 
@@ -46,7 +46,7 @@ export default function DrawingMobile() {
       onPointerUp={handleUp}
       onPointerCancel={handleUp}
     >
-      <p className={styles.status}>{connected ? "connected · draw here" : "connecting…"}</p>
+      <p className={styles.status}>{connected ? "connected · draw here" : status}</p>
       {finger && (
         <div
           className={styles.dot}

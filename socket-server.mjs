@@ -25,7 +25,8 @@ async function waitForCertificates(ms = 20_000) {
 }
 
 const handler = (req, res) => {
-  res.writeHead(200, { "content-type": "text/plain" });
+  // Any page may ask "are you the relay?" (useSocket does, to find the port).
+  res.writeHead(200, { "content-type": "text/plain", "access-control-allow-origin": "*" });
   res.end("socket relay ok\n");
 };
 
@@ -48,12 +49,28 @@ io.on("connection", (socket) => {
   });
 });
 
-server.listen(port, "0.0.0.0", () => {
+server.on("listening", () => {
   const protocol = secure ? "https" : "http";
+  const used = server.address().port;
   const lan = Object.values(networkInterfaces())
     .flat()
     .filter((net) => net && net.family === "IPv4" && !net.internal)
-    .map((net) => `${protocol}://${net.address}:${port}`);
-  console.log(`socket relay on ${protocol}://localhost:${port}`);
+    .map((net) => `${protocol}://${net.address}:${used}`);
+  console.log(`socket relay on ${protocol}://localhost:${used}`);
   for (const url of lan) console.log(`  phone: ${url}`);
 });
+
+// Another program may already use the port (a second project's relay, for example).
+// Then try the next one, up to 3 times: 4000 → 4001 → 4002 → 4003. useSocket looks in the same order.
+// On a host that sets PORT (Render, Railway) there is only that one port.
+let tries = process.env.PORT ? 0 : 3;
+function listen(candidate) {
+  server.once("error", (error) => {
+    if (error.code !== "EADDRINUSE" || tries === 0) throw error;
+    tries -= 1;
+    console.log(`port ${candidate} is used by another program → trying ${candidate + 1}`);
+    listen(candidate + 1);
+  });
+  server.listen(candidate, "0.0.0.0");
+}
+listen(port);

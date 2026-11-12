@@ -1,0 +1,478 @@
+/* One phone = one iPhone screen at its real size in points (390 × 844), zoomed by the page.
+   The common structure comes first; each app's look is one block at the end, named after its id. */
+
+.phone {
+  --room: white; /* the thread's background */
+  --ink: #111;
+  --mine: #0a84ff; /* my bubble */
+  --mine-ink: white;
+  --theirs: #e9e9eb; /* their bubble */
+  --theirs-ink: #111;
+  --bar: rgba(249, 249, 249, 0.94);
+  --muted: #8e8e93;
+
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 390px;
+  height: 844px;
+  overflow: hidden;
+  border-radius: 48px;
+  box-shadow: 0 0 0 10px #1c1c1e, 0 0 0 11px #3a3a3c;
+  margin: 11px;
+  background: var(--room);
+  color: var(--ink);
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Apple SD Gothic Neo", "Hiragino Sans", "Helvetica Neue", Arial, sans-serif;
+  font-size: 16px;
+  line-height: 1.3;
+  -webkit-font-smoothing: antialiased;
+}
+
+.statusBar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 2;
+  display: flex;
+  justify-content: space-between;
+  padding: 17px 30px 0 38px;
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: -0.3px;
+  color: var(--ink);
+}
+
+.statusBar span:last-child {
+  font-size: 11px;
+  letter-spacing: 0.5px;
+}
+
+/* Top bar: back arrow, avatar, title with a small line under it */
+.bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  height: 100px;
+  padding: 52px 14px 0;
+  background: var(--bar);
+  border-bottom: 0.5px solid rgba(0, 0, 0, 0.15);
+}
+
+.back {
+  width: 18px;
+  font-size: 34px;
+  font-weight: 300;
+  line-height: 0.8;
+  color: var(--mine);
+}
+
+.avatar,
+.face {
+  display: flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  color: white;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.heading {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+}
+
+.title {
+  overflow: hidden;
+  font-size: 17px;
+  font-weight: 600;
+  letter-spacing: -0.4px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.detail {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+/* The thread: the newest line sits at the bottom, older ones leave at the top */
+.thread {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+  flex-direction: column;
+  justify-content: flex-end;
+  overflow: hidden;
+}
+
+.lines {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px 12px 10px;
+}
+
+.line {
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+  animation: arrive 0.25s ease-out;
+}
+
+@keyframes arrive {
+  from {
+    opacity: 0;
+    translate: 0 8px;
+  }
+}
+
+.body {
+  display: flex;
+  max-width: 72%;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.name {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.text {
+  overflow-wrap: anywhere;
+}
+
+.dots {
+  letter-spacing: 2px;
+  color: var(--muted);
+}
+
+/* --- layout "bubbles": mine on the right, theirs on the left --- */
+.bubbles .face {
+  width: 30px;
+  height: 30px;
+  font-size: 13px;
+}
+
+.bubbles .text {
+  padding: 8px 13px;
+  border-radius: 19px;
+  background: var(--theirs);
+  color: var(--theirs-ink);
+}
+
+.bubbles .mine {
+  flex-direction: row-reverse;
+}
+
+.bubbles .mine .face,
+.bubbles .mine .name {
+  display: none;
+}
+
+.bubbles .mine .text {
+  background: var(--mine);
+  color: var(--mine-ink);
+}
+
+/* --- layout "rows": everyone on the left, a name over every message (Slack, Discord) --- */
+.rows .line {
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.rows .body {
+  max-width: none;
+}
+
+.rows .name {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.rows .face {
+  border-radius: 8px;
+}
+
+/* The composer: what is being typed on the mobile appears here */
+.composer {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 12px 30px;
+  background: var(--bar);
+}
+
+.plus {
+  width: 30px;
+  font-size: 26px;
+  font-weight: 300;
+  text-align: center;
+  color: var(--muted);
+}
+
+.field {
+  flex: 1;
+  min-width: 0;
+  min-height: 36px;
+  padding: 7px 14px;
+  border: 0.5px solid rgba(0, 0, 0, 0.2);
+  border-radius: 18px;
+  background: var(--room);
+  overflow-wrap: anywhere;
+}
+
+.empty {
+  color: var(--muted);
+}
+
+/* ---------------- the eight apps ---------------- */
+
+/* KakaoTalk: blue-grey room, yellow own bubble, white incoming, squircle faces */
+.kakao {
+  --room: #bacee0;
+  --mine: #fee500;
+  --mine-ink: #191919;
+  --theirs: white;
+  --bar: #bacee0;
+}
+
+.kakao .bar {
+  border: 0;
+}
+
+.kakao .avatar {
+  display: none;
+}
+
+.kakao .back {
+  color: #191919;
+}
+
+.kakao .face {
+  align-self: flex-start;
+  width: 40px;
+  height: 40px;
+  border-radius: 15px;
+}
+
+.kakao .name {
+  color: #191919;
+}
+
+.kakao .text {
+  border-radius: 14px;
+}
+
+.kakao .composer {
+  background: white;
+}
+
+.kakao .field {
+  border: 0;
+  background: #f2f2f2;
+}
+
+/* iMessage: the avatar and name are centred in the bar; blue and grey bubbles */
+.imessage .bar {
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: 2px;
+  height: 118px;
+  padding-bottom: 6px;
+}
+
+.imessage .back {
+  position: absolute;
+  left: 14px;
+  top: 62px;
+}
+
+.imessage .avatar {
+  width: 44px;
+  height: 44px;
+}
+
+.imessage .heading {
+  align-items: center;
+}
+
+.imessage .title {
+  font-size: 12px;
+  font-weight: 400;
+}
+
+.imessage .detail,
+.imessage .face,
+.imessage .name {
+  display: none;
+}
+
+/* Slack: white, flat, a channel name, square avatars */
+.slack {
+  --mine: #1264a3;
+  --bar: white;
+}
+
+.slack .avatar {
+  display: none;
+}
+
+.slack .title {
+  font-size: 18px;
+  font-weight: 800;
+}
+
+.slack .field {
+  border-radius: 8px;
+}
+
+/* Instagram DM: white, own bubble in the purple-to-blue gradient */
+.instagram {
+  --theirs: #efefef;
+  --bar: white;
+}
+
+.instagram .mine .text {
+  background: linear-gradient(180deg, #a033ff, #3797f0);
+}
+
+.instagram .back {
+  color: #111;
+}
+
+.instagram .field {
+  border-radius: 22px;
+  background: #efefef;
+  border: 0;
+}
+
+/* WhatsApp: beige room, pale green own bubble, white incoming */
+.whatsapp {
+  --room: #efeae2;
+  --mine: #d9fdd3;
+  --mine-ink: #111;
+  --theirs: white;
+  --bar: #f6f6f6;
+}
+
+.whatsapp .text {
+  border-radius: 9px;
+  box-shadow: 0 1px 0.5px rgba(0, 0, 0, 0.13);
+}
+
+.whatsapp .face {
+  display: none;
+}
+
+.whatsapp .name {
+  font-weight: 600;
+  color: #06cf9c;
+}
+
+.whatsapp .back {
+  color: #111;
+}
+
+.whatsapp .field {
+  background: white;
+}
+
+/* Discord: dark, rows, coloured round avatars */
+.discord {
+  --room: #313338;
+  --ink: #dbdee1;
+  --bar: #2b2d31;
+  --muted: #949ba4;
+  --mine: #dbdee1;
+}
+
+.discord .avatar {
+  display: none;
+}
+
+.discord .face {
+  border-radius: 50%;
+  color: #111;
+}
+
+.discord .name {
+  color: white;
+}
+
+.discord .field {
+  border: 0;
+  background: #383a40;
+}
+
+.discord .bar {
+  border-bottom-color: rgba(0, 0, 0, 0.4);
+}
+
+/* Telegram: pale green room, light green own bubble, a blue channel */
+.telegram {
+  --room: #c8d9b6;
+  --mine: #effdde;
+  --mine-ink: #111;
+  --theirs: white;
+  --bar: white;
+  --muted: #8a9ba8;
+}
+
+.telegram .back {
+  color: #3390ec;
+}
+
+.telegram .face {
+  display: none;
+}
+
+.telegram .name {
+  font-weight: 600;
+  color: #3390ec;
+}
+
+.telegram .text {
+  border-radius: 14px;
+}
+
+.telegram .field {
+  background: white;
+}
+
+/* LINE: blue room, green own bubble, white incoming */
+.lineapp {
+  --room: #8cabd9;
+  --mine: #8de055;
+  --mine-ink: #111;
+  --theirs: white;
+  --bar: #8cabd9;
+}
+
+.lineapp .bar {
+  border: 0;
+}
+
+.lineapp .avatar {
+  display: none;
+}
+
+.lineapp .back {
+  color: #111;
+}
+
+.lineapp .composer {
+  background: white;
+}
+
+.lineapp .field {
+  border: 0;
+  background: #f2f2f2;
+}

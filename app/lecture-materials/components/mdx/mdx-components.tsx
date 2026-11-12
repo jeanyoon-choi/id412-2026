@@ -4,10 +4,13 @@ import { CodeBlock } from "../code-block/code-block";
 
 function Anchor({ href, ...props }: AnchorHTMLAttributes<HTMLAnchorElement>) {
   const external = typeof href === "string" && /^https?:\/\//.test(href);
+  // Experiments are full-screen pages: open them in a new tab so the notes stay open.
+  const experiment = typeof href === "string" && href.startsWith("/experiments/");
   return (
     <a
       href={href}
       {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+      {...(experiment ? { target: "_blank" } : {})}
       {...props}
     />
   );

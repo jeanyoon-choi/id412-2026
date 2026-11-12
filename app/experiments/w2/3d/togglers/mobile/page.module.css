@@ -1,0 +1,63 @@
+.container {
+  position: fixed;
+  inset: 0;
+  background: black;
+  touch-action: none; /* no scroll, no pinch zoom: every touch is ours */
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.grid {
+  display: grid;
+  width: 100%;
+  height: 100%;
+}
+
+.cell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* An iOS switch: a pill-shaped track and a round knob that slides with a small bounce. */
+.switch {
+  position: relative;
+  width: min(54px, 70%);
+  aspect-ratio: 36 / 20;
+  border-radius: 100px;
+  background: #39393d;
+  transition: background 0.3s ease-in-out;
+}
+
+.on {
+  background: #34c759;
+}
+
+.knob {
+  position: absolute;
+  top: 10%;
+  left: 5.5%;
+  width: 44.4%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: white;
+  box-shadow: 0 1.5px 4.5px rgba(0, 0, 0, 0.3);
+  transition: left 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.on .knob {
+  left: 50%;
+}
+
+/* Only shown when something is wrong with the connection */
+.status {
+  position: absolute;
+  left: 12px;
+  right: 12px;
+  bottom: 12px;
+  margin: 0;
+  padding: 8px;
+  background: black;
+  font: 13px ui-monospace, Menlo, monospace;
+  color: #ff453a;
+}

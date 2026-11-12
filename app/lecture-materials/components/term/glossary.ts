@@ -202,7 +202,7 @@ export const terms = {
     learn: [{ label: "Vercel: Deploying Next.js", url: "https://nextjs.org/docs/app/getting-started/deploying" }],
     related: [
       { href: "/lecture-materials/w1#12-deployment", en: "W1: Deployment", ko: "W1: 배포" },
-      { href: "/lecture-materials/w2#3-socketio", en: "W2: Socket.io (deployment)", ko: "W2: Socket.io (배포)" },
+      { href: "/lecture-materials/w2#7-socket-deployment", en: "W2: Socket Deployment", ko: "W2: 소켓 배포" },
     ],
   },
   vscode: {
@@ -395,7 +395,7 @@ export const terms = {
     },
     official: { label: "MDN: Secure contexts", url: "https://developer.mozilla.org/en-US/docs/Web/Security/Secure_Contexts" },
     learn: [],
-    related: [{ href: "/lecture-materials/w2#4-debugging--qa", en: "W2: Debugging & QA (A1, A3)", ko: "W2: 디버깅 (A1, A3)" }],
+    related: [{ href: "/lecture-materials/w2#5-mobile-https-debugging", en: "W2: Mobile HTTPS Debugging (A1, A3)", ko: "W2: 모바일 HTTPS 디버깅 (A1, A3)" }],
   },
   harness: {
     name: "harness",
@@ -468,7 +468,7 @@ export const terms = {
     },
     official: { label: "MDN: HTTPS", url: "https://developer.mozilla.org/en-US/docs/Glossary/HTTPS" },
     learn: [{ label: "Next.js: next dev --experimental-https", url: "https://nextjs.org/docs/app/api-reference/cli/next#using-https-during-development" }],
-    related: [{ href: "/lecture-materials/w2#4-debugging--qa", en: "W2: A3. HTTPS for Local Dev", ko: "W2: A3. 로컬 HTTPS" }],
+    related: [{ href: "/lecture-materials/w2#5-mobile-https-debugging", en: "W2: A3. HTTPS for Local Dev", ko: "W2: A3. 로컬 HTTPS" }],
   },
   routeHandler: {
     name: "Route Handler",
@@ -496,7 +496,7 @@ export const terms = {
     },
     official: { label: "Next.js: Environment variables", url: "https://nextjs.org/docs/app/guides/environment-variables" },
     learn: [],
-    related: [{ href: "/lecture-materials/w3#2-llm-api", en: "W3: LLM API", ko: "W3: LLM API" }],
+    related: [{ href: "/lecture-materials/w3#2-using-an-api", en: "W3: Using an API", ko: "W3: API 사용하기" }],
   },
   webAudio: {
     name: "Web Audio API",

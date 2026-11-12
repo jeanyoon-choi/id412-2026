@@ -1,4 +1,5 @@
 import { Term } from "@/app/lecture-materials/components/term/term";
+import { ImageRow } from "@/app/lecture-materials/components/image-row/image-row";
 
 # W3
 
@@ -9,6 +10,7 @@ import { Term } from "@/app/lecture-materials/components/term/term";
 - <Term id="api" />란?
   - 컴퓨터 사이, 혹은 프로그램 사이의 연결. 다른 소프트웨어에 서비스를 제공하는 소프트웨어 인터페이스의 한 종류. - Wikipedia
 - 여러 종류의 API
+  - 날씨, 뉴스, 지도, 공공 데이터
   - OpenAI API, Anthropic API (Claude)
   - Replicate API
   - Microsoft Azure/AWS/Google Cloud
@@ -19,35 +21,57 @@ import { Term } from "@/app/lecture-materials/components/term/term";
     - 서버에서 돈다. API 키가 브라우저에 절대 안 간다
     - Route Handler는 Vercel에 배포된다 (소켓 relay와 달리)
 
-## 2. LLM API [#2-llm-api]
+## 2. API 사용하기 [#2-using-an-api]
+
+**무료 API**
+
+| API | 데이터 | 키 |
+| --- | --- | --- |
+| [Open-Meteo](https://open-meteo.com/) | 날씨, 대기질 | 키 없음 |
+| [USGS Earthquakes](https://earthquake.usgs.gov/earthquakes/feed/v1.0/geojson.php) | 지난 한 시간 / 하루 / 일주일의 지진 | 키 없음 |
+| [New York Times](https://developer.nytimes.com/) | 뉴스: 톱 스토리, 기사 검색 | 무료 키 |
+| [NASA](https://api.nasa.gov/) | 우주 이미지와 데이터 | 무료 키 |
+| [공공데이터포털](https://www.data.go.kr/) | 한국 공공 데이터 | 무료 키 |
+
+**키 없이**: 페이지에서 `fetch`로 바로 호출
+
+```tsx
+const response = await fetch(
+  "https://api.open-meteo.com/v1/forecast?latitude=36.37&longitude=127.36&current=temperature_2m,wind_speed_10m",
+);
+const data = await response.json();
+console.log(data.current.temperature_2m, data.current.wind_speed_10m);
+```
+
+**키가 있을 때**: Route Handler에서 호출
 
 - 1단계. 가입하고 API 키 만들기
-  - OpenAI: https://platform.openai.com/api-keys
-  - Anthropic: https://platform.claude.com/
-  - 키는 각자 가져온다. 사용량은 각자 계정에 청구된다
-- 2단계. API 키를 <Term id="env">`.env.local`</Term>에 저장
+  - New York Times: https://developer.nytimes.com/
+- 2단계. API 키를 <Term id="env">`.env.local`</Term>에 저장: `NYT_API_KEY=...`
   - `.env.local`이란? 서버에서만 읽는 환경변수
   - `NEXT_PUBLIC_` 접두사를 붙이지 마라. 그 접두사가 붙으면 브라우저로 나간다. 즉 공개된다
 - 3단계. `.gitignore` 확인: `.env*`는 이미 들어 있다. 키는 절대 커밋하면 안 된다
-- 4단계. 패키지 추가: `pnpm add openai` (또는 `pnpm add @anthropic-ai/sdk`)
-- 5단계. Route Handler에 API 코드 작성: `app/api/<name>/route.ts`
-- 6단계. 프론트엔드에서 fetch로 이 Route Handler 호출
-  - Route Handler와 통신하는 방법
-- 문서 읽기
+- 4단계. Route Handler에 API 코드 작성: `app/api/<name>/route.ts`. 키는 `process.env.NYT_API_KEY`로 읽는다
+- 5단계. 프론트엔드에서 fetch로 이 Route Handler 호출
+
+**API 예제** ([/experiments/w3](/experiments/w3))
+
+1. 날씨 → 바람 필드 (키 없음): [api/weather](/experiments/w3/api/weather)
+2. NYT 헤드라인 (키, Route Handler): [api/nyt-headlines](/experiments/w3/api/nyt-headlines) → `app/api/nyt-headlines/route.ts`
+
+**LLM API**
+
+- LLM API(OpenAI, Anthropic)도 같은 방식으로 쓴다: 키는 `.env.local`, 호출은 Route Handler에서
   - OpenAI: https://platform.openai.com/docs/overview
   - Anthropic: https://platform.claude.com/docs
-- 다른 유용한 기능과 외부 라이브러리
-  - Tools & Structured Output
-  - 실시간 / 음성 API
-  - 이미지 생성
-  - Vercel AI SDK
-- LLM은 지금 거대한 더미다. 깊이 파볼 가치가 있다
+- SoTA (2024): AI 아바타 도슨트가 하는 말을 GPT-4o가 쓴다. 관객이 떠나면: GPT-4o API → Embeddings API → 토큰 임베딩 교차 유사도 행렬 → 선
 
-**LLM API 예제**
-
-1. 프롬프트 입력, 텍스트 출력
-2. 파라미터로서의 구조화 출력
-3. 모바일 프롬프트 → LLM → 스크린 (소켓 경유)
+<ImageRow
+  items={[
+    { src: "/lecture-materials/w3/sota-architecture.webp", alt: "SoTA software architecture diagram", caption: "SoTA (2024): 소프트웨어 구조", href: "https://www.xdlab.net/projects/sota" },
+    { src: "/lecture-materials/w3/sota-backend.webp", alt: "SoTA, the Backend", caption: "SoTA, the Backend: LLM 토큰 임베딩 사이의 선", href: "https://www.xdlab.net/projects/sota" },
+  ]}
+/>
 
 ## 3. 사운드: Tone.js [#3-sound-tonejs]
 
@@ -57,32 +81,55 @@ import { Term } from "@/app/lecture-materials/components/term/term";
 - 규칙
   - 오디오는 사용자 제스처(탭/클릭) 뒤에만 시작된다: 이벤트 핸들러 안에서 `await Tone.start()`
   - 마이크 입력은 HTTPS 필요 (W2 A3 참고)
-- 기말: 사운드 필수
+
+```tsx
+import * as Tone from "tone";
+
+async function play() {
+  await Tone.start();
+  const synth = new Tone.Synth().toDestination();
+  synth.triggerAttackRelease("C4", "8n");
+}
+```
+
+**사운드를 만드는 방법**
+
+1. 합성: `Tone.Synth`, `Tone.FatOscillator`, `Tone.NoiseSynth`. 파라미터 → 주파수, 볼륨
+2. 샘플: `public/`의 녹음 파일을 `Tone.Player` / `Tone.Sampler`로 재생
+3. 시퀀싱: `Tone.Transport`, `Tone.Loop`. 템포가 파라미터
+4. 이펙트: 소스와 스피커 사이에 `Tone.Filter`, `Tone.Reverb`, `Tone.Distortion`, `Tone.FeedbackDelay`
+5. 마이크를 입력으로: `Tone.UserMedia` + `Tone.Meter` / `Tone.FFT`
+6. 음성: 브라우저의 `speechSynthesis`, 또는 Route Handler를 거친 TTS API
 
 **사운드 예제**
 
-1. Hello Tone: 탭하면 나는 신스
-2. 파라미터 → 소리 (모바일 → 스크린)
-3. 마이크 → 파라미터
+1. Tone Pad: 포인터 → 음높이, 필터: [sound/tone-pad](/experiments/w3/sound/tone-pad)
+2. 데이터 → 사운드 (드론, 바람, 심장박동, 충격음): [w1/snp](/experiments/w1/snp) → `sound.ts`
+3. 마이크 → 파라미터: [w1/video](/experiments/w1/video)
 
 ## 4. <Term id="unreal" /> [#4-unreal]
 
 - 별도 레포: https://github.com/jeanyoon-choi/mobile-to-unreal-realtime-backbone
-  - 폰 → WebSocket → Node relay → UDP → UE 5.8 C++ 수신 액터
+  - 폰 → WebSocket → Node relay → UDP → UE 5.8 C++ 리시버 액터
   - 우리 소켓 relay와 같은 아이디어, 마지막 구간만 다르다: Unreal은 Socket.io가 아니라 UDP를 듣는다
-- 수업에서 단계별로 다루지 않는다. 기말이 Unreal과 Web을 합치면 README를 읽어라
+- 수업에서 단계별로 다루지 않는다. 기말이 Unreal과 Web을 합친다면 README를 읽어라
 
-## 5. 이걸로 뭘 할 수 있나? [#5-what-can-you-do-with-this]
-
-## 6. 시스템과 인터랙션 [#6-system--interaction]
-
-## 7. 기말 [#7-final]
-
-- 이 템플릿 안(`app/final/`)에서 계속 만들어도 되고, 맨땅에서 새 앱을 만들어(W1 5절) 필요한 것만 옮겨와도 된다. 둘 다 괜찮다
+## 5. 시스템 & 인터랙션 [#5-system--interaction]
 
 ## 부록. 프로젝션 매핑 [#appendix-projection-mapping]
 
-- GitHub 레포 참고: https://github.com/jeanyoon-choi/xdlab-mapping
-- 이 레포의 iframe/링크는 쓰지 마라…
-  - iframe 임베딩은 매끄럽게 안 될 수 있다
-- 대신 네 Next.js 앱 안에 맞춤 페이지를 직접 만들어라
+- 1층 갤러리: 프로젝터 두 대, 벽 두 면
+  - 왼쪽 벽 1920 × 602, 오른쪽 벽 1675 × 602
+
+<ImageRow
+  items={[
+    { src: "/lecture-materials/w3/black-room-resolution.webp", alt: "Resolution of the two walls of the 1st-floor gallery", caption: "1층 갤러리: 왼쪽 벽 1920 × 602, 오른쪽 벽 1675 × 602" },
+  ]}
+/>
+
+- 프로젝터가 쏘는 상과 벽은 같지 않다: 상이 벽보다 크다. 위아래를 잘라내고 콘텐츠를 벽에 맞춘다
+- 방법: 콘텐츠를 프레임 안에 넣는다. 프레임을 옮기고 크기를 바꿔서 (top, left, width, height) 벽에 맞춘다. 프레임 밖은 전부 검정
+  - 예제: projection-mapping ([left](/experiments/w3/projection-mapping?side=left) · [right](/experiments/w3/projection-mapping?side=right)) → `app/experiments/w3/projection-mapping/`
+  - `MappingFrame.tsx`: 프레임. `Content.tsx`: 프레임이 감싸는 너의 콘텐츠
+  - 콘텐츠의 크기는 창(`100vw` / `100vh`)이 아니라 프레임(`100%`)에서 받는다
+- 참고: https://github.com/jeanyoon-choi/xdlab-mapping
