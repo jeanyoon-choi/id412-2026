@@ -53,6 +53,10 @@ Everything is organised by what it belongs to. An experiment's code, styles, hel
 
 <!-- BEGIN:nextjs-agent-rules -->
 
+## The relay of the deployed site
+
+`pnpm deploy:relay`, `deploy/relay/` and `.env.deploy` belong to the instructor's server. Do not run or change them unless the instructor asks; read `docs/relay-deployment.md` first. Students: your relay runs on your laptop (`pnpm dev`), or on Render / Railway (lecture notes, W2 §7).
+
 ## When you edit the lecture notes
 
 Only when the user asks. Read `docs/lecture-materials/README.md` → "Writing for the reader" and "Korean is written, not translated" first, every time. In short:

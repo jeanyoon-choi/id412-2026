@@ -35,16 +35,39 @@ const server = secure
   ? createHttpsServer({ key: readFileSync(keyPath), cert: readFileSync(certPath) }, handler)
   : createHttpServer(handler);
 
-const io = new Server(server, { cors: { origin: "*" } });
+// On a shared server (see docs/relay-deployment.md) the relay sets limits, so that it cannot
+// disturb the other programs on that computer. On your laptop none of these are set: no limits.
+//   ALLOWED_ORIGINS  pages that may connect, comma-separated (unset = any page)
+//   MAX_CLIENTS      devices connected at once (unset = no limit)
+//   MAX_RATE         messages per second from one device (unset = no limit)
+//   MAX_BYTES        size of one message (unset = Socket.IO's own 1 MB)
+const allowed = process.env.ALLOWED_ORIGINS?.split(",").map((origin) => origin.trim());
+const maxClients = Number(process.env.MAX_CLIENTS) || Infinity;
+const maxRate = Number(process.env.MAX_RATE) || Infinity;
+
+const io = new Server(server, {
+  cors: { origin: allowed ?? "*" },
+  // A browser always says which page it comes from; a page that is not on the list is turned away.
+  allowRequest: (request, decide) => decide(null, !allowed || allowed.includes(request.headers.origin)),
+  ...(process.env.MAX_BYTES ? { maxHttpBufferSize: Number(process.env.MAX_BYTES) } : {}),
+});
 
 io.on("connection", (socket) => {
+  if (io.engine.clientsCount > maxClients) return socket.disconnect(true); // full
+
   socket.on("join", (room) => {
-    socket.data.room = String(room);
+    socket.data.room = String(room).slice(0, 64);
     socket.join(socket.data.room);
   });
 
+  // Count this device's messages second by second; above the limit they are dropped, not queued.
+  let second = 0;
+  let count = 0;
   socket.on("message", (message) => {
     if (!socket.data.room) return;
+    const now = Math.floor(Date.now() / 1000);
+    if (now !== second) [second, count] = [now, 0];
+    if (++count > maxRate) return;
     socket.to(socket.data.room).emit("message", message);
   });
 });
@@ -71,6 +94,6 @@ function listen(candidate) {
     console.log(`port ${candidate} is used by another program → trying ${candidate + 1}`);
     listen(candidate + 1);
   });
-  server.listen(candidate, "0.0.0.0");
+  server.listen(candidate, process.env.BIND ?? "0.0.0.0"); // BIND=127.0.0.1 on a shared server: only Nginx reaches it
 }
 listen(port);

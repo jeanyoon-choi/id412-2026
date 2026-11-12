@@ -1,7 +1,12 @@
 import Link from "next/link";
 import { L } from "@/app/lecture-materials/components/lang/lang-block";
 import { LectureShell } from "@/app/lecture-materials/components/shell/shell";
+import { SiteJsonLd } from "@/app/lecture-materials/seo/json-ld";
+import { pageMetadata } from "@/app/lecture-materials/seo/metadata";
+import { SITE_DESCRIPTION, SITE_NAME } from "@/app/lecture-materials/seo/site";
 import styles from "./page.module.css";
+
+export const metadata = pageMetadata(SITE_NAME, SITE_DESCRIPTION, "/");
 
 const weeks = [
   {
@@ -33,6 +38,7 @@ const weeks = [
 export default function Home() {
   return (
     <LectureShell>
+      <SiteJsonLd />
       <h1>ID412 Interactive Space — Web Workshop</h1>
       <p className={styles.lead}>
         <L en="Web Workshop of the " ko="" />

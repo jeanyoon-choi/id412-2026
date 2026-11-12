@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://id412.xdlab.net"),
   title: "ID412 Web Workshop 2026",
   description: "KAIST ID412 Interactive Space — Creative Web Development Workshop",
 };

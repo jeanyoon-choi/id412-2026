@@ -25,6 +25,8 @@ app/lecture-materials/
     code-block/               <pre> with a Copy button (every fenced code block)
     shell/                    LectureShell: sidebar + main column, used by the index and lecture pages only
     mdx/                      MDX element overrides (external links, [#id] headings) + the *.mdx type declaration
+  seo/                        what search engines and LLMs read, nothing visible: site.ts (the facts and descriptions), metadata.ts (head tags), json-ld.tsx (schema.org), experiment.ts (an experiment's title from its README), llms.ts + notes-text.ts (/llms.txt, /llms-full.txt, the notes as Markdown)
+  md/[file]/route.ts          /lecture-materials/md/w2.en.md: one page of notes as Markdown
   prelim/ w1/ w2/ w3/
     page.tsx                  renders <En /> and <Ko /> inside <LangBlock>; metadata title
     en.mdx                    English notes
@@ -37,6 +39,8 @@ docs/
   sources/                    syllabus and source material
   handoff.md                  planning notes, gitignored
 ```
+
+`app/robots.ts`, `app/sitemap.ts`, `app/llms.txt/` and `app/llms-full.txt/` belong to the lecture site as well; Next.js requires them at the root of `app/`. SEO work never changes what a page shows: titles, text and the README stay as they are.
 
 The index page (`app/page.tsx`) and the shell (`app/layout.tsx`, `app/globals.css`, `app/layout.module.css`) are part of the lecture site too. The root `mdx-components.tsx` only re-exports from `components/mdx/` because Next.js requires that file at the root.
 

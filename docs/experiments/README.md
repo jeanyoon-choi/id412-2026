@@ -12,6 +12,7 @@ Where in-class code and homework live. `/experiments` and `/experiments/<week>` 
    - `page.module.css` — its styles, if any.
    - helpers it alone uses (`shader.ts`, `useTilt.ts`, `Scene.tsx`), next to it.
    - `README.md` — see below. Create it with the experiment, update it when the experiment changes.
+   - `layout.tsx` — three lines that give the page its browser tab title and search description from the README: `export const metadata = experimentMetadata("<week>/<kebab-name>")`. Copy it from any experiment and change the path.
    - assets in `public/experiments/<week>/<kebab-name>/`, referenced as `/experiments/<week>/<kebab-name>/<file>`.
 3. Multi-device (W2+): `mobile/page.tsx` and `screen/page.tsx` inside the folder, both `useSocket("<kebab-name>", onMessage)`. Messages are `{ type, data }`: small, serialisable, continuous inputs throttled to ~30 Hz before `send`.
 4. Server code (W3): `app/api/<kebab-name>/route.ts`, named after the experiment. Keys from `.env.local` via `process.env`.

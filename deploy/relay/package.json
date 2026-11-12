@@ -1,0 +1,9 @@
+{
+  "name": "id412-relay",
+  "private": true,
+  "type": "module",
+  "description": "What the relay needs on the server: socket.io and nothing else.",
+  "dependencies": {
+    "socket.io": "^4.8.4"
+  }
+}
