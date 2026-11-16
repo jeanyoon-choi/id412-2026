@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
+import * as Tone from "tone";
 import { useSocket } from "@/hooks/shared/useSocket";
 import styles from "./page.module.css";
 
@@ -8,12 +9,19 @@ import styles from "./page.module.css";
 const EASE = 0.25; // 0..1, how fast the dot catches up with the finger
 const TRAIL = 40; // frames of trail kept behind the dot
 const SIZE = 24; // px, dot and line thickness
+// Sound: one sine tone while the finger is down. Left … right is the pitch; a faster finger is louder.
+const LOW = 110; // Hz, pitch at the left edge (A2)
+const HIGH = 880; // Hz, pitch at the right edge (A5)
+const LOUDEST = 0.3;
 
 export default function DrawingScreen() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const target = useRef({ x: 0.5, y: 0.5 }); // last position from the phone, 0..1
   const touching = useRef(false);
   const [phonePath, setPhonePath] = useState("");
+  const tone = useRef<Tone.Oscillator | null>(null);
+  const level = useRef<Tone.Gain | null>(null);
+  const [listening, setListening] = useState(true); // false while the browser holds the sound back
 
   const onMessage = useCallback((type: string, data: unknown) => {
     if (type === "down" || type === "move") {
@@ -28,6 +36,24 @@ export default function DrawingScreen() {
   useEffect(() => {
     // On the phone: the same address, with the computer's IP instead of localhost.
     setPhonePath(window.location.pathname.replace(/\/screen$/, "/mobile"));
+  }, []);
+
+  // The tone runs all the time, at loudness 0; the drawing loop below turns it up and down.
+  // A browser may hold sound back until the first click or key on the page.
+  useEffect(() => {
+    level.current = new Tone.Gain(0).toDestination();
+    tone.current = new Tone.Oscillator(LOW, "sine").connect(level.current).start();
+    const start = () => Tone.start().then(() => setListening(true));
+    start();
+    setListening(Tone.getContext().state === "running");
+    addEventListener("pointerdown", start);
+    addEventListener("keydown", start);
+    return () => {
+      removeEventListener("pointerdown", start);
+      removeEventListener("keydown", start);
+      tone.current?.dispose();
+      level.current?.dispose();
+    };
   }, []);
 
   useEffect(() => {
@@ -54,8 +80,15 @@ export default function DrawingScreen() {
       if (touching.current && trail.length === 0) Object.assign(current, target.current);
 
       // Messages arrive ~30 times a second; easing fills the frames in between.
+      const speed = Math.hypot(target.current.x - current.x, target.current.y - current.y); // how far behind the finger the dot is
       current.x += (target.current.x - current.x) * EASE;
       current.y += (target.current.y - current.y) * EASE;
+
+      // The same two numbers drive the sound: x → pitch, speed → loudness. No finger: silence.
+      if (Tone.getContext().state === "running") {
+        tone.current?.frequency.rampTo(LOW * Math.pow(HIGH / LOW, current.x), 0.05);
+        level.current?.gain.rampTo(touching.current ? Math.min(LOUDEST, 0.03 + speed * 2.5) : 0, 0.1);
+      }
 
       // While touching, add a point every frame. Otherwise the trail shrinks away.
       if (touching.current) trail.push({ x: current.x, y: current.y });
@@ -98,6 +131,7 @@ export default function DrawingScreen() {
         <a href={phonePath} target="_blank" className={styles.link}>
           {phonePath}
         </a>
+        {!listening && " · click anywhere for sound"}
       </p>
     </main>
   );

@@ -3,7 +3,8 @@
 import { useMemo, useRef } from "react";
 import { useFrame } from "@react-three/fiber";
 import type { BufferAttribute, LineSegments } from "three";
-import { COLS, COUNT, ROWS } from "../grid";
+import { COLS, COUNT, ROWS, rhythm } from "../grid";
+import type { Sound } from "./sound";
 
 // A sheet of water, simulated. Every switch that is on is a point that keeps pushing the surface
 // up and down; the waves spread, meet and interfere. Nothing here is animated by hand:
@@ -17,9 +18,11 @@ const STEPS = 2; // simulation steps per frame
 const PUSH = 0.035; // how hard a source pushes, per step
 const REACH = 3; // a source pushes the points within this many steps of it
 const SCALE = 0.1; // world units between two points
+const SOUND_EVERY = 4; // frames between two updates of the sound
 
-export function Field({ switches }: { switches: React.RefObject<boolean[]> }) {
+export function Field({ switches, sound }: { switches: React.RefObject<boolean[]>; sound: React.RefObject<Sound | null> }) {
   const lines = useRef<LineSegments>(null);
+  const frames = useRef(0);
 
   const { height, velocity, positions, indices, sources } = useMemo(() => {
     const height = new Float32Array(W * H); // how high the surface is at every point
@@ -38,7 +41,7 @@ export function Field({ switches }: { switches: React.RefObject<boolean[]> }) {
     // Where each switch pushes: the middle of its cell. Each one has its own rhythm.
     const sources = Array.from({ length: COUNT }, (_, index) => ({
       at: (Math.floor(index / COLS) * PER_CELL + PER_CELL / 2) * W + (index % COLS) * PER_CELL + PER_CELL / 2,
-      frequency: 2.2 + ((index * 7) % 11) * 0.22, // radians per second
+      frequency: rhythm(index), // radians per second
     }));
     return { height, velocity, positions, indices, sources };
   }, []);
@@ -70,7 +73,10 @@ export function Field({ switches }: { switches: React.RefObject<boolean[]> }) {
       for (let i = 0; i < height.length; i++) height[i] += velocity[i];
     }
 
-    // 3. Copy the heights into the geometry.
+    // 3. The sound follows the same switches and the same time, a few times less often.
+    if (frames.current++ % SOUND_EVERY === 0) sound.current?.play(switches.current, time);
+
+    // 4. Copy the heights into the geometry.
     const attribute = lines.current!.geometry.attributes.position as BufferAttribute;
     for (let i = 0; i < height.length; i++) attribute.setY(i, height[i]);
     attribute.needsUpdate = true;
